@@ -173,40 +173,46 @@ export default function HomePage() {
                     style={{ background: "rgba(87,193,255,0.08)" }}
                     aria-hidden="true"
                   />
-                  {/* Card — no outer border, just rounded shadow */}
-                  <div className="relative rounded-3xl bg-surface shadow-[0_20px_60px_rgba(0,0,0,0.5)] overflow-hidden">
-                    {/* Terminal chrome — traffic lights on right */}
-                    <div className="flex items-center justify-end gap-2 px-5 py-3 border-b border-hairline-soft">
-                      <span className="body-sm text-mute mr-auto">sonclarus</span>
+                  {/* Card — same style as main but with interactive commands */}
+                  <div className="relative rounded-xl border border-hairline bg-surface shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+                    {/* macOS traffic light window chrome */}
+                    <div className="flex items-center gap-2 border-b border-hairline px-4 py-3">
                       <div className="flex gap-1.5">
-                        <div className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]/80" />
-                        <div className="h-2.5 w-2.5 rounded-full bg-[#febc2e]/80" />
-                        <div className="h-2.5 w-2.5 rounded-full bg-[#28c840]/80" />
+                        <div className="h-3 w-3 rounded-full bg-[#ff5f57]" />
+                        <div className="h-3 w-3 rounded-full bg-[#febc2e]" />
+                        <div className="h-3 w-3 rounded-full bg-[#28c840]" />
+                      </div>
+                      <div className="flex-1 rounded-sm bg-surface-elevated px-3 py-1 text-center text-caption-md text-mute">
+                        sonclarus://upload
                       </div>
                     </div>
-                    {/* Terminal body */}
-                    <div className="p-5 flex flex-col gap-3">
-                      {/* Welcome line */}
-                      <div className="flex items-center gap-2">
-                        <span className="caption-sm text-accent-green">✔</span>
-                        <span className="body-sm text-body">Welcome to Sonclarus</span>
+                    {/* Palette body */}
+                    <div className="p-3">
+                      <div className="flex items-center gap-2 rounded-sm border border-hairline bg-surface-elevated px-3 py-2.5">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mute">
+                          <circle cx="11" cy="11" r="8" />
+                          <line x1="21" x2="16.65" y1="21" y2="16.65" />
+                        </svg>
+                        <span className="body-sm text-body">Upload audio…</span>
+                        <kbd className="ml-auto keycap text-mute">⌘ P</kbd>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <span className="caption-sm text-mute">›</span>
-                        <span className="body-sm text-body">Upload your audio file to begin</span>
-                      </div>
-                      {/* Command rows */}
-                      <div className="mt-1 flex flex-col gap-1.5">
+                      <div className="mt-1.5 flex flex-col gap-0.5">
                         {[
-                          { label: "Upload new file", shortcut: "⏎", action: "upload" as const },
-                          { label: "View my jobs", shortcut: "⇧ J", action: "jobs" as const },
+                          { label: "Upload new file", shortcut: "⏎", color: "#57c1ff", action: "upload" as const },
+                          { label: "View my jobs", shortcut: "⇧ J", color: "#59d499", action: "jobs" as const },
                         ].map((item) => (
                           <div
                             key={item.label}
                             onClick={() => handleTerminalAction(item.action)}
-                            className="flex items-center justify-between rounded-lg px-3 py-2.5 transition-colors hover:bg-surface-elevated cursor-pointer"
+                            className="flex items-center justify-between rounded-sm px-2.5 py-1.5 transition-colors hover:bg-surface-card cursor-pointer"
                           >
-                            <span className="body-sm text-on-dark">{item.label}</span>
+                            <div className="flex items-center gap-2">
+                              <span
+                                className="h-1.5 w-1.5 rounded-full"
+                                style={{ background: item.color }}
+                              />
+                              <span className="body-sm text-on-dark">{item.label}</span>
+                            </div>
                             <kbd className="keycap text-mute">{item.shortcut}</kbd>
                           </div>
                         ))}
