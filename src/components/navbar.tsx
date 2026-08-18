@@ -8,22 +8,22 @@ export function Navbar() {
   const { isAuthenticated, logout } = useAuth();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-hairline bg-canvas">
-      <div className="mx-auto flex h-[56px] max-w-[1240px] items-center justify-between px-6">
+    <header className="sticky top-0 z-40 bg-canvas/80 backdrop-blur-md border-b border-hairline">
+      <div className="mx-auto flex h-14 max-w-[1240px] items-center justify-between px-6">
         <Logo />
 
-        <nav className="flex items-center gap-6">
+        <nav className="flex items-center gap-2">
           {isAuthenticated ? (
             <>
               <Link
                 href="/dashboard"
-                className="body-sm-strong text-on-dark transition-colors hover:text-ink"
+                className="btn-md rounded-md px-4 py-2 text-on-dark transition-colors hover:bg-surface"
               >
                 Dashboard
               </Link>
               <button
                 onClick={logout}
-                className="btn-md rounded-md border border-hairline bg-transparent px-4 py-2 text-on-dark transition-colors hover:bg-surface-elevated"
+                className="btn-md rounded-md px-4 py-2 text-mute transition-colors hover:text-on-dark"
               >
                 Log out
               </button>
@@ -32,13 +32,13 @@ export function Navbar() {
             <>
               <Link
                 href="/login"
-                className="body-sm-strong text-on-dark transition-colors hover:text-ink"
+                className="btn-md rounded-md px-4 py-2 text-on-dark transition-colors hover:bg-surface"
               >
                 Log in
               </Link>
               <Link
                 href="/register"
-                className="btn-md rounded-md bg-primary px-4 py-2 text-on-primary transition-colors hover:bg-primary-pressed"
+                className="btn-md rounded-md bg-primary ml-2 px-4 py-2 text-on-primary transition-all hover:bg-primary-pressed"
               >
                 Get started
               </Link>
