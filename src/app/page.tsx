@@ -1,9 +1,15 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { HeroBackground } from "@/components/3d/hero-bg-lazy";
+import { FadeIn, StaggerChildren, TiltCard } from "@/components/interactions";
 
 const FEATURES = [
   {
-    color: "accent-yellow",
-    soft: "accent-yellow-soft",
+    color: "#ffc533",
+    soft: "rgba(255,197,51,0.12)",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
@@ -12,12 +18,11 @@ const FEATURES = [
       </svg>
     ),
     title: "Two-Speaker Separation",
-    description:
-      "Automatically isolate and clean individual speaker tracks from a single audio file.",
+    description: "Automatically isolate and clean individual speaker tracks from a single audio file.",
   },
   {
-    color: "accent-blue",
-    soft: "accent-blue-soft",
+    color: "#57c1ff",
+    soft: "rgba(87,193,255,0.12)",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" />
@@ -28,169 +33,260 @@ const FEATURES = [
       </svg>
     ),
     title: "Accurate Transcription",
-    description:
-      "Get clean, formatted text transcripts with speaker attribution and timestamps.",
+    description: "Get clean, formatted text transcripts with speaker attribution and timestamps.",
   },
   {
-    color: "accent-green",
-    soft: "accent-green-soft",
+    color: "#59d499",
+    soft: "rgba(89,212,153,0.12)",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
       </svg>
     ),
     title: "Fast Processing",
-    description:
-      "Background processing pipeline returns results in minutes, not hours.",
+    description: "Background processing pipeline returns results in minutes, not hours.",
   },
 ];
 
 export default function HomePage() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   return (
     <>
-      {/* ── Hero stripe band ── */}
-      <section className="relative overflow-hidden bg-canvas px-6 pb-0 pt-0">
-        {/* Red diagonal stripe gradient */}
+      {/* ── Hero ── */}
+      <section className="relative min-h-[85vh] overflow-hidden bg-canvas px-6">
+        {/* Red gradient wash at top */}
         <div
-          className="absolute inset-0 pointer-events-none"
+          className="pointer-events-none absolute inset-0"
           style={{
-            background: `linear-gradient(135deg, rgba(255,87,87,0.12) 0%, rgba(161,19,26,0.08) 50%, transparent 70%)`,
+            background: `linear-gradient(160deg, rgba(255,87,87,0.08) 0%, rgba(161,19,26,0.04) 40%, transparent 70%)`,
           }}
           aria-hidden="true"
         />
-        <div className="relative mx-auto max-w-[1240px] pt-[var(--spacing-section)] pb-[var(--spacing-section)]">
+        {/* Subtle grid */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)`,
+            backgroundSize: "48px 48px",
+          }}
+          aria-hidden="true"
+        />
+        <HeroBackground isMobile={isMobile} />
+
+        <div className="relative z-10 mx-auto max-w-[1240px] pt-20 pb-16 lg:pt-28 lg:pb-24">
           <div className="grid items-center gap-12 lg:grid-cols-2">
-            <div>
-              <p className="caption-sm text-mute mb-4">
-                <span className="inline-block rounded-xs bg-accent-blue-soft px-2 py-0.5 text-accent-blue">
-                  New
-                </span>
-              </p>
-              <h1 className="hero-display text-ink">
+            {/* Left: copy */}
+            <FadeIn>
+              <div className="inline-flex items-center gap-2 rounded-xs border border-hairline bg-surface px-2.5 py-1 mb-5">
+                <span
+                  className="h-1.5 w-1.5 rounded-full"
+                  style={{ background: "#57c1ff" }}
+                />
+                <span className="caption-sm text-mute">Powered by AI</span>
+              </div>
+
+              <h1 className="hero-display text-ink leading-tight">
                 Separate speakers.
                 <br />
                 Get transcripts.
                 <br />
-                <span className="text-on-dark">Done.</span>
+                <span
+                  className="inline-block rounded-sm px-1"
+                  style={{
+                    background: "rgba(255,87,87,0.15)",
+                    color: "#ff6161",
+                  }}
+                >
+                  Done.
+                </span>
               </h1>
-              <p className="body-lg mt-6 text-body">
+
+              <p className="body-lg mt-6 max-w-[480px] text-body">
                 Sonclarus uses AI to cleanly split two-speaker audio into isolated
                 tracks and generate accurate, readable transcripts — all in one
                 pipeline.
               </p>
-              <div className="mt-8 flex items-center gap-3">
+
+              <div className="mt-8 flex flex-wrap items-center gap-3">
                 <Link
                   href="/register"
-                  className="btn-md rounded-md bg-primary px-4 py-2 text-on-primary transition-colors hover:bg-primary-pressed"
+                  className="btn-md rounded-md bg-primary px-5 py-2 text-on-primary transition-all hover:bg-primary-pressed hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]"
                 >
                   Get started free
                 </Link>
                 <a
                   href="#features"
-                  className="btn-md rounded-md border border-hairline bg-transparent px-4 py-2 text-on-dark transition-colors hover:bg-surface"
+                  className="btn-md rounded-md border border-hairline bg-transparent px-5 py-2 text-on-dark transition-all hover:bg-surface"
                 >
                   Learn more
                 </a>
               </div>
 
               {/* Keycap hint */}
-              <div className="mt-6 flex items-center gap-2">
-                <kbd className="inline-flex h-5 items-center rounded-xs border border-hairline bg-surface-card px-2 py-0.5 text-keycap text-body">
+              <div className="mt-7 flex items-center gap-3">
+                <kbd className="inline-flex h-6 items-center rounded-xs border border-hairline bg-surface-card px-2.5 text-keycap text-body shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
                   ⌘ K
                 </kbd>
-                <span className="caption-md text-mute">Quick upload</span>
+                <span className="caption-md text-mute">Quick upload shortcut</span>
               </div>
-            </div>
+            </FadeIn>
 
-            {/* Command palette mockup */}
-            <div className="rounded-xl border border-hairline bg-surface p-0">
-              {/* Window chrome */}
-              <div className="flex items-center gap-2 border-b border-hairline px-4 py-3">
-                <div className="flex gap-1.5">
-                  <div className="h-2.5 w-2.5 rounded-full bg-stone" />
-                  <div className="h-2.5 w-2.5 rounded-full bg-stone" />
-                  <div className="h-2.5 w-2.5 rounded-full bg-stone" />
-                </div>
-                <div className="flex-1 rounded-sm bg-surface-elevated px-3 py-1 text-caption-md text-mute">
-                  sonclarus://upload
-                </div>
-              </div>
-              {/* Palette body */}
-              <div className="p-3">
-                <div className="flex items-center gap-2 rounded-sm bg-surface-elevated px-3 py-2.5">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mute">
-                    <circle cx="11" cy="11" r="8" />
-                    <line x1="21" x2="16.65" y1="21" y2="16.65" />
-                  </svg>
-                  <span className="body-sm text-body">Upload audio...</span>
-                </div>
-                <div className="mt-2 flex flex-col gap-0.5">
-                  {[
-                    { label: "Upload new file", shortcut: "⏎" },
-                    { label: "View my jobs", shortcut: "⇧ J" },
-                    { label: "Settings", shortcut: "⌘ ," },
-                  ].map((item) => (
-                    <div
-                      key={item.label}
-                      className="flex items-center justify-between rounded-sm px-2 py-1.5"
-                    >
-                      <span className="body-sm text-on-dark">{item.label}</span>
-                      <kbd className="keycap text-mute">{item.shortcut}</kbd>
+            {/* Right: command palette mockup */}
+            <FadeIn delay={0.15}>
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="relative"
+              >
+                {/* Glow behind card */}
+                <div
+                  className="absolute -inset-4 rounded-2xl blur-2xl"
+                  style={{ background: "rgba(87,193,255,0.08)" }}
+                  aria-hidden="true"
+                />
+                {/* Card */}
+                <div className="relative rounded-xl border border-hairline bg-surface shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+                  {/* Window chrome */}
+                  <div className="flex items-center gap-2 border-b border-hairline px-4 py-3">
+                    <div className="flex gap-1.5">
+                      <div className="h-2.5 w-2.5 rounded-full bg-stone/60" />
+                      <div className="h-2.5 w-2.5 rounded-full bg-stone/60" />
+                      <div className="h-2.5 w-2.5 rounded-full bg-stone/60" />
                     </div>
-                  ))}
+                    <div className="flex-1 rounded-sm bg-surface-elevated px-3 py-1 text-center text-caption-md text-mute">
+                      sonclarus://upload
+                    </div>
+                  </div>
+                  {/* Palette body */}
+                  <div className="p-3">
+                    <div className="flex items-center gap-2 rounded-sm border border-hairline bg-surface-elevated px-3 py-2.5">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mute">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" x2="16.65" y1="21" y2="16.65" />
+                      </svg>
+                      <span className="body-sm text-body">Upload audio…</span>
+                      <kbd className="ml-auto keycap text-mute">⌘ P</kbd>
+                    </div>
+                    <div className="mt-1.5 flex flex-col gap-0.5">
+                      {[
+                        { label: "Upload new file", shortcut: "⏎", color: "#57c1ff" },
+                        { label: "View my jobs", shortcut: "⇧ J", color: "#59d499" },
+                        { label: "Settings", shortcut: "⌘ ,", color: "#ffc533" },
+                      ].map((item, i) => (
+                        <div
+                          key={item.label}
+                          className="flex items-center justify-between rounded-sm px-2.5 py-1.5 transition-colors hover:bg-surface-card"
+                        >
+                          <div className="flex items-center gap-2">
+                            <span
+                              className="h-1.5 w-1.5 rounded-full"
+                              style={{ background: item.color }}
+                            />
+                            <span className="body-sm text-on-dark">{item.label}</span>
+                          </div>
+                          <kbd className="keycap text-mute">{item.shortcut}</kbd>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  {/* Bottom hint */}
+                  <div className="flex items-center justify-between border-t border-hairline-soft px-4 py-2.5">
+                    <span className="caption-sm text-mute">Sonclarus v1.0</span>
+                    <div className="flex gap-1">
+                      <kbd className="keycap text-mute">↑</kbd>
+                      <kbd className="keycap text-mute">↓</kbd>
+                      <span className="caption-sm text-mute ml-1">to navigate</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </FadeIn>
           </div>
         </div>
       </section>
 
-      {/* ── Features (dark, no stripe) ── */}
+      {/* ── Features ── */}
       <section id="features" className="bg-canvas px-6 py-[var(--spacing-section)]">
         <div className="mx-auto max-w-[1240px]">
-          <div className="mb-10">
-            <p className="caption-sm text-mute">Features</p>
-            <h2 className="heading-xl mt-2 text-ink">Built for clarity</h2>
-            <p className="body-lg mt-3 text-body">
-              Three capabilities that make audio processing effortless.
-            </p>
-          </div>
+          <FadeIn>
+            <div className="mb-10">
+              <p className="caption-sm text-mute">Features</p>
+              <h2 className="heading-xl mt-2 text-ink">Built for clarity</h2>
+              <p className="body-lg mt-3 max-w-[520px] text-body">
+                Three capabilities that make audio processing effortless.
+              </p>
+            </div>
+          </FadeIn>
 
-          <div className="grid gap-4 md:grid-cols-3">
-            {FEATURES.map((f) => (
-              <div
-                key={f.title}
-                className="rounded-lg border border-hairline bg-surface p-6"
-              >
+          <StaggerChildren gap={0.08} className="grid gap-4 md:grid-cols-3">
+            {FEATURES.map((f, i) => (
+              <TiltCard key={f.title} intensity={12} className="h-full">
                 <div
-                  className={`mb-4 flex h-9 w-9 items-center justify-center rounded-md ${f.soft} text-${f.color}`}
+                  className="flex h-full flex-col rounded-lg border border-hairline bg-surface p-6 transition-shadow hover:border-hairline-strong"
+                  style={{
+                    boxShadow: `0 0 0 1px rgba(255,255,255,0.03), 0 4px 24px rgba(0,0,0,0.3)`,
+                  }}
                 >
-                  {f.icon}
+                  <div
+                    className="mb-4 flex h-9 w-9 items-center justify-center rounded-md"
+                    style={{ background: f.soft }}
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke={f.color}
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      {f.icon}
+                    </svg>
+                  </div>
+                  <h3 className="heading-sm text-on-dark">{f.title}</h3>
+                  <p className="body-sm mt-2 flex-1 text-body">{f.description}</p>
+                  <div className="mt-5 flex items-center gap-2">
+                    <span
+                      className="h-1 w-6 rounded-full"
+                      style={{ background: f.color, opacity: 0.7 }}
+                    />
+                    <span className="caption-sm text-mute">Core feature</span>
+                  </div>
                 </div>
-                <h3 className="heading-sm text-on-dark">{f.title}</h3>
-                <p className="body-sm mt-2 text-body">{f.description}</p>
-              </div>
+              </TiltCard>
             ))}
-          </div>
+          </StaggerChildren>
         </div>
       </section>
 
-      {/* ── CTA band (dark, no stripe) ── */}
+      {/* ── CTA band ── */}
       <section className="bg-canvas px-6 py-[var(--spacing-section)]">
-        <div className="mx-auto max-w-[800px] text-center">
-          <h2 className="display-lg text-ink">
-            Ready to separate your audio?
-          </h2>
-          <p className="body-lg mt-4 text-body">
-            Create a free account and process your first file in minutes.
-          </p>
-          <Link
-            href="/register"
-            className="btn-md mx-auto mt-8 inline-block rounded-md bg-primary px-5 py-2 text-on-primary transition-colors hover:bg-primary-pressed"
-          >
-            Start processing
-          </Link>
-        </div>
+        <FadeIn>
+          <div className="mx-auto max-w-[720px] text-center">
+            <h2 className="display-lg text-ink">
+              Ready to separate your audio?
+            </h2>
+            <p className="body-lg mt-4 text-body">
+              Create a free account and process your first file in minutes.
+            </p>
+            <Link
+              href="/register"
+              className="btn-md mx-auto mt-8 inline-block rounded-md bg-primary px-6 py-2 text-on-primary transition-all hover:bg-primary-pressed hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+            >
+              Start processing
+            </Link>
+          </div>
+        </FadeIn>
       </section>
     </>
   );
