@@ -162,7 +162,7 @@ export default function HomePage() {
                     aria-hidden="true"
                   />
                   {/* Card */}
-                  <div className="relative rounded-2xl border border-hairline bg-surface shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+                  <div className="relative rounded-3xl border border-hairline bg-surface shadow-[0_20px_60px_rgba(0,0,0,0.5)] overflow-hidden">
                     {/* macOS traffic light window chrome */}
                     <div className="flex items-center gap-2 border-b border-hairline px-4 py-3">
                       <div className="flex gap-1.5">
@@ -176,7 +176,7 @@ export default function HomePage() {
                     </div>
                     {/* Palette body */}
                     <div className="p-3">
-                      <div className="flex items-center gap-2 rounded-sm border border-hairline bg-surface-elevated px-3 py-2.5">
+                      <div className="flex items-center gap-2 rounded-lg border border-hairline bg-surface-elevated px-3 py-2.5">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mute">
                           <circle cx="11" cy="11" r="8" />
                           <line x1="21" x2="16.65" y1="21" y2="16.65" />
@@ -192,7 +192,7 @@ export default function HomePage() {
                         ].map((item) => (
                           <div
                             key={item.label}
-                            className="flex items-center justify-between rounded-sm px-2.5 py-1.5 transition-colors hover:bg-surface-card"
+                            className="flex items-center justify-between rounded-lg px-2.5 py-1.5 transition-colors hover:bg-surface-card"
                           >
                             <div className="flex items-center gap-2">
                               <span
