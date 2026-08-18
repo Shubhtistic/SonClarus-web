@@ -8,32 +8,33 @@ export function Navbar() {
   const { isAuthenticated, logout } = useAuth();
 
   return (
-    <header className="sticky top-0 z-40 px-4">
+    <header className="sticky top-0 z-40">
       <div
-        className="flex items-center gap-3 h-11 px-4 rounded-full relative overflow-hidden mx-auto"
+        className="h-11 relative flex items-center gap-3 px-6 mx-auto max-w-[1240px]"
         style={{
-          maxWidth: 1240,
           background: "rgba(255,255,255,0.04)",
           backdropFilter: "blur(20px) saturate(200%)",
           WebkitBackdropFilter: "blur(20px) saturate(200%)",
           border: "1px solid rgba(255,255,255,0.08)",
-          boxShadow:
-            "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06), 0 0 0 1px rgba(0,0,0,0.2)",
+          borderBottom: "1px solid rgba(255,255,255,0.05)",
+          boxShadow: "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)",
         }}
       >
-        {/* Subtle gradient wash matching hero */}
+        {/* Subtle gradient wash */}
         <div
           className="pointer-events-none absolute inset-0 opacity-60"
           style={{
-            background:
-              "linear-gradient(160deg, rgba(255,87,87,0.12) 0%, transparent 60%)",
+            background: "linear-gradient(160deg, rgba(255,87,87,0.12) 0%, transparent 60%)",
           }}
           aria-hidden="true"
         />
 
         <Logo />
 
-        <div className="w-px h-5 bg-white/10 shrink-0" aria-hidden="true" />
+        <div
+          className="w-px h-5 bg-white/10 shrink-0"
+          aria-hidden="true"
+        />
 
         <nav className="flex items-center gap-1 relative ml-auto">
           {isAuthenticated ? (
@@ -63,11 +64,9 @@ export function Navbar() {
                 href="/register"
                 className="ml-1 px-4 py-1 text-sm font-medium text-white rounded-full transition-all hover:brightness-125"
                 style={{
-                  background:
-                    "linear-gradient(135deg, rgba(255,87,87,0.35) 0%, rgba(255,87,87,0.12) 100%)",
+                  background: "linear-gradient(135deg, rgba(255,87,87,0.35) 0%, rgba(255,87,87,0.12) 100%)",
                   border: "1px solid rgba(255,87,87,0.35)",
-                  boxShadow:
-                    "0 0 16px rgba(255,87,87,0.15), inset 0 1px 0 rgba(255,255,255,0.1)",
+                  boxShadow: "0 0 16px rgba(255,87,87,0.15), inset 0 1px 0 rgba(255,255,255,0.1)",
                 }}
               >
                 Get started
