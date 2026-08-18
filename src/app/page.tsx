@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/lib/auth-context";
 import { motion } from "framer-motion";
 import { HeroBackground } from "@/components/3d/hero-bg-lazy";
 import { FadeIn, StaggerChildren, TiltCard } from "@/components/interactions";
@@ -51,6 +53,8 @@ const FEATURES = [
 export default function HomePage() {
   const [isMobile, setIsMobile] = useState(false);
   const featuresRef = useRef<HTMLElement>(null);
+  const router = useRouter();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -61,6 +65,14 @@ export default function HomePage() {
 
   function scrollToFeatures() {
     featuresRef.current?.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function handleTerminalAction(action: "upload" | "jobs") {
+    if (!isAuthenticated) {
+      router.push("/login");
+    } else {
+      router.push("/dashboard");
+    }
   }
 
   return (
@@ -161,19 +173,16 @@ export default function HomePage() {
                     style={{ background: "rgba(87,193,255,0.08)" }}
                     aria-hidden="true"
                   />
-                  {/* Card */}
-                  <div className="relative rounded-3xl border border-hairline bg-surface shadow-[0_20px_60px_rgba(0,0,0,0.5)] overflow-hidden">
-                    {/* Terminal chrome — seamless with body */}
-                    <div className="flex items-center justify-between px-5 py-3 border-b border-hairline-soft">
-                      <div className="flex items-center gap-2">
-                        <div className="flex gap-1.5">
-                          <div className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]/80" />
-                          <div className="h-2.5 w-2.5 rounded-full bg-[#febc2e]/80" />
-                          <div className="h-2.5 w-2.5 rounded-full bg-[#28c840]/80" />
-                        </div>
-                        <span className="body-sm text-mute">sonclarus</span>
+                  {/* Card — no outer border, just rounded shadow */}
+                  <div className="relative rounded-3xl bg-surface shadow-[0_20px_60px_rgba(0,0,0,0.5)] overflow-hidden">
+                    {/* Terminal chrome — traffic lights on right */}
+                    <div className="flex items-center justify-end gap-2 px-5 py-3 border-b border-hairline-soft">
+                      <span className="body-sm text-mute mr-auto">sonclarus</span>
+                      <div className="flex gap-1.5">
+                        <div className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]/80" />
+                        <div className="h-2.5 w-2.5 rounded-full bg-[#febc2e]/80" />
+                        <div className="h-2.5 w-2.5 rounded-full bg-[#28c840]/80" />
                       </div>
-                      <span className="caption-sm text-stone">~ /uploads</span>
                     </div>
                     {/* Terminal body */}
                     <div className="p-5 flex flex-col gap-3">
@@ -189,29 +198,18 @@ export default function HomePage() {
                       {/* Command rows */}
                       <div className="mt-1 flex flex-col gap-1.5">
                         {[
-                          { label: "Upload new file", shortcut: "⏎", color: "#57c1ff", icon: "🎵" },
-                          { label: "View my jobs", shortcut: "⇧ J", color: "#59d499", icon: "📋" },
-                          { label: "Settings", shortcut: "⌘ ,", color: "#ffc533", icon: "⚙" },
+                          { label: "Upload new file", shortcut: "⏎", action: "upload" as const },
+                          { label: "View my jobs", shortcut: "⇧ J", action: "jobs" as const },
                         ].map((item) => (
                           <div
                             key={item.label}
+                            onClick={() => handleTerminalAction(item.action)}
                             className="flex items-center justify-between rounded-lg px-3 py-2.5 transition-colors hover:bg-surface-elevated cursor-pointer"
                           >
-                            <div className="flex items-center gap-2.5">
-                              <span className="text-sm">{item.icon}</span>
-                              <span className="body-sm text-on-dark">{item.label}</span>
-                            </div>
+                            <span className="body-sm text-on-dark">{item.label}</span>
                             <kbd className="keycap text-mute">{item.shortcut}</kbd>
                           </div>
                         ))}
-                      </div>
-                      {/* Bottom status */}
-                      <div className="mt-2 flex items-center justify-between border-t border-hairline-soft pt-3">
-                        <span className="caption-sm text-stone">Sonclarus v1.0</span>
-                        <div className="flex items-center gap-1.5">
-                          <span className="h-1.5 w-1.5 rounded-full bg-accent-green animate-pulse" />
-                          <span className="caption-sm text-mute">Ready</span>
-                        </div>
                       </div>
                     </div>
                   </div>
