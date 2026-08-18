@@ -19,9 +19,9 @@ export function TiltCard({
   const y = useMotionValue(0);
   const rotateX = useSpring(x, SPRING_CONFIG);
   const rotateY = useSpring(y, SPRING_CONFIG);
-
   const skewX = useSpring(0, SPRING_CONFIG);
   const skewY = useSpring(0, SPRING_CONFIG);
+  const glowIntensity = useSpring(0, { stiffness: 50, damping: 15 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!ref.current) return;
@@ -36,6 +36,9 @@ export function TiltCard({
     y.set(((centerY - mouseY) / centerY) * intensity);
     skewX.set(((mouseX - centerX) / centerX) * (intensity * 0.2));
     skewY.set(((centerY - mouseY) / centerY) * (intensity * 0.2));
+    glowIntensity.set(
+      Math.abs(x.get()) + Math.abs(y.get()) > 1 ? 0.4 : 0,
+    );
   };
 
   const handleMouseLeave = () => {
@@ -43,6 +46,7 @@ export function TiltCard({
     y.set(0);
     skewX.set(0);
     skewY.set(0);
+    glowIntensity.set(0);
   };
 
   const glarePosition = useMotionTemplate`${x}px ${y}px`;
@@ -73,27 +77,14 @@ export function TiltCard({
         }}
       />
       {/* Border glow */}
-      <motion.div
-        className="pointer-events-none absolute inset-0 rounded-[inherit]"
-        style={{
-          boxShadow: `0 0 30px -5px rgba(87,193,255,${useSpring(0, { stiffness: 50, damping: 15 }).get()})`,
-        }}
-      >
-        <span
-          ref={(node) => {
-            if (node) {
-              const handler = () => {
-                const s = useSpring(0, { stiffness: 50, damping: 15 });
-                s.set(Math.abs(x.get()) + Math.abs(y.get()) > 1 ? 0.4 : 0);
-              };
-              const unsub = x.on("change", handler);
-              const unsub2 = y.on("change", handler);
-              return () => { unsub(); unsub2(); };
-            }
+      <div className="pointer-events-none absolute inset-0 rounded-[inherit]">
+        <div
+          className="absolute inset-0 rounded-[inherit] border border-hairline-soft"
+          style={{
+            boxShadow: `0 0 ${glowIntensity.get() * 30}px -5px rgba(87,193,255,${glowIntensity.get()})`,
           }}
         />
-        <div className="absolute inset-0 rounded-[inherit] border border-hairline-soft" />
-      </motion.div>
+      </div>
       <div style={{ transform: "translateZ(20px)" }}>
         {children}
       </div>
