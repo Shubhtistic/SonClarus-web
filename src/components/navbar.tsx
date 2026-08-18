@@ -8,29 +8,40 @@ export function Navbar() {
   const { isAuthenticated, logout } = useAuth();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/[0.06]">
+    <header className="sticky top-0 z-40">
       <div
-        className="mx-auto flex h-14 max-w-[1240px] items-center justify-between px-6"
+        className="mx-auto flex h-14 max-w-[1240px] items-center justify-between px-6 relative"
         style={{
-          background: "rgba(0,0,0,0.35)",
-          backdropFilter: "blur(16px) saturate(180%)",
-          WebkitBackdropFilter: "blur(16px) saturate(180%)",
+          background: "linear-gradient(160deg, rgba(255,87,87,0.08) 0%, rgba(161,19,26,0.03) 60%, transparent 100%)",
+          backdropFilter: "blur(12px) saturate(150%)",
+          WebkitBackdropFilter: "blur(12px) saturate(150%)",
         }}
       >
+        {/* Subtle grid overlay */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+          }}
+          aria-hidden="true"
+        />
+
         <Logo />
 
-        <nav className="flex items-center gap-2">
+        <nav className="flex items-center gap-2 relative">
           {isAuthenticated ? (
             <>
               <Link
                 href="/dashboard"
-                className="rounded-full px-4 py-1.5 text-sm text-white/70 transition-all hover:text-white"
+                className="px-4 py-1.5 text-sm text-white/60 transition-all hover:text-white rounded-full"
               >
                 Dashboard
               </Link>
               <button
                 onClick={logout}
-                className="rounded-full px-4 py-1.5 text-sm text-white/50 transition-all hover:text-white/80"
+                className="px-4 py-1.5 text-sm text-white/40 transition-all hover:text-white/70 rounded-full"
               >
                 Log out
               </button>
@@ -39,17 +50,17 @@ export function Navbar() {
             <>
               <Link
                 href="/login"
-                className="rounded-full px-4 py-1.5 text-sm text-white/70 transition-all hover:text-white"
+                className="px-4 py-1.5 text-sm text-white/60 transition-all hover:text-white rounded-full"
               >
                 Log in
               </Link>
               <Link
                 href="/register"
-                className="relative ml-2 rounded-full px-5 py-1.5 text-sm font-medium text-white transition-all hover:brightness-110"
+                className="relative ml-2 px-5 py-1.5 text-sm font-medium text-white rounded-full transition-all hover:brightness-110"
                 style={{
-                  background: "linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 100%)",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                  boxShadow: "0 0 20px rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.1)",
+                  background: "linear-gradient(135deg, rgba(255,87,87,0.25) 0%, rgba(255,87,87,0.08) 100%)",
+                  border: "1px solid rgba(255,87,87,0.3)",
+                  boxShadow: "0 0 24px rgba(255,87,87,0.12), inset 0 1px 0 rgba(255,255,255,0.08)",
                 }}
               >
                 Get started
