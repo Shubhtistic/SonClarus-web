@@ -42,10 +42,10 @@ export default function Terminal() {
         boxShadow: "0 20px 60px rgba(0,0,0,0.6)",
         overflow: "hidden",
         minHeight: 420,
-        maxWidth: 600,
+        maxWidth: 820,
         margin: "0 auto",
         fontFamily: "'Courier New', Courier, monospace",
-        fontSize: 13,
+        fontSize: 14,
         lineHeight: "1.45",
         color: "#ff6161",
         boxSizing: "border-box",
@@ -87,7 +87,7 @@ export default function Terminal() {
             key={i}
             style={{
               fontFamily: "'Courier New', Courier, monospace",
-              fontSize: 12,
+              fontSize: 14,
               lineHeight: "1.45",
               color: "#ff6161",
               whiteSpace: "pre",
