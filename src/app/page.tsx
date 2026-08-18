@@ -94,7 +94,7 @@ export default function HomePage() {
         />
         <HeroBackground isMobile={isMobile} />
 
-        <div className="relative z-10 mx-auto max-w-[1240px] px-6 pt-20 pb-32 lg:pt-28 lg:pb-40">
+        <div className="relative z-10 mx-auto max-w-[1240px] px-6 pt-20 pb-16 lg:pt-28 lg:pb-20">
           <div className="grid items-stretch gap-12 lg:grid-cols-2">
             {/* Left: copy */}
             <FadeIn>
