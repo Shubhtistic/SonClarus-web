@@ -2,9 +2,9 @@
 
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { HeroBackground } from "@/components/3d/hero-bg-lazy";
 import { FadeIn, StaggerChildren, TiltCard } from "@/components/interactions";
+import Terminal from "@/components/Terminal";
 
 const FEATURES = [
   {
@@ -95,105 +95,51 @@ export default function HomePage() {
         <HeroBackground isMobile={isMobile} />
 
         <div className="relative z-10 mx-auto max-w-[1240px] px-6 pt-20 pb-32 lg:pt-28 lg:pb-40">
-          <div className="grid items-center gap-12 lg:grid-cols-2">
+          <div className="grid items-stretch gap-12 lg:grid-cols-2">
             {/* Left: copy */}
             <FadeIn>
-              <div className="inline-flex items-center gap-2 rounded-xs border border-hairline bg-surface px-2.5 py-1 mb-5">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent-blue" />
-                <span className="caption-sm text-mute">Powered by AI</span>
-              </div>
+              <div className="flex flex-col justify-between h-full">
+                <div>
+                  <h1 className="hero-display text-ink leading-[1.05]">
+                    Separate
+                    <br />
+                    Transcribe
+                    <br />
+                    <span
+                      className="inline-block rounded-sm px-2 py-0.5 mt-1"
+                      style={{ background: "rgba(255,87,87,0.15)", color: "#ff6161" }}
+                    >
+                      Done.
+                    </span>
+                  </h1>
 
-              <h1 className="hero-display text-ink leading-tight">
-                Separate speakers.
-                <br />
-                Get transcripts.
-                <br />
-                <span
-                  className="inline-block rounded-sm px-1"
-                  style={{ background: "rgba(255,87,87,0.15)", color: "#ff6161" }}
-                >
-                  Done.
-                </span>
-              </h1>
+                  <p className="body-lg mt-4 max-w-[480px] text-body">
+                    Sonclarus uses AI to cleanly split two-speaker audio into isolated
+                    tracks and generate accurate, readable transcripts — all in one
+                    pipeline.
+                  </p>
+                </div>
 
-              <p className="body-lg mt-6 max-w-[480px] text-body">
-                Sonclarus uses AI to cleanly split two-speaker audio into isolated
-                tracks and generate accurate, readable transcripts — all in one
-                pipeline.
-              </p>
-
-              <div className="mt-8 flex flex-wrap items-center gap-3">
-                <Link
-                  href="/register"
-                  className="btn-md rounded-md bg-primary px-5 py-2 text-on-primary transition-all hover:bg-primary-pressed hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]"
-                >
-                  Get started free
-                </Link>
-                <button
-                  onClick={scrollToFeatures}
-                  className="btn-md rounded-md border border-hairline bg-transparent px-5 py-2 text-on-dark transition-all hover:bg-surface"
-                >
-                  Learn more
-                </button>
-              </div>
-
-              {/* Keycap hint */}
-              <div className="mt-7 flex items-center gap-3">
-                <kbd className="inline-flex h-6 items-center rounded-xs border border-hairline bg-surface-card px-2.5 text-keycap text-body shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
-                  ⌘ K
-                </kbd>
-                <span className="caption-md text-mute">Quick upload shortcut</span>
+                <div className="mt-5 flex flex-wrap items-center gap-3">
+                  <Link
+                    href="/register"
+                    className="btn-md rounded-md bg-primary px-5 py-2 text-on-primary transition-all hover:bg-primary-pressed hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]"
+                  >
+                    Get started free
+                  </Link>
+                  <button
+                    onClick={scrollToFeatures}
+                    className="btn-md rounded-md border border-hairline bg-transparent px-5 py-2 text-on-dark transition-all hover:bg-surface"
+                  >
+                    Learn more
+                  </button>
+                </div>
               </div>
             </FadeIn>
 
-            {/* Right: command palette mockup — with TiltCard */}
+            {/* Right: animated terminal */}
             <FadeIn delay={0.15}>
-              <TiltCard intensity={10} className="h-full">
-                <motion.div
-                  initial={{ opacity: 0, x: 30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative h-full"
-                >
-                  {/* Glow behind card */}
-                  <div
-                    className="absolute -inset-4 rounded-2xl blur-2xl"
-                    style={{ background: "rgba(87,193,255,0.08)" }}
-                    aria-hidden="true"
-                  />
-                  {/* Terminal card */}
-                  <div className="relative rounded-xl border border-hairline bg-surface shadow-[0_20px_60px_rgba(0,0,0,0.5)] overflow-hidden">
-                    {/* Terminal chrome — traffic lights on right */}
-                    <div className="flex items-center justify-end gap-2 px-4 py-2.5 border-b border-hairline-soft bg-surface">
-                      <span className="body-sm text-mute mr-auto font-mono">sonclarus@audio:~</span>
-                      <div className="flex gap-1.5">
-                        <div className="h-2 w-2 rounded-full bg-[#ff5f57]/70" />
-                        <div className="h-2 w-2 rounded-full bg-[#febc2e]/70" />
-                        <div className="h-2 w-2 rounded-full bg-[#28c840]/70" />
-                      </div>
-                    </div>
-                    {/* Terminal body */}
-                    <div className="p-4 font-mono text-sm">
-                      <div className="mb-2">
-                        <span className="text-accent-green">➜</span>
-                        <span className="text-accent-blue ml-2">~</span>
-                        <span className="text-body ml-2">whoami</span>
-                      </div>
-                      <div className="text-mute mb-4">sonclarus</div>
-
-                      <div className="mb-2">
-                        <span className="text-accent-green">➜</span>
-                        <span className="text-accent-blue ml-2">~</span>
-                        <span className="text-body ml-2">ls -la ~/projects</span>
-                      </div>
-                      <div className="text-mute mb-1">drwxr-xr-x  audio-separator/</div>
-                      <div className="text-mute mb-1">drwxr-xr-x  transcription/</div>
-                      <div className="text-mute mb-1">drwxr-xr-x  api-gateway/</div>
-                      <div className="text-mute">-rw-r--r--  pipeline.conf</div>
-                    </div>
-                  </div>
-                </motion.div>
-              </TiltCard>
+              <Terminal />
             </FadeIn>
           </div>
         </div>
