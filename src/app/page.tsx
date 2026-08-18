@@ -202,7 +202,7 @@ export default function HomePage() {
                         {[
                           { cmd: "sonclarus upload", desc: "Upload new audio file", action: "upload" as const, color: "text-accent-blue" },
                           { cmd: "sonclarus jobs", desc: "View processing jobs", action: "jobs" as const, color: "text-accent-green" },
-                          { cmd: "sonclarus status", desc: "Check system status", action: null as const, color: "text-accent-yellow" },
+                          { cmd: "sonclarus status", desc: "Check system status", action: null, color: "text-accent-yellow" },
                         ].map((item) => (
                           <div
                             key={item.cmd}
