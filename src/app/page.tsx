@@ -150,8 +150,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-[1240px]">
           <FadeIn>
             <div className="mb-10 text-center">
-              <p className="caption-sm text-mute">Features</p>
-              <h2 className="heading-xl mt-2 text-ink">Built for clarity</h2>
+              <h2 className="hero-display mt-2 text-ink">Built for clarity</h2>
               <p className="body-lg mt-3 max-w-[520px] text-body mx-auto">
                 Three capabilities that make audio processing effortless.
               </p>
@@ -190,7 +189,7 @@ export default function HomePage() {
       <section className="bg-canvas px-6 py-[var(--spacing-section)]">
         <FadeIn>
           <div className="mx-auto max-w-[720px] text-center">
-            <h2 className="display-lg text-ink">
+            <h2 className="hero-display text-ink">
               Ready to separate your audio?
             </h2>
             <p className="body-lg mt-4 text-body">
@@ -214,7 +213,7 @@ export default function HomePage() {
               {/* Left: text */}
               <div>
                 <p className="caption-sm text-mute mb-2">About the creator</p>
-                <h2 className="heading-xl text-ink">
+                <h2 className="hero-display text-ink">
                   Hi there, I&apos;m{" "}
                   <span style={{ color: "#57c1ff" }}>Shubham</span>
                 </h2>
