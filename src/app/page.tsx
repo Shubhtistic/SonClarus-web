@@ -2,8 +2,6 @@
 
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/lib/auth-context";
 import { motion } from "framer-motion";
 import { HeroBackground } from "@/components/3d/hero-bg-lazy";
 import { FadeIn, StaggerChildren, TiltCard } from "@/components/interactions";
@@ -53,8 +51,6 @@ const FEATURES = [
 export default function HomePage() {
   const [isMobile, setIsMobile] = useState(false);
   const featuresRef = useRef<HTMLElement>(null);
-  const router = useRouter();
-  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -65,14 +61,6 @@ export default function HomePage() {
 
   function scrollToFeatures() {
     featuresRef.current?.scrollIntoView({ behavior: "smooth" });
-  }
-
-  function handleTerminalAction(action: "upload" | "jobs") {
-    if (!isAuthenticated) {
-      router.push("/login");
-    } else {
-      router.push("/dashboard");
-    }
   }
 
   return (
@@ -186,46 +174,22 @@ export default function HomePage() {
                     </div>
                     {/* Terminal body */}
                     <div className="p-4 font-mono text-sm">
-                      {/* Welcome message */}
-                      <div className="mb-3">
+                      <div className="mb-2">
                         <span className="text-accent-green">➜</span>
                         <span className="text-accent-blue ml-2">~</span>
-                        <span className="text-body ml-2">Welcome to Sonclarus</span>
+                        <span className="text-body ml-2">whoami</span>
                       </div>
-                      <div className="mb-4">
-                        <span className="text-mute">➜</span>
-                        <span className="text-body ml-2">Audio separation & transcription pipeline</span>
-                      </div>
-                      
-                      {/* Commands */}
-                      <div className="space-y-1.5">
-                        {[
-                          { cmd: "sonclarus upload", desc: "Upload new audio file", action: "upload" as const, color: "text-accent-blue" },
-                          { cmd: "sonclarus jobs", desc: "View processing jobs", action: "jobs" as const, color: "text-accent-green" },
-                          { cmd: "sonclarus status", desc: "Check system status", action: null, color: "text-accent-yellow" },
-                        ].map((item) => (
-                          <div
-                            key={item.cmd}
-                            onClick={() => item.action && handleTerminalAction(item.action)}
-                            className={`flex items-center justify-between rounded px-2 py-1.5 transition-colors ${
-                              item.action ? "hover:bg-surface-elevated cursor-pointer" : ""
-                            }`}
-                          >
-                            <div className="flex items-center gap-2">
-                              <span className="text-accent-green">❯</span>
-                              <span className={`body-sm ${item.color}`}>{item.cmd}</span>
-                              <span className="caption-sm text-mute ml-2">— {item.desc}</span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
+                      <div className="text-mute mb-4">sonclarus</div>
 
-                      {/* Status line */}
-                      <div className="mt-4 pt-3 border-t border-hairline-soft flex items-center gap-2">
-                        <span className="h-1.5 w-1.5 rounded-full bg-accent-green animate-pulse" />
-                        <span className="caption-sm text-mute">System ready</span>
-                        <span className="caption-sm text-stone ml-auto">v1.0.0</span>
+                      <div className="mb-2">
+                        <span className="text-accent-green">➜</span>
+                        <span className="text-accent-blue ml-2">~</span>
+                        <span className="text-body ml-2">ls -la ~/projects</span>
                       </div>
+                      <div className="text-mute mb-1">drwxr-xr-x  audio-separator/</div>
+                      <div className="text-mute mb-1">drwxr-xr-x  transcription/</div>
+                      <div className="text-mute mb-1">drwxr-xr-x  api-gateway/</div>
+                      <div className="text-mute">-rw-r--r--  pipeline.conf</div>
                     </div>
                   </div>
                 </motion.div>
