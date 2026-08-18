@@ -42,7 +42,8 @@ export default function Terminal() {
         boxShadow: "0 20px 60px rgba(0,0,0,0.6)",
         overflow: "hidden",
         minHeight: 420,
-        maxWidth: 820,
+        width: "100%",
+        maxWidth: 1200,
         margin: "0 auto",
         fontFamily: "'Courier New', Courier, monospace",
         fontSize: 14,
@@ -76,27 +77,42 @@ export default function Terminal() {
           padding: 24,
           boxSizing: "border-box",
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          overflowX: "auto",
+          alignItems: "stretch",
+          overflow: "hidden",
         }}
       >
-        {lines.map((line, i) => (
-          <div
-            key={i}
-            style={{
-              fontFamily: "'Courier New', Courier, monospace",
-              fontSize: 14,
-              lineHeight: "1.45",
-              color: "#ff6161",
-              whiteSpace: "pre",
-              textAlign: "center",
-            }}
-          >
-            {line || " "}
-          </div>
-        ))}
+        <div
+          style={{
+            width: "100%",
+            minWidth: 0,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {lines.map((line, i) => {
+            const completed = i < lineIdx ? SONCLARUS[i] : "";
+            const typing = i === lineIdx ? line : "";
+
+            return (
+              <div
+                key={i}
+                style={{
+                  fontFamily: "'Courier New', Courier, monospace",
+                  fontSize: "clamp(4px, calc(0.6vw - 2px), 10px)",
+                  lineHeight: "1.45",
+                  color: "#ff6161",
+                  whiteSpace: "pre",
+                  textAlign: "center",
+                }}
+              >
+                <span>{completed}</span>
+                <span>{typing || (!completed ? " " : "")}</span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
