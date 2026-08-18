@@ -173,49 +173,58 @@ export default function HomePage() {
                     style={{ background: "rgba(87,193,255,0.08)" }}
                     aria-hidden="true"
                   />
-                  {/* Card — same style as main but with interactive commands */}
-                  <div className="relative rounded-xl border border-hairline bg-surface shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
-                    {/* macOS traffic light window chrome */}
-                    <div className="flex items-center gap-2 border-b border-hairline px-4 py-3">
+                  {/* Terminal card */}
+                  <div className="relative rounded-xl border border-hairline bg-surface shadow-[0_20px_60px_rgba(0,0,0,0.5)] overflow-hidden">
+                    {/* Terminal chrome — traffic lights on right */}
+                    <div className="flex items-center justify-end gap-2 px-4 py-2.5 border-b border-hairline-soft bg-surface">
+                      <span className="body-sm text-mute mr-auto font-mono">sonclarus@audio:~</span>
                       <div className="flex gap-1.5">
-                        <div className="h-3 w-3 rounded-full bg-[#ff5f57]" />
-                        <div className="h-3 w-3 rounded-full bg-[#febc2e]" />
-                        <div className="h-3 w-3 rounded-full bg-[#28c840]" />
-                      </div>
-                      <div className="flex-1 rounded-sm bg-surface-elevated px-3 py-1 text-center text-caption-md text-mute">
-                        sonclarus://upload
+                        <div className="h-2 w-2 rounded-full bg-[#ff5f57]/70" />
+                        <div className="h-2 w-2 rounded-full bg-[#febc2e]/70" />
+                        <div className="h-2 w-2 rounded-full bg-[#28c840]/70" />
                       </div>
                     </div>
-                    {/* Palette body */}
-                    <div className="p-3">
-                      <div className="flex items-center gap-2 rounded-sm border border-hairline bg-surface-elevated px-3 py-2.5">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mute">
-                          <circle cx="11" cy="11" r="8" />
-                          <line x1="21" x2="16.65" y1="21" y2="16.65" />
-                        </svg>
-                        <span className="body-sm text-body">Upload audio…</span>
-                        <kbd className="ml-auto keycap text-mute">⌘ P</kbd>
+                    {/* Terminal body */}
+                    <div className="p-4 font-mono text-sm">
+                      {/* Welcome message */}
+                      <div className="mb-3">
+                        <span className="text-accent-green">➜</span>
+                        <span className="text-accent-blue ml-2">~</span>
+                        <span className="text-body ml-2">Welcome to Sonclarus</span>
                       </div>
-                      <div className="mt-1.5 flex flex-col gap-0.5">
+                      <div className="mb-4">
+                        <span className="text-mute">➜</span>
+                        <span className="text-body ml-2">Audio separation & transcription pipeline</span>
+                      </div>
+                      
+                      {/* Commands */}
+                      <div className="space-y-1.5">
                         {[
-                          { label: "Upload new file", shortcut: "⏎", color: "#57c1ff", action: "upload" as const },
-                          { label: "View my jobs", shortcut: "⇧ J", color: "#59d499", action: "jobs" as const },
+                          { cmd: "sonclarus upload", desc: "Upload new audio file", action: "upload" as const, color: "text-accent-blue" },
+                          { cmd: "sonclarus jobs", desc: "View processing jobs", action: "jobs" as const, color: "text-accent-green" },
+                          { cmd: "sonclarus status", desc: "Check system status", action: null as const, color: "text-accent-yellow" },
                         ].map((item) => (
                           <div
-                            key={item.label}
-                            onClick={() => handleTerminalAction(item.action)}
-                            className="flex items-center justify-between rounded-sm px-2.5 py-1.5 transition-colors hover:bg-surface-card cursor-pointer"
+                            key={item.cmd}
+                            onClick={() => item.action && handleTerminalAction(item.action)}
+                            className={`flex items-center justify-between rounded px-2 py-1.5 transition-colors ${
+                              item.action ? "hover:bg-surface-elevated cursor-pointer" : ""
+                            }`}
                           >
                             <div className="flex items-center gap-2">
-                              <span
-                                className="h-1.5 w-1.5 rounded-full"
-                                style={{ background: item.color }}
-                              />
-                              <span className="body-sm text-on-dark">{item.label}</span>
+                              <span className="text-accent-green">❯</span>
+                              <span className={`body-sm ${item.color}`}>{item.cmd}</span>
+                              <span className="caption-sm text-mute ml-2">— {item.desc}</span>
                             </div>
-                            <kbd className="keycap text-mute">{item.shortcut}</kbd>
                           </div>
                         ))}
+                      </div>
+
+                      {/* Status line */}
+                      <div className="mt-4 pt-3 border-t border-hairline-soft flex items-center gap-2">
+                        <span className="h-1.5 w-1.5 rounded-full bg-accent-green animate-pulse" />
+                        <span className="caption-sm text-mute">System ready</span>
+                        <span className="caption-sm text-stone ml-auto">v1.0.0</span>
                       </div>
                     </div>
                   </div>
