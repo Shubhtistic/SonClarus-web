@@ -20,34 +20,34 @@ export default function DashboardPage() {
   if (isLoading || !isAuthenticated) {
     return (
       <div className="flex flex-1 items-center justify-center py-24">
-        <p className="body-md text-on-dark-muted">Loading…</p>
+        <p className="body-md text-mute">Loading…</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-surface-canvas-dark px-6 py-10">
+    <div className="bg-canvas px-6 py-10">
       <div className="mx-auto max-w-[960px]">
-        <div className="mb-2">
-          <p className="micro-cap text-accent-lime">Dashboard</p>
+        <div className="mb-1">
+          <p className="caption-sm text-mute">Dashboard</p>
         </div>
-        <h1 className="heading-xl text-on-primary">Your workspace</h1>
-        <p className="body-lg mt-2 text-on-dark-muted">
+        <h1 className="heading-xl text-ink">Your workspace</h1>
+        <p className="body-lg mt-1 text-body">
           Upload audio files and track your processing jobs.
         </p>
 
-        <section className="mt-10">
-          <h2 className="heading-md text-on-primary">New upload</h2>
-          <div className="mt-4">
+        <section className="mt-8">
+          <h2 className="heading-md text-on-dark">New upload</h2>
+          <div className="mt-3">
             <UploadZone
               onUploadComplete={() => setRefreshKey((k) => k + 1)}
             />
           </div>
         </section>
 
-        <section className="mt-10">
-          <h2 className="heading-md text-on-primary">Your jobs</h2>
-          <div className="mt-4">
+        <section className="mt-8">
+          <h2 className="heading-md text-on-dark">Your jobs</h2>
+          <div className="mt-3">
             <JobsList refreshKey={refreshKey} />
           </div>
         </section>

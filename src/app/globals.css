@@ -1,33 +1,47 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Rubik:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
 @theme inline {
-  /* ── Brand (Sentri-inspired) ── */
-  --color-primary: #150f23;
-  --color-ink-deep: #1f1633;
-  --color-on-primary: #ffffff;
-  --color-accent-lime: #c2ef4e;
-  --color-accent-pink: #fa7faa;
-  --color-accent-violet: #6a5fc1;
-  --color-accent-violet-deep: #422082;
-  --color-accent-violet-mid: #79628c;
-  --color-ring-focus: #9dc1f5;
+  /* ── Brand ── */
+  --color-primary: #ffffff;
+  --color-primary-pressed: #e8e8e8;
+  --color-on-primary: #000000;
+  --color-ink: #f4f4f6;
+  --color-body: #cdcdcd;
+  --color-charcoal: #d3d3d4;
+  --color-mute: #9c9c9d;
+  --color-ash: #6a6b6c;
+  --color-stone: #434345;
+  --color-on-dark: #ffffff;
+  --color-on-dark-mute: rgba(255, 255, 255, 0.72);
+  --color-button-fg: #18191a;
 
-  /* ── Surface ── */
-  --color-surface-canvas-dark: #1f1633;
-  --color-surface-canvas-light: #ffffff;
-  --color-surface-night: #150f23;
-  --color-surface-press-light: #f0f0f0;
-  --color-surface-press-stronger: #efefef;
-  --color-hairline-violet: #362d59;
-  --color-hairline-cool: #cfcfdb;
-  --color-hairline-cloud: #e5e7eb;
+  /* ── Surface ladder ── */
+  --color-canvas: #07080a;
+  --color-surface: #0d0d0d;
+  --color-surface-elevated: #101111;
+  --color-surface-card: #121212;
 
-  /* ── Text ── */
-  --color-ink: #1f1633;
-  --color-ink-press: #1a1a1a;
-  --color-on-dark-muted: rgba(255, 255, 255, 0.72);
-  --color-on-dark-faint: rgba(255, 255, 255, 0.18);
+  /* ── Borders ── */
+  --color-hairline: #242728;
+  --color-hairline-soft: rgba(255, 255, 255, 0.08);
+  --color-hairline-strong: rgba(255, 255, 255, 0.16);
+
+  /* ── Accent (illustration-only) ── */
+  --color-accent-blue: #57c1ff;
+  --color-accent-blue-soft: rgba(87, 193, 255, 0.15);
+  --color-accent-red: #ff6161;
+  --color-accent-red-soft: rgba(255, 97, 97, 0.15);
+  --color-accent-green: #59d499;
+  --color-accent-green-soft: rgba(89, 212, 153, 0.15);
+  --color-accent-yellow: #ffc533;
+  --color-accent-yellow-soft: rgba(255, 197, 51, 0.15);
+
+  /* ── Hero stripe ── */
+  --color-hero-stripe-start: #ff5757;
+  --color-hero-stripe-end: #a1131a;
+  --color-key-bg-start: #121212;
+  --color-key-bg-end: #0d0d0d;
 
   /* ── Semantic ── */
   --color-success-bg: #e8ffea;
@@ -35,18 +49,17 @@
   --color-error: #d45656;
 
   /* ── Typography ── */
-  --font-display: "Space Grotesk", "Rubik", system-ui, sans-serif;
-  --font-body: "Rubik", -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
-    sans-serif;
-  --font-mono: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  --font-display: "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "Inter", system-ui, sans-serif;
 
   /* ── Radius ── */
+  --radius-none: 0px;
   --radius-xs: 4px;
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 10px;
-  --radius-xl: 12px;
-  --radius-xxl: 18px;
+  --radius-xl: 16px;
   --radius-full: 9999px;
 
   /* ── Spacing ── */
@@ -68,149 +81,171 @@ html {
 
 body {
   font-family: var(--font-body);
-  background: var(--color-surface-canvas-light);
-  color: var(--color-ink);
+  font-feature-settings: "calt", "kern", "liga", "ss03";
+  background: var(--color-canvas);
+  color: var(--color-body);
 }
 
 /* ── Typography utilities ── */
 .hero-display {
   font-family: var(--font-display);
-  font-size: 88px;
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: 0;
-}
-
-.display-large {
-  font-family: var(--font-display);
-  font-size: 60px;
-  font-weight: 500;
+  font-size: 64px;
+  font-weight: 600;
   line-height: 1.1;
   letter-spacing: 0;
+  font-feature-settings: "calt", "kern", "liga";
+}
+
+.display-lg {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-weight: 500;
+  line-height: 1.17;
+  letter-spacing: 0.2px;
+  font-feature-settings: "calt", "kern", "liga", "ss03";
 }
 
 .heading-xl {
-  font-family: var(--font-body);
-  font-size: 30px;
+  font-family: var(--font-display);
+  font-size: 24px;
   font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: 0;
+  line-height: 1.6;
+  letter-spacing: 0.2px;
+  font-feature-settings: "calt", "kern", "liga", "ss03";
 }
 
 .heading-lg {
-  font-family: var(--font-body);
-  font-size: 27px;
+  font-family: var(--font-display);
+  font-size: 22px;
   font-weight: 500;
-  line-height: 1.25;
+  line-height: 1.15;
   letter-spacing: 0;
+  font-feature-settings: "calt", "kern", "liga", "ss03";
 }
 
 .heading-md {
-  font-family: var(--font-body);
-  font-size: 24px;
+  font-family: var(--font-display);
+  font-size: 20px;
   font-weight: 500;
-  line-height: 1.25;
-  letter-spacing: 0;
+  line-height: 1.4;
+  letter-spacing: 0.2px;
+  font-feature-settings: "calt", "kern", "liga", "ss03";
 }
 
 .heading-sm {
-  font-family: var(--font-body);
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 1.25;
-  letter-spacing: 0;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.2px;
+  font-feature-settings: "calt", "kern", "liga", "ss03";
 }
 
 .body-lg {
-  font-family: var(--font-body);
-  font-size: 16px;
+  font-family: var(--font-display);
+  font-size: 18px;
   font-weight: 400;
-  line-height: 2.0;
+  line-height: 1.6;
   letter-spacing: 0;
-}
-
-.body-strong {
-  font-family: var(--font-body);
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.5;
-  letter-spacing: 0;
+  font-feature-settings: "calt", "kern", "liga", "ss03";
 }
 
 .body-md {
-  font-family: var(--font-body);
+  font-family: var(--font-display);
   font-size: 16px;
-  font-weight: 500;
-  line-height: 1.5;
+  font-weight: 400;
+  line-height: 1.6;
   letter-spacing: 0;
+  font-feature-settings: "calt", "kern", "liga", "ss03";
 }
 
-.eyebrow {
-  font-family: var(--font-body);
-  font-size: 15px;
+.body-strong {
+  font-family: var(--font-display);
+  font-size: 16px;
   font-weight: 500;
   line-height: 1.4;
-  letter-spacing: 0;
-}
-
-.btn-cap {
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.14;
   letter-spacing: 0.2px;
-  text-transform: uppercase;
+  font-feature-settings: "calt", "kern", "liga", "ss03";
 }
 
-.btn-cap-light {
-  font-family: var(--font-body);
+.body-sm {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0;
+  font-feature-settings: "calt", "kern", "liga", "ss03";
+}
+
+.body-sm-strong {
+  font-family: var(--font-display);
   font-size: 14px;
   font-weight: 500;
-  line-height: 1.29;
+  line-height: 1.6;
   letter-spacing: 0.2px;
-  text-transform: uppercase;
+  font-feature-settings: "calt", "kern", "liga", "ss03";
 }
 
-.caption {
-  font-family: var(--font-body);
-  font-size: 14px;
+.caption-md {
+  font-family: var(--font-display);
+  font-size: 13px;
   font-weight: 400;
-  line-height: 1.43;
-  letter-spacing: 0;
+  line-height: 1.4;
+  letter-spacing: 0.1px;
+  font-feature-settings: "calt", "kern", "liga", "ss03";
 }
 
-.micro-cap {
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: 600;
-  line-height: 1.8;
-  letter-spacing: 0.25px;
-  text-transform: uppercase;
-}
-
-.code {
-  font-family: var(--font-mono);
-  font-size: 16px;
+.caption-sm {
+  font-family: var(--font-display);
+  font-size: 12px;
   font-weight: 400;
   line-height: 1.5;
-  letter-spacing: 0;
+  letter-spacing: 0.4px;
+  font-feature-settings: "calt", "kern", "liga", "ss03";
+}
+
+.link-md {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.3px;
+  font-feature-settings: "calt", "kern", "liga", "ss03";
+}
+
+.btn-md {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.2px;
+  font-feature-settings: "calt", "kern", "liga", "ss03";
+}
+
+.keycap {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.1px;
+  font-feature-settings: "calt", "kern", "liga", "ss03";
 }
 
 /* ── Responsive display ── */
-@media (max-width: 1151px) {
+@media (max-width: 1023px) {
   .hero-display {
-    font-size: 60px;
-  }
-  .display-large {
     font-size: 48px;
+  }
+  .display-lg {
+    font-size: 40px;
   }
 }
 
 @media (max-width: 639px) {
   .hero-display {
-    font-size: 48px;
-  }
-  .display-large {
     font-size: 36px;
+  }
+  .display-lg {
+    font-size: 28px;
   }
 }

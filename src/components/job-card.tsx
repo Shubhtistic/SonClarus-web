@@ -11,19 +11,19 @@ import {
 
 const STATUS_STYLES: Record<JobStatusValue, { chip: string; label: string }> = {
   PENDING: {
-    chip: "bg-surface-night text-on-dark-muted",
+    chip: "rounded-xs bg-surface-elevated px-2 py-0.5 caption-sm text-on-dark-mute",
     label: "Pending",
   },
   PROCESSING: {
-    chip: "bg-accent-violet-deep text-on-primary",
+    chip: "rounded-xs bg-accent-blue-soft px-2 py-0.5 caption-sm text-accent-blue",
     label: "Processing",
   },
   DONE: {
-    chip: "bg-accent-lime text-ink-deep",
+    chip: "rounded-xs bg-accent-green-soft px-2 py-0.5 caption-sm text-accent-green",
     label: "Done",
   },
   FAILED: {
-    chip: "bg-error/20 text-error",
+    chip: "rounded-xs bg-accent-red-soft px-2 py-0.5 caption-sm text-accent-red",
     label: "Failed",
   },
 };
@@ -55,21 +55,17 @@ export function JobCard({ job }: { job: Job }) {
   const style = STATUS_STYLES[status];
 
   return (
-    <div className="rounded-xl border border-hairline-violet bg-ink-deep p-5">
+    <div className="rounded-lg border border-hairline bg-surface p-5">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-3">
-            <h3 className="heading-sm truncate text-on-primary">{job.filename}</h3>
-            <span
-              className={`shrink-0 rounded-xs px-2 py-0.5 text-micro-cap ${style.chip}`}
-            >
-              {style.label}
-            </span>
+            <h3 className="heading-sm truncate text-on-dark">{job.filename}</h3>
+            <span className={style.chip}>{style.label}</span>
           </div>
           {job.summary && (
-            <p className="body-md mt-1 line-clamp-2 text-on-dark-muted">{job.summary}</p>
+            <p className="body-sm mt-1 line-clamp-2 text-body">{job.summary}</p>
           )}
-          <p className="caption mt-2 text-on-dark-muted">
+          <p className="caption-md mt-2 text-mute">
             {new Date(job.created_at).toLocaleDateString("en-US", {
               year: "numeric",
               month: "short",
@@ -80,7 +76,7 @@ export function JobCard({ job }: { job: Job }) {
       </div>
 
       {status === "DONE" && (
-        <div className="mt-4 flex flex-wrap gap-2 border-t border-hairline-violet pt-4">
+        <div className="mt-4 flex flex-wrap gap-2 border-t border-hairline-soft pt-4">
           {DOWNLOADS.map((d) => (
             <DownloadButton
               key={d.stage}
@@ -122,7 +118,7 @@ function DownloadButton({
     <button
       onClick={handleClick}
       disabled={loading}
-      className="btn-cap-light rounded-xl border border-hairline-violet bg-surface-night px-4 py-2 text-on-primary transition-colors hover:bg-white/5 disabled:opacity-50"
+      className="btn-md rounded-md border border-hairline bg-surface-elevated px-3 py-1.5 text-on-dark transition-colors hover:bg-surface hover:border-hairline-strong disabled:opacity-50"
     >
       {loading ? (
         <span className="flex items-center gap-2">
@@ -134,7 +130,7 @@ function DownloadButton({
         </span>
       ) : (
         <span className="flex items-center gap-2">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
             <polyline points="7 10 12 15 17 10" />
             <line x1="12" x2="12" y1="15" y2="3" />
