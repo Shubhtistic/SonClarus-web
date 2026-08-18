@@ -30,8 +30,10 @@ export function JobsList({ refreshKey }: { refreshKey: number }) {
   }, []);
 
   useEffect(() => {
-    setSkip(0);
-    fetchJobs(0);
+    const timer = setTimeout(() => {
+      fetchJobs(0);
+    }, 0);
+    return () => clearTimeout(timer);
   }, [refreshKey, fetchJobs]);
 
   function prev() {

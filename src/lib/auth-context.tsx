@@ -32,13 +32,17 @@ interface AuthState {
 const AuthContext = createContext<AuthState | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [token, setTokenState] = useState<string | null>(null);
+  const [token, setTokenState] = useState<string | null>(() => {
+    if (typeof window !== "undefined") {
+      return getToken();
+    }
+    return null;
+  });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const stored = getToken();
-    if (stored) setTokenState(stored);
-    setIsLoading(false);
+    const timer = setTimeout(() => setIsLoading(false), 0);
+    return () => clearTimeout(timer);
   }, []);
 
   const login = useCallback(async (payload: LoginRequest) => {

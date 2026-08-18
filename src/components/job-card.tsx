@@ -49,7 +49,6 @@ export function JobCard({ job }: { job: Job }) {
   useEffect(() => {
     if (status === "DONE" || status === "FAILED") return;
     const id = setInterval(poll, 4000);
-    poll();
     return () => clearInterval(id);
   }, [status, poll]);
 
