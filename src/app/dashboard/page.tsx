@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { UploadZone } from "@/components/upload-zone";
 import { JobsList } from "@/components/jobs-list";
@@ -20,21 +20,24 @@ export default function DashboardPage() {
   if (isLoading || !isAuthenticated) {
     return (
       <div className="flex flex-1 items-center justify-center py-24">
-        <p className="body-sm text-steel">Loading…</p>
+        <p className="body-md text-on-dark-muted">Loading…</p>
       </div>
     );
   }
 
   return (
-    <div className="px-8 py-12">
+    <div className="bg-surface-canvas-dark px-6 py-10">
       <div className="mx-auto max-w-[960px]">
-        <h1 className="heading-md text-ink">Dashboard</h1>
-        <p className="body-sm mt-1 text-steel">
+        <div className="mb-2">
+          <p className="micro-cap text-accent-lime">Dashboard</p>
+        </div>
+        <h1 className="heading-xl text-on-primary">Your workspace</h1>
+        <p className="body-lg mt-2 text-on-dark-muted">
           Upload audio files and track your processing jobs.
         </p>
 
-        <section className="mt-8">
-          <h2 className="heading-sm text-ink">New upload</h2>
+        <section className="mt-10">
+          <h2 className="heading-md text-on-primary">New upload</h2>
           <div className="mt-4">
             <UploadZone
               onUploadComplete={() => setRefreshKey((k) => k + 1)}
@@ -42,8 +45,8 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        <section className="mt-12">
-          <h2 className="heading-sm text-ink">Your jobs</h2>
+        <section className="mt-10">
+          <h2 className="heading-md text-on-primary">Your jobs</h2>
           <div className="mt-4">
             <JobsList refreshKey={refreshKey} />
           </div>

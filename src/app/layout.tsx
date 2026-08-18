@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { Space_Grotesk, Rubik } from "next/font/google";
 import { AuthProvider } from "@/lib/auth-context";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import "./globals.css";
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+});
+
+const rubik = Rubik({
+  variable: "--font-body",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
@@ -26,7 +32,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${dmSans.variable} h-full`}>
+    <html
+      lang="en"
+      className={`${spaceGrotesk.variable} ${rubik.variable} h-full`}
+    >
       <body className="min-h-full flex flex-col font-body antialiased">
         <AuthProvider>
           <Navbar />

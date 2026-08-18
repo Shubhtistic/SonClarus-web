@@ -9,8 +9,6 @@ import {
 } from "react";
 import {
   confirmUpload,
-  getDownloadUrl,
-  getJobStatus,
   requestUpload,
   uploadToS3,
   ApiError,
@@ -86,7 +84,7 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
   const isUploading = upload.phase !== "idle" && upload.phase !== "done" && upload.phase !== "error";
 
   return (
-    <div className="rounded-2xl border-2 border-dashed border-hairline bg-surface p-8 transition-colors focus-within:border-brand-blue-deep hover:border-stone">
+    <div className="rounded-xxl border border-hairline-violet bg-ink-deep p-6">
       <input
         ref={inputRef}
         type="file"
@@ -106,8 +104,10 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
         }}
         onDragLeave={() => setDragging(false)}
         onDrop={onDrop}
-        className={`flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed py-10 text-center transition-colors ${
-          dragging ? "border-brand-blue bg-brand-blue/5" : "border-hairline bg-canvas"
+        className={`flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed py-12 text-center transition-colors ${
+          dragging
+            ? "border-accent-lime bg-accent-lime/10"
+            : "border-hairline-violet bg-surface-night"
         }`}
       >
         <svg
@@ -119,7 +119,7 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="text-steel"
+          className={dragging ? "text-accent-lime" : "text-on-dark-muted"}
         >
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
           <polyline points="17 8 12 3 7 8" />
@@ -127,12 +127,15 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
         </svg>
 
         <div>
-          <p className="body-md font-medium text-ink">
+          <p className="body-md font-medium text-on-primary">
             {dragging ? "Drop your file here" : "Drag & drop a .wav file"}
           </p>
-          <p className="body-sm mt-1 text-steel">
+          <p className="body-md mt-1 text-on-dark-muted">
             or{" "}
-            <span className="cursor-pointer font-medium text-brand-blue-deep">
+            <span
+              onClick={onBrowseClick}
+              className="cursor-pointer font-medium text-accent-lime"
+            >
               browse
             </span>{" "}
             to choose
@@ -141,16 +144,16 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
       </div>
 
       {selectedFile && upload.phase === "idle" && (
-        <div className="mt-4 flex items-center justify-between rounded-xl border border-hairline bg-canvas px-4 py-3">
+        <div className="mt-4 flex items-center justify-between rounded-xl border border-hairline-violet bg-surface-night px-4 py-3">
           <div className="flex items-center gap-3">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-steel">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent-lime">
               <path d="M9 18V5l12-2v13" />
               <circle cx="6" cy="18" r="3" />
               <circle cx="18" cy="16" r="3" />
             </svg>
             <div>
-              <p className="body-sm font-medium text-ink">{selectedFile.name}</p>
-              <p className="text-micro text-steel">
+              <p className="body-md font-medium text-on-primary">{selectedFile.name}</p>
+              <p className="caption text-on-dark-muted">
                 {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB
               </p>
             </div>
@@ -158,7 +161,7 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
           <button
             onClick={handleUpload}
             disabled={isUploading}
-            className="rounded-full bg-primary px-5 py-2 text-sm font-semibold text-on-primary transition-colors hover:bg-charcoal disabled:cursor-not-allowed disabled:bg-hairline disabled:text-muted"
+            className="btn-cap rounded-md bg-accent-lime px-4 py-2.5 text-ink-deep transition-colors hover:bg-lime-300 disabled:cursor-not-allowed disabled:bg-hairline-cloud disabled:text-on-dark-muted"
           >
             {isUploading ? "Uploading…" : "Start processing"}
           </button>
@@ -166,20 +169,20 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
       )}
 
       {upload.progress && upload.phase !== "idle" && upload.phase !== "done" && (
-        <div className="mt-4 rounded-xl border border-brand-blue-200 bg-brand-blue/5 px-4 py-3">
-          <p className="body-sm text-brand-blue-deep">{upload.progress}</p>
+        <div className="mt-4 rounded-xl border border-accent-violet-mid/40 bg-accent-violet-deep/30 px-4 py-3">
+          <p className="body-md text-on-primary">{upload.progress}</p>
         </div>
       )}
 
       {upload.phase === "done" && (
-        <div className="mt-4 rounded-xl border border-success-text/30 bg-success-bg px-4 py-3">
-          <p className="body-sm text-success-text">{upload.progress}</p>
+        <div className="mt-4 rounded-xl border border-accent-lime/40 bg-accent-lime/10 px-4 py-3">
+          <p className="body-md text-accent-lime">{upload.progress}</p>
         </div>
       )}
 
       {upload.error && (
-        <div className="mt-4 rounded-xl border border-error/30 bg-error/5 px-4 py-3">
-          <p className="body-sm text-error">{upload.error}</p>
+        <div className="mt-4 rounded-xl border border-error/30 bg-error/10 px-4 py-3">
+          <p className="body-md text-error">{upload.error}</p>
         </div>
       )}
     </div>

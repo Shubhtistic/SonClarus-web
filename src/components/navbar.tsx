@@ -8,8 +8,8 @@ export function Navbar() {
   const { isAuthenticated, logout } = useAuth();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-hairline-soft bg-canvas/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between px-8">
+    <header className="sticky top-0 z-40 border-b border-hairline-violet bg-surface-night">
+      <div className="mx-auto flex h-14 max-w-[1152px] items-center justify-between px-6">
         <Logo />
 
         <nav className="flex items-center gap-6">
@@ -17,13 +17,13 @@ export function Navbar() {
             <>
               <Link
                 href="/dashboard"
-                className="text-sm-medium text-steel transition-colors hover:text-ink"
+                className="body-md text-on-dark-muted transition-colors hover:text-on-primary"
               >
                 Dashboard
               </Link>
               <button
                 onClick={logout}
-                className="rounded-full border border-hairline bg-canvas px-6 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-surface"
+                className="btn-cap-light rounded-xl border border-on-dark-faint bg-on-dark-faint px-4 py-2 text-on-primary transition-colors hover:bg-white/10"
               >
                 Log out
               </button>
@@ -32,13 +32,13 @@ export function Navbar() {
             <>
               <Link
                 href="/login"
-                className="text-sm-medium text-steel transition-colors hover:text-ink"
+                className="body-md text-on-dark-muted transition-colors hover:text-on-primary"
               >
                 Log in
               </Link>
               <Link
                 href="/register"
-                className="rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-on-primary transition-colors hover:bg-charcoal"
+                className="btn-cap rounded-md bg-on-primary px-4 py-2 text-primary transition-colors hover:bg-surface-press-light"
               >
                 Get started
               </Link>

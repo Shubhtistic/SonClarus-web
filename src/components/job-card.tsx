@@ -9,21 +9,21 @@ import {
   type DownloadStage,
 } from "@/lib/api";
 
-const STATUS_STYLES: Record<JobStatusValue, { badge: string; label: string }> = {
+const STATUS_STYLES: Record<JobStatusValue, { chip: string; label: string }> = {
   PENDING: {
-    badge: "bg-surface text-steel",
+    chip: "bg-surface-night text-on-dark-muted",
     label: "Pending",
   },
   PROCESSING: {
-    badge: "bg-brand-blue/10 text-brand-blue-deep",
+    chip: "bg-accent-violet-deep text-on-primary",
     label: "Processing",
   },
   DONE: {
-    badge: "bg-success-bg text-success-text",
+    chip: "bg-accent-lime text-ink-deep",
     label: "Done",
   },
   FAILED: {
-    badge: "bg-error/10 text-error",
+    chip: "bg-error/20 text-error",
     label: "Failed",
   },
 };
@@ -55,19 +55,21 @@ export function JobCard({ job }: { job: Job }) {
   const style = STATUS_STYLES[status];
 
   return (
-    <div className="rounded-2xl border border-hairline bg-canvas p-5">
+    <div className="rounded-xl border border-hairline-violet bg-ink-deep p-5">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-3">
-            <h3 className="card-title truncate text-ink">{job.filename}</h3>
-            <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold ${style.badge}`}>
+            <h3 className="heading-sm truncate text-on-primary">{job.filename}</h3>
+            <span
+              className={`shrink-0 rounded-xs px-2 py-0.5 text-micro-cap ${style.chip}`}
+            >
               {style.label}
             </span>
           </div>
           {job.summary && (
-            <p className="body-sm mt-1 line-clamp-2 text-steel">{job.summary}</p>
+            <p className="body-md mt-1 line-clamp-2 text-on-dark-muted">{job.summary}</p>
           )}
-          <p className="text-micro mt-2 text-stone">
+          <p className="caption mt-2 text-on-dark-muted">
             {new Date(job.created_at).toLocaleDateString("en-US", {
               year: "numeric",
               month: "short",
@@ -78,7 +80,7 @@ export function JobCard({ job }: { job: Job }) {
       </div>
 
       {status === "DONE" && (
-        <div className="mt-4 flex flex-wrap gap-2 border-t border-hairline-soft pt-4">
+        <div className="mt-4 flex flex-wrap gap-2 border-t border-hairline-violet pt-4">
           {DOWNLOADS.map((d) => (
             <DownloadButton
               key={d.stage}
@@ -120,14 +122,26 @@ function DownloadButton({
     <button
       onClick={handleClick}
       disabled={loading}
-      className="inline-flex items-center gap-2 rounded-full border border-hairline bg-canvas px-4 py-2 text-sm font-medium text-ink transition-colors hover:bg-surface disabled:opacity-60"
+      className="btn-cap-light rounded-xl border border-hairline-violet bg-surface-night px-4 py-2 text-on-primary transition-colors hover:bg-white/5 disabled:opacity-50"
     >
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-        <polyline points="7 10 12 15 17 10" />
-        <line x1="12" x2="12" y1="15" y2="3" />
-      </svg>
-      {loading ? "Loading…" : label}
+      {loading ? (
+        <span className="flex items-center gap-2">
+          <svg className="h-3 w-3 animate-spin" viewBox="0 0 24 24" fill="none">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+          </svg>
+          Loading…
+        </span>
+      ) : (
+        <span className="flex items-center gap-2">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" x2="12" y1="15" y2="3" />
+          </svg>
+          {label}
+        </span>
+      )}
     </button>
   );
 }

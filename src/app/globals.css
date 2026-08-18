@@ -1,76 +1,63 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Rubik:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
 @theme inline {
-  /* ── Brand colors ── */
-  --color-primary: #0a0a0a;
+  /* ── Brand (Sentri-inspired) ── */
+  --color-primary: #150f23;
+  --color-ink-deep: #1f1633;
   --color-on-primary: #ffffff;
-  --color-primary-soft: #181e25;
-  --color-brand-coral: #ff5530;
-  --color-brand-magenta: #ea5ec1;
-  --color-brand-blue: #1456f0;
-  --color-brand-blue-mid: #3b82f6;
-  --color-brand-blue-deep: #1d4ed8;
-  --color-brand-blue-700: #17437d;
-  --color-brand-cyan: #3daeff;
-  --color-brand-blue-200: #bfdbfe;
-  --color-brand-purple: #a855f7;
+  --color-accent-lime: #c2ef4e;
+  --color-accent-pink: #fa7faa;
+  --color-accent-violet: #6a5fc1;
+  --color-accent-violet-deep: #422082;
+  --color-accent-violet-mid: #79628c;
+  --color-ring-focus: #9dc1f5;
 
   /* ── Surface ── */
-  --color-canvas: #ffffff;
-  --color-surface: #f7f8fa;
-  --color-surface-soft: #f2f3f5;
-  --color-hairline: #e5e7eb;
-  --color-hairline-soft: #eaecf0;
+  --color-surface-canvas-dark: #1f1633;
+  --color-surface-canvas-light: #ffffff;
+  --color-surface-night: #150f23;
+  --color-surface-press-light: #f0f0f0;
+  --color-surface-press-stronger: #efefef;
+  --color-hairline-violet: #362d59;
+  --color-hairline-cool: #cfcfdb;
+  --color-hairline-cloud: #e5e7eb;
 
   /* ── Text ── */
-  --color-ink: #0a0a0a;
-  --color-ink-strong: #000000;
-  --color-charcoal: #222222;
-  --color-slate: #45515e;
-  --color-steel: #5f5f5f;
-  --color-stone: #8e8e93;
-  --color-muted: #a8aab2;
-  --color-on-dark: #ffffff;
+  --color-ink: #1f1633;
+  --color-ink-press: #1a1a1a;
+  --color-on-dark-muted: rgba(255, 255, 255, 0.72);
+  --color-on-dark-faint: rgba(255, 255, 255, 0.18);
 
   /* ── Semantic ── */
   --color-success-bg: #e8ffea;
   --color-success-text: #1ba673;
   --color-error: #d45656;
 
-  /* ── Footer ── */
-  --color-footer-bg: #0a0a0a;
-
   /* ── Typography ── */
-  --font-display: "DM Sans", "Inter", "Helvetica Neue", Helvetica, Arial,
+  --font-display: "Space Grotesk", "Rubik", system-ui, sans-serif;
+  --font-body: "Rubik", -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
     sans-serif;
-  --font-body: "DM Sans", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-mono: "DM Mono", ui-monospace, monospace;
+  --font-mono: "Monaco", "Menlo", "Ubuntu Mono", monospace;
 
-  /* ── Radius tokens ── */
+  /* ── Radius ── */
   --radius-xs: 4px;
   --radius-sm: 6px;
   --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-xxl: 20px;
-  --radius-xxxl: 24px;
-  --radius-hero: 32px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --radius-xxl: 18px;
   --radius-full: 9999px;
 
-  /* ── Spacing tokens (used via @utility or arbitrary) ── */
-  --spacing-xxs: 4px;
-  --spacing-xs: 8px;
-  --spacing-sm: 12px;
-  --spacing-md: 16px;
-  --spacing-lg: 20px;
+  /* ── Spacing ── */
+  --spacing-xxs: 2px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
   --spacing-xl: 24px;
   --spacing-xxl: 32px;
-  --spacing-xxxl: 40px;
-  --spacing-section-sm: 48px;
-  --spacing-section: 64px;
-  --spacing-section-lg: 80px;
-  --spacing-hero: 96px;
+  --spacing-section: 96px;
 }
 
 /* ── Base ── */
@@ -81,138 +68,149 @@ html {
 
 body {
   font-family: var(--font-body);
-  background: var(--color-canvas);
+  background: var(--color-surface-canvas-light);
   color: var(--color-ink);
 }
 
 /* ── Typography utilities ── */
 .hero-display {
   font-family: var(--font-display);
-  font-size: 80px;
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: -2px;
+  font-size: 88px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0;
 }
 
-.display-lg {
+.display-large {
   font-family: var(--font-display);
-  font-size: 56px;
-  font-weight: 600;
+  font-size: 60px;
+  font-weight: 500;
   line-height: 1.1;
-  letter-spacing: -1.5px;
+  letter-spacing: 0;
+}
+
+.heading-xl {
+  font-family: var(--font-body);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
 }
 
 .heading-lg {
-  font-family: var(--font-display);
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -1px;
+  font-family: var(--font-body);
+  font-size: 27px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0;
 }
 
 .heading-md {
-  font-family: var(--font-display);
-  font-size: 32px;
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-size: 24px;
+  font-weight: 500;
   line-height: 1.25;
-  letter-spacing: -0.5px;
+  letter-spacing: 0;
 }
 
 .heading-sm {
-  font-family: var(--font-display);
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1.3;
-}
-
-.card-title {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 20px;
   font-weight: 600;
-  line-height: 1.4;
+  line-height: 1.25;
+  letter-spacing: 0;
 }
 
-.subtitle {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 500;
+.body-lg {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 2.0;
+  letter-spacing: 0;
+}
+
+.body-strong {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
   line-height: 1.5;
+  letter-spacing: 0;
 }
 
 .body-md {
   font-family: var(--font-body);
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.5;
+  letter-spacing: 0;
 }
 
-.body-md-bold {
+.eyebrow {
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.btn-cap {
+  font-family: var(--font-body);
+  font-size: 14px;
   font-weight: 700;
-  line-height: 1.5;
+  line-height: 1.14;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
 }
 
-.body-sm {
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.5;
-}
-
-.body-sm-medium {
+.btn-cap-light {
   font-family: var(--font-body);
   font-size: 14px;
   font-weight: 500;
-  line-height: 1.5;
-}
-
-.text-sm-medium {
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.5;
+  line-height: 1.29;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
 }
 
 .caption {
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.43;
+  letter-spacing: 0;
 }
 
-.caption-bold {
+.micro-cap {
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 10px;
   font-weight: 600;
-  line-height: 1.5;
+  line-height: 1.8;
+  letter-spacing: 0.25px;
+  text-transform: uppercase;
 }
 
-.micro {
-  font-family: var(--font-body);
-  font-size: 12px;
+.code {
+  font-family: var(--font-mono);
+  font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
+  letter-spacing: 0;
 }
 
-/* ── Responsive hero ── */
-@media (max-width: 1023px) {
+/* ── Responsive display ── */
+@media (max-width: 1151px) {
   .hero-display {
-    font-size: 56px;
-    letter-spacing: -1.5px;
+    font-size: 60px;
+  }
+  .display-large {
+    font-size: 48px;
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 639px) {
   .hero-display {
-    font-size: 40px;
-    letter-spacing: -1px;
+    font-size: 48px;
   }
-}
-
-@media (max-width: 479px) {
-  .hero-display {
-    font-size: 32px;
-    letter-spacing: -0.5px;
+  .display-large {
+    font-size: 36px;
   }
 }

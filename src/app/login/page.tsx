@@ -34,40 +34,40 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center px-8 py-16">
+    <div className="flex flex-1 items-center justify-center bg-surface-canvas-light px-6 py-16">
       <div className="w-full max-w-[400px]">
-        <h1 className="heading-md text-ink">Welcome back</h1>
-        <p className="body-sm mt-2 text-steel">
-          Sign in to your Sonclarus account.
-        </p>
+        <div className="mb-8">
+          <p className="micro-cap text-accent-violet-mid">Welcome back</p>
+          <h1 className="heading-xl mt-2 text-ink">Sign in to your account</h1>
+        </div>
 
-        <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-5">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <label className="flex flex-col gap-1.5">
-            <span className="text-sm-medium text-charcoal">Email</span>
+            <span className="body-md text-ink">Email</span>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="h-10 rounded-md border border-hairline bg-canvas px-3 text-body-md text-ink outline-none transition-[border-color] focus:border-2 focus:border-brand-blue-deep"
+              className="h-10 rounded-sm border border-hairline-cool bg-surface-canvas-light px-3 text-body-md text-ink outline-none transition-shadow focus:shadow-[inset_0_2px_10px_rgba(0,0,0,0.15)]"
             />
           </label>
 
           <label className="flex flex-col gap-1.5">
-            <span className="text-sm-medium text-charcoal">Password</span>
+            <span className="body-md text-ink">Password</span>
             <input
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="h-10 rounded-md border border-hairline bg-canvas px-3 text-body-md text-ink outline-none transition-[border-color] focus:border-2 focus:border-brand-blue-deep"
+              className="h-10 rounded-sm border border-hairline-cool bg-surface-canvas-light px-3 text-body-md text-ink outline-none transition-shadow focus:shadow-[inset_0_2px_10px_rgba(0,0,0,0.15)]"
             />
           </label>
 
           {error && (
-            <div className="rounded-md border border-error/30 bg-error/5 px-3 py-2 text-sm text-error">
+            <div className="rounded-sm border border-error/30 bg-error/5 px-3 py-2 text-body-md text-error">
               {error}
             </div>
           )}
@@ -75,17 +75,17 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="mt-2 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-on-primary transition-colors hover:bg-charcoal disabled:cursor-not-allowed disabled:bg-hairline disabled:text-muted"
+            className="btn-cap mt-2 rounded-md bg-primary px-4 py-3 text-on-primary transition-colors hover:bg-charcoal disabled:cursor-not-allowed disabled:bg-hairline-cloud disabled:text-on-dark-muted"
           >
             {loading ? "Signing in…" : "Sign in"}
           </button>
         </form>
 
-        <p className="body-sm mt-6 text-center text-steel">
+        <p className="body-md mt-6 text-center text-on-dark-muted">
           Don&apos;t have an account?{" "}
           <Link
             href="/register"
-            className="font-medium text-ink underline underline-offset-2"
+            className="font-medium text-accent-violet underline underline-offset-2"
           >
             Create one
           </Link>
