@@ -8,40 +8,46 @@ export function Navbar() {
   const { isAuthenticated, logout } = useAuth();
 
   return (
-    <header className="sticky top-0 z-40">
+    <header className="sticky top-0 z-40 flex justify-center pt-4 px-4">
       <div
-        className="mx-auto flex h-14 max-w-[1240px] items-center justify-between px-6 relative"
+        className="flex items-center gap-3 h-11 px-4 rounded-full relative overflow-hidden"
         style={{
-          background: "linear-gradient(160deg, rgba(255,87,87,0.08) 0%, rgba(161,19,26,0.03) 60%, transparent 100%)",
-          backdropFilter: "blur(12px) saturate(150%)",
-          WebkitBackdropFilter: "blur(12px) saturate(150%)",
+          background: "rgba(255,255,255,0.04)",
+          backdropFilter: "blur(20px) saturate(200%)",
+          WebkitBackdropFilter: "blur(20px) saturate(200%)",
+          border: "1px solid rgba(255,255,255,0.08)",
+          boxShadow:
+            "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06), 0 0 0 1px rgba(0,0,0,0.2)",
+          width: "fit-content",
+          maxWidth: "100%",
         }}
       >
-        {/* Subtle grid overlay */}
+        {/* Subtle gradient wash matching hero */}
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.03]"
+          className="pointer-events-none absolute inset-0 opacity-60"
           style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
+            background:
+              "linear-gradient(160deg, rgba(255,87,87,0.12) 0%, transparent 60%)",
           }}
           aria-hidden="true"
         />
 
         <Logo />
 
-        <nav className="flex items-center gap-2 relative">
+        <div className="w-px h-5 bg-white/10 shrink-0" aria-hidden="true" />
+
+        <nav className="flex items-center gap-1 relative">
           {isAuthenticated ? (
             <>
               <Link
                 href="/dashboard"
-                className="px-4 py-1.5 text-sm text-white/60 transition-all hover:text-white rounded-full"
+                className="px-3 py-1 text-sm text-white/60 transition-all hover:text-white rounded-full"
               >
                 Dashboard
               </Link>
               <button
                 onClick={logout}
-                className="px-4 py-1.5 text-sm text-white/40 transition-all hover:text-white/70 rounded-full"
+                className="px-3 py-1 text-sm text-white/40 transition-all hover:text-white/70 rounded-full"
               >
                 Log out
               </button>
@@ -50,17 +56,19 @@ export function Navbar() {
             <>
               <Link
                 href="/login"
-                className="px-4 py-1.5 text-sm text-white/60 transition-all hover:text-white rounded-full"
+                className="px-3 py-1 text-sm text-white/60 transition-all hover:text-white rounded-full"
               >
                 Log in
               </Link>
               <Link
                 href="/register"
-                className="relative ml-2 px-5 py-1.5 text-sm font-medium text-white rounded-full transition-all hover:brightness-110"
+                className="ml-1 px-4 py-1 text-sm font-medium text-white rounded-full transition-all hover:brightness-125"
                 style={{
-                  background: "linear-gradient(135deg, rgba(255,87,87,0.25) 0%, rgba(255,87,87,0.08) 100%)",
-                  border: "1px solid rgba(255,87,87,0.3)",
-                  boxShadow: "0 0 24px rgba(255,87,87,0.12), inset 0 1px 0 rgba(255,255,255,0.08)",
+                  background:
+                    "linear-gradient(135deg, rgba(255,87,87,0.35) 0%, rgba(255,87,87,0.12) 100%)",
+                  border: "1px solid rgba(255,87,87,0.35)",
+                  boxShadow:
+                    "0 0 16px rgba(255,87,87,0.15), inset 0 1px 0 rgba(255,255,255,0.1)",
                 }}
               >
                 Get started
