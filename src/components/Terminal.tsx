@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
-// "SONCLARUS" in dense block-letter art.
 const SONCLARUS = [
   "███████╗ ██████╗ ███╗   ██╗ ██████╗ ██╗      █████╗ ██████╗ ██╗   ██╗███████╗",
   "██╔════╝██╔═══██╗████╗  ██║██╔════╝ ██║     ██╔══██╗██╔══██╗██║   ██║██╔════╝",
@@ -12,22 +13,43 @@ const SONCLARUS = [
   "╚══════╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝",
 ];
 
-
 export default function Terminal() {
   const [lineIdx, setLineIdx] = useState(0);
   const [charIdx, setCharIdx] = useState(0);
+  const done = lineIdx >= SONCLARUS.length;
+  const terminalRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (lineIdx >= SONCLARUS.length) return;
     const currentLine = SONCLARUS[lineIdx];
     if (charIdx < currentLine.length) {
-      const t = setTimeout(() => setCharIdx((c) => c + 1), 22);
+      const t = setTimeout(() => setCharIdx((c) => c + 1), 18);
       return () => clearTimeout(t);
     } else {
-      const t = setTimeout(() => setLineIdx((l) => l + 1), 100);
+      const t = setTimeout(() => setLineIdx((l) => l + 1), 80);
       return () => clearTimeout(t);
     }
   }, [lineIdx, charIdx]);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [lineIdx, charIdx]);
+
+  useGSAP(
+    () => {
+      if (done && terminalRef.current) {
+        gsap.fromTo(
+          terminalRef.current,
+          { textShadow: "0 0 20px rgba(255,97,97,0.6)" },
+          { textShadow: "0 0 0px rgba(255,97,97,0)", duration: 1.5, ease: "power2.out" }
+        );
+      }
+    },
+    { dependencies: [done], scope: terminalRef }
+  );
 
   const lines = SONCLARUS.map((line, i) =>
     i < lineIdx ? line : i === lineIdx ? line.slice(0, charIdx) : ""
@@ -35,84 +57,47 @@ export default function Terminal() {
 
   return (
     <div
-      style={{
-        borderRadius: 12,
-        border: "1px solid #242728",
-        background: "#0d0d0d",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.6)",
-        overflow: "hidden",
-        minHeight: 420,
-        width: "100%",
-        maxWidth: 1200,
-        margin: "0 auto",
-        fontFamily: "'Courier New', Courier, monospace",
-        fontSize: 14,
-        lineHeight: "1.45",
-        color: "#ff6161",
-        boxSizing: "border-box",
-      }}
+      ref={terminalRef}
+      className="rounded-xl border border-[#3c3835] bg-[#181613] shadow-[0_24px_64px_rgba(0,0,0,0.5)] overflow-hidden w-full max-w-[680px]"
     >
-      {/* Chrome */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-          padding: "10px 16px",
-          borderBottom: "1px solid rgba(255,255,255,0.08)",
-          background: "#0d0d0d",
-        }}
-      >
-        <div style={{ display: "flex", gap: 6, marginLeft: "auto" }}>
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "rgba(255,95,87,0.7)" }} />
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "rgba(254,188,46,0.7)" }} />
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "rgba(40,200,64,0.7)" }} />
+      {/* Title bar */}
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-[#262220] bg-[#242120]">
+        <div className="flex gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-[#ff5701]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-[#ffc940]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-[#67d243]" />
         </div>
+        <span className="ml-2 text-[11px] text-[#71717a] font-mono">sonclarus — zsh</span>
       </div>
 
-      {/* Content */}
+      {/* Terminal content */}
       <div
-        style={{
-          minHeight: 325,
-          padding: 24,
-          boxSizing: "border-box",
-          display: "flex",
-          alignItems: "stretch",
-          overflow: "hidden",
-        }}
+        ref={scrollRef}
+        className="p-5 font-mono text-[11px] leading-[1.5] text-[#ff6161] overflow-auto"
+        style={{ minHeight: 280, maxHeight: 340 }}
       >
-        <div
-          style={{
-            width: "100%",
-            minWidth: 0,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {lines.map((line, i) => {
-            const completed = i < lineIdx ? SONCLARUS[i] : "";
-            const typing = i === lineIdx ? line : "";
+        {lines.map((line, i) => {
+          const completed = i < lineIdx ? SONCLARUS[i] : "";
+          const typing = i === lineIdx ? line : "";
+          return (
+            <div
+              key={i}
+              className="whitespace-pre text-center"
+              style={{ color: "#ff6161" }}
+            >
+              {completed}
+              {i === lineIdx && (
+                <span className="text-[#ff8585]">{typing}</span>
+              )}
 
-            return (
-              <div
-                key={i}
-                style={{
-                  fontFamily: "'Courier New', Courier, monospace",
-                  fontSize: "clamp(4px, calc(0.6vw - 2px), 10px)",
-                  lineHeight: "1.45",
-                  color: "#ff6161",
-                  whiteSpace: "pre",
-                  textAlign: "center",
-                }}
-              >
-                <span>{completed}</span>
-                <span>{typing || (!completed ? " " : "")}</span>
-              </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
+        {done && (
+          <div className="mt-4 text-center text-[11px] text-[#71717a] font-mono">
+            <span className="text-[#ff6161]">$</span> sonclarus init — audio pipeline ready
+          </div>
+        )}
       </div>
     </div>
   );
