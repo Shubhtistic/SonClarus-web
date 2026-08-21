@@ -1,5 +1,11 @@
-import LandingPage from "@/components/LandingPage";
+"use client";
+
+import Scanner from "@/components/Scanner";
 
 export default function HomePage() {
-  return <LandingPage />;
+  return (
+    <div className="relative min-h-screen w-full">
+      <Scanner className="absolute inset-0" />
+    </div>
+  );
 }
