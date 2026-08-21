@@ -106,7 +106,7 @@ export default function LandingPage() {
         style={{ background: "linear-gradient(to bottom, transparent, var(--color-background))" }}
         aria-hidden="true"
       />
-      <Scanner className="absolute inset-0" />
+      <Scanner className="absolute inset-0 pointer-events-none" />
 
       {/* ── Hero ── */}
       <div className="relative z-10 min-h-[90vh] flex items-center justify-center">
