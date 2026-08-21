@@ -155,15 +155,6 @@ body {
   background: linear-gradient(to bottom, transparent, var(--color-background));
 }
 
-/* ── Navbar scroll state ── */
-header.scrolled {
-  background: #242120cc !important;
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-color: #3c3835 !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-}
-
 /* ── Responsive display ── */
 @media (max-width: 1023px) {
   .hero-display { font-size: 42px; }
