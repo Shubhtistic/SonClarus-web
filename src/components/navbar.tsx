@@ -28,12 +28,7 @@ export function Navbar() {
     >
       <nav className="px-5 py-2.5 flex items-center gap-6">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 shrink-0">
-          <Logo />
-          <span className="text-[15px] font-medium tracking-tight text-[#e7e5e4]">
-            sonclarus
-          </span>
-        </Link>
+        <Logo />
 
         {/* Desktop nav */}
         <div className="hidden items-center gap-7 ml-auto md:flex">
@@ -94,9 +89,6 @@ export function Navbar() {
           </svg>
         </button>
       </nav>
-
-      {/* Top hairline */}
-      <div className="absolute top-0 left-6 right-6 h-px bg-[rgba(120,113,108,0.15)]" />
     </header>
   );
 }

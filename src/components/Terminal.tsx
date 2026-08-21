@@ -13,24 +13,34 @@ const SONCLARUS = [
   "╚══════╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝",
 ];
 
-export default function Terminal() {
+interface TerminalProps {
+  startDelay?: number;
+}
+
+export default function Terminal({ startDelay = 500 }: TerminalProps) {
   const [lineIdx, setLineIdx] = useState(0);
   const [charIdx, setCharIdx] = useState(0);
+  const [started, setStarted] = useState(false);
   const done = lineIdx >= SONCLARUS.length;
   const terminalRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (lineIdx >= SONCLARUS.length) return;
+    const t = setTimeout(() => setStarted(true), startDelay);
+    return () => clearTimeout(t);
+  }, [startDelay]);
+
+  useEffect(() => {
+    if (!started || lineIdx >= SONCLARUS.length) return;
     const currentLine = SONCLARUS[lineIdx];
     if (charIdx < currentLine.length) {
-      const t = setTimeout(() => setCharIdx((c) => c + 1), 18);
+      const t = setTimeout(() => setCharIdx((c) => c + 1), 19);
       return () => clearTimeout(t);
     } else {
       const t = setTimeout(() => setLineIdx((l) => l + 1), 80);
       return () => clearTimeout(t);
     }
-  }, [lineIdx, charIdx]);
+  }, [lineIdx, charIdx, started]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -73,8 +83,8 @@ export default function Terminal() {
       {/* Terminal content */}
       <div
         ref={scrollRef}
-        className="p-5 font-mono text-[11px] leading-[1.5] text-[#ff6161] overflow-auto"
-        style={{ minHeight: 280, maxHeight: 340 }}
+        className="p-5 font-mono text-[8px] sm:text-[9px] leading-[1.4] text-[#ff6161] overflow-auto"
+        style={{ minHeight: 200, maxHeight: 280 }}
       >
         {lines.map((line, i) => {
           const completed = i < lineIdx ? SONCLARUS[i] : "";
@@ -94,7 +104,7 @@ export default function Terminal() {
           );
         })}
         {done && (
-          <div className="mt-4 text-center text-[11px] text-[#71717a] font-mono">
+          <div className="mt-4 text-center text-[7px] sm:text-[9px] text-[#71717a] font-mono">
             <span className="text-[#ff6161]">$</span> sonclarus init — audio pipeline ready
           </div>
         )}
