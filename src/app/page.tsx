@@ -135,8 +135,8 @@ export default function HomePage() {
     </div>
 
     {/* ── Features ── */}
-    <section ref={featuresRef} id="features" className="bg-background px-6 py-[var(--spacing-section)]">
-      <div className="mx-auto max-w-[1240px]">
+    <section ref={featuresRef} id="features" className="px-14 py-[var(--spacing-section)]">
+      <div className="mx-auto max-w-[1480px]">
         <FadeIn>
           <div className="mb-10 text-center">
             <h2 className="hero-display mt-2 text-primary">Built for clarity</h2>
@@ -173,7 +173,7 @@ export default function HomePage() {
     </section>
 
     {/* ── CTA band ── */}
-    <section className="bg-background px-6 py-[var(--spacing-section)]">
+    <section className="px-14 py-[var(--spacing-section)]">
       <FadeIn>
         <div className="mx-auto max-w-[720px] text-center">
           <h2 className="hero-display text-primary">
@@ -193,8 +193,8 @@ export default function HomePage() {
     </section>
 
     {/* ── Shubham&apos;s Intro ── */}
-    <section className="bg-background px-6 py-[var(--spacing-section)]">
-      <div className="mx-auto max-w-[1240px]">
+    <section className="px-14 py-[var(--spacing-section)]">
+      <div className="mx-auto max-w-[1480px]">
         <FadeIn>
           <div className="grid items-start gap-10 lg:grid-cols-2">
             <div>

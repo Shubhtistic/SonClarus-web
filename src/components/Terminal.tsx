@@ -82,9 +82,11 @@ export default function Terminal({ startDelay = 500 }: TerminalProps) {
       {/* Terminal content */}
       <div
         ref={scrollRef}
-        className="p-6 font-mono text-[8px] sm:text-[9px] leading-[1.4] text-[#ff6161] overflow-auto"
+        className="relative p-6 font-mono text-[9px] sm:text-[11px] leading-[1.4] text-[#ff6161] overflow-auto"
         style={{ minHeight: 280 }}
       >
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="w-full">
         {lines.map((line, i) => {
           const completed = i < lineIdx ? SONCLARUS[i] : "";
           const typing = i === lineIdx ? line : "";
@@ -102,10 +104,12 @@ export default function Terminal({ startDelay = 500 }: TerminalProps) {
           );
         })}
         {done && (
-          <div className="mt-4 text-center text-[7px] sm:text-[9px] text-foreground-faint font-mono">
+          <div className="mt-4 text-center text-[8px] sm:text-[10px] text-foreground-faint font-mono">
             <span className="text-[#ff6161]">$</span> sonclarus init — audio pipeline ready
           </div>
         )}
+        </div>
+        </div>
       </div>
     </div>
   );

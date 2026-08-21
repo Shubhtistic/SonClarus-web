@@ -1,4 +1,4 @@
-"use client";
+use client";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -34,40 +34,40 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center bg-canvas px-6 py-16">
+    <div className="flex flex-1 items-center justify-center bg-background px-6 py-16">
       <div className="w-full max-w-[400px]">
         <div className="mb-8">
-          <p className="caption-sm text-mute">Welcome back</p>
-          <h1 className="heading-xl mt-2 text-ink">Sign in to your account</h1>
+          <p className="caption-sm text-foreground-faint">Welcome back</p>
+          <h1 className="heading-xl mt-2 text-primary">Sign in to your account</h1>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <label className="flex flex-col gap-1.5">
-            <span className="body-sm-strong text-on-dark">Email</span>
+            <span className="body-sm-strong text-foreground">Email</span>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="h-9 rounded-md border border-hairline bg-surface-elevated px-3 text-body-md text-on-dark outline-none transition-colors focus:border-hairline-strong"
+              className="h-9 rounded-md border border-border bg-input px-3 text-body-md text-foreground outline-none transition-colors focus:border-border-control"
             />
           </label>
 
           <label className="flex flex-col gap-1.5">
-            <span className="body-sm-strong text-on-dark">Password</span>
+            <span className="body-sm-strong text-foreground">Password</span>
             <input
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="h-9 rounded-md border border-hairline bg-surface-elevated px-3 text-body-md text-on-dark outline-none transition-colors focus:border-hairline-strong"
+              className="h-9 rounded-md border border-border bg-input px-3 text-body-md text-foreground outline-none transition-colors focus:border-border-control"
             />
           </label>
 
           {error && (
-            <div className="rounded-md border border-hairline bg-accent-red-soft px-3 py-2 text-body-sm text-accent-red">
+            <div className="rounded-md border border-destructive bg-destructive/20 px-3 py-2 text-body-sm text-destructive">
               {error}
             </div>
           )}
@@ -75,17 +75,17 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="btn-md mt-1 rounded-md bg-primary px-4 py-2 text-on-primary transition-colors hover:bg-primary-pressed disabled:cursor-not-allowed disabled:bg-surface-elevated disabled:text-ash"
+            className="btn-md mt-1 rounded-md bg-primary px-4 py-2 text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground"
           >
             {loading ? "Signing in…" : "Sign in"}
           </button>
         </form>
 
-        <p className="body-md mt-6 text-center text-body">
+        <p className="body-md mt-6 text-center text-muted-foreground">
           Don&apos;t have an account?{" "}
           <Link
             href="/register"
-            className="link-md text-on-dark underline underline-offset-2"
+            className="link-md text-foreground underline underline-offset-2"
           >
             Create one
           </Link>
