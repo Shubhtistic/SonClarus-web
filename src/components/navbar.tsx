@@ -22,7 +22,7 @@ export function Navbar() {
       ref={headerRef}
       className={`fixed top-3 left-0 right-0 z-50 mx-auto w-[calc(100%-24px)] max-w-[1480px] rounded-full transition-all duration-300 ${
         scrolled
-          ? "border border-[#3c3835] bg-[#242120]/60 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+          ? "border border-border bg-card/60 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
           : "border border-transparent bg-transparent"
       }`}
     >
@@ -36,13 +36,13 @@ export function Navbar() {
             <>
               <Link
                 href="/dashboard"
-                className="text-[17px] font-medium text-[#e7e5e4] transition-colors hover:text-[#fafaf9]"
+                className="text-[17px] font-medium text-foreground transition-colors hover:text-primary"
               >
                 Dashboard
               </Link>
               <button
                 onClick={logout}
-                className="text-[17px] font-medium text-[#e7e5e4] transition-colors hover:text-[#fafaf9]"
+                className="text-[17px] font-medium text-foreground transition-colors hover:text-primary"
               >
                 Log out
               </button>
@@ -51,7 +51,7 @@ export function Navbar() {
             <>
               <Link
                 href="/login"
-                className="text-[17px] font-medium text-[#e7e5e4] transition-colors hover:text-[#fafaf9]"
+                className="text-[17px] font-medium text-foreground transition-colors hover:text-primary"
               >
                 Log in
               </Link>
@@ -62,7 +62,7 @@ export function Navbar() {
         {/* CTA */}
         <Link
           href="/register"
-          className="shrink-0 rounded-full border border-[#3c3835] bg-[#383431] px-6 py-2.5 text-[17px] font-medium text-[#fafaf9] transition-all hover:bg-[#4a4541] hidden md:block"
+          className="shrink-0 rounded-full border border-border bg-accent px-6 py-2.5 text-[17px] font-medium text-accent-foreground transition-all hover:bg-secondary-hover hidden md:block"
         >
           Get started
         </Link>

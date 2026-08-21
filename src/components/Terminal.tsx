@@ -68,16 +68,16 @@ export default function Terminal({ startDelay = 500 }: TerminalProps) {
   return (
     <div
       ref={terminalRef}
-      className="rounded-xl border border-[#3c3835] bg-[#181613] shadow-[0_24px_64px_rgba(0,0,0,0.5)] overflow-hidden w-full max-w-[680px]"
+      className="rounded-xl border border-border bg-muted shadow-[0_24px_64px_rgba(0,0,0,0.5)] overflow-hidden w-full max-w-[680px]"
     >
       {/* Title bar */}
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-[#262220] bg-[#242120]">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-border-subtle bg-card">
         <div className="flex gap-1.5">
           <div className="w-2.5 h-2.5 rounded-full bg-[#ff5701]" />
           <div className="w-2.5 h-2.5 rounded-full bg-[#ffc940]" />
           <div className="w-2.5 h-2.5 rounded-full bg-[#67d243]" />
         </div>
-        <span className="ml-2 text-[11px] text-[#71717a] font-mono">sonclarus — zsh</span>
+        <span className="ml-2 text-[11px] text-foreground-faint font-mono">sonclarus — zsh</span>
       </div>
 
       {/* Terminal content */}
@@ -104,7 +104,7 @@ export default function Terminal({ startDelay = 500 }: TerminalProps) {
           );
         })}
         {done && (
-          <div className="mt-4 text-center text-[7px] sm:text-[9px] text-[#71717a] font-mono">
+          <div className="mt-4 text-center text-[7px] sm:text-[9px] text-foreground-faint font-mono">
             <span className="text-[#ff6161]">$</span> sonclarus init — audio pipeline ready
           </div>
         )}

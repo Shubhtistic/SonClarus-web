@@ -28,6 +28,43 @@
   --color-ring: rgba(120, 113, 108, 0.31);
   --color-row-hover: #181613;
 
+  /* ── Orange accent family ── */
+  --color-primary-orange: #ff700a;
+  --color-base-orange: #461204;
+  --color-secondary-orange: #822a0c;
+
+  /* ── Blue accent family ── */
+  --color-primary-blue: #8be2ff;
+  --color-base-blue: #06344b;
+  --color-secondary-blue: #0a5270;
+
+  /* ── Green accent family ── */
+  --color-primary-green: #67d243;
+  --color-base-green: #0e2a09;
+  --color-secondary-green: #234c1b;
+
+  /* ── Purple accent family ── */
+  --color-primary-purple: #a660ec;
+  --color-base-purple: #350d5e;
+  --color-secondary-purple: #512380;
+
+  /* ── Red accent family ── */
+  --color-primary-red: #ff6a6a;
+  --color-base-red: #480707;
+  --color-secondary-red: #5a1a1a;
+
+  /* ── Yellow accent family ── */
+  --color-primary-yellow: #faa53d;
+  --color-base-yellow: #431a07;
+  --color-secondary-yellow: #7b3713;
+
+  /* ── Raised / elevated surfaces ── */
+  --color-raised: #302c2a;
+  --color-raised-foreground: #e7e5e4;
+
+  /* ── Checked / active state ── */
+  --color-checked: #f97316;
+
   /* ── Typography ── */
   --font-display: "Inter", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
