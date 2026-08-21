@@ -114,11 +114,11 @@ export default function HomePage() {
             {/* Left: copy */}
             <div>
               <h1 className="hero-display" style={{ lineHeight: 1.15 }}>
-                <span className="hero-word inline-block opacity-0 translate-y-2">Audio</span>
+                <span className="hero-word inline-block opacity-0 translate-y-2">Denoise.</span>
                 <br />
-                <span className="hero-word inline-block opacity-0 translate-y-2">intelligence</span>
+                <span className="hero-word inline-block opacity-0 translate-y-2">Separate.</span>
                 <br />
-                <span className="hero-word inline-block opacity-0 translate-y-2 text-[#ff6161]">built for you.</span>
+                <span className="hero-word inline-block opacity-0 translate-y-2 text-[#ff6161]">Transcribe.</span>
               </h1>
 
               <p className="hero-sub mt-5 max-w-[480px] text-[17px] leading-[1.65] text-muted-foreground opacity-0">
