@@ -6,7 +6,7 @@ import Terminal from "@/components/Terminal";
 export default function HomePage() {
   return (
     <div className="relative min-h-screen w-full">
-      <Scanner className="absolute inset-0" />
+      <Scanner className="absolute inset-0 pointer-events-none" />
       <div className="relative z-10 min-h-screen flex items-center justify-center px-6 py-24">
         <Terminal />
       </div>

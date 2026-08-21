@@ -68,23 +68,23 @@ export default function Terminal({ startDelay = 500 }: TerminalProps) {
   return (
     <div
       ref={terminalRef}
-      className="rounded-xl border border-border bg-muted shadow-[0_24px_64px_rgba(0,0,0,0.5)] overflow-hidden w-full max-w-[680px]"
+      className="rounded-xl border border-border bg-muted shadow-[0_24px_64px_rgba(0,0,0,0.5)] overflow-hidden w-full max-w-[900px]"
     >
       {/* Title bar */}
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-border-subtle bg-card">
+      <div className="flex items-center gap-2 px-5 py-4 border-b border-border-subtle bg-card">
         <div className="flex gap-1.5">
-          <div className="w-2.5 h-2.5 rounded-full bg-[#ff5701]" />
-          <div className="w-2.5 h-2.5 rounded-full bg-[#ffc940]" />
-          <div className="w-2.5 h-2.5 rounded-full bg-[#67d243]" />
+          <div className="w-3 h-3 rounded-full bg-[#ff5701]" />
+          <div className="w-3 h-3 rounded-full bg-[#ffc940]" />
+          <div className="w-3 h-3 rounded-full bg-[#67d243]" />
         </div>
-        <span className="ml-2 text-[11px] text-foreground-faint font-mono">sonclarus — zsh</span>
+        <span className="ml-2 text-[13px] text-foreground-faint font-mono">sonclarus — zsh</span>
       </div>
 
       {/* Terminal content */}
       <div
         ref={scrollRef}
-        className="p-5 font-mono text-[8px] sm:text-[9px] leading-[1.4] text-[#ff6161] overflow-auto"
-        style={{ minHeight: 200, maxHeight: 280 }}
+        className="p-8 font-mono text-[11px] sm:text-[14px] leading-[1.45] text-[#ff6161] overflow-auto"
+        style={{ minHeight: 320 }}
       >
         {lines.map((line, i) => {
           const completed = i < lineIdx ? SONCLARUS[i] : "";
@@ -99,12 +99,11 @@ export default function Terminal({ startDelay = 500 }: TerminalProps) {
               {i === lineIdx && (
                 <span className="text-[#ff8585]">{typing}</span>
               )}
-
             </div>
           );
         })}
         {done && (
-          <div className="mt-4 text-center text-[12px] sm:text-[14px] text-foreground-faint font-mono">
+          <div className="mt-6 text-center text-[15px] sm:text-[18px] text-foreground-faint font-mono">
             <span className="text-[#ff6161]">$</span> sonclarus init — audio pipeline ready
           </div>
         )}
