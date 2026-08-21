@@ -130,7 +130,7 @@ void main() {
   inten = clamp(inten, 0.0, 1.0);
 
   float a = clamp(inten * uOpacity, 0.0, 1.0);
-  fragColor = vec4(clamp(col, 0.0, 1.0) * a, 0.0);
+  fragColor = vec4(clamp(col, 0.0, 1.0) * a, a);
 }
 `;
 
@@ -181,7 +181,9 @@ const Scanner = ({
     });
 
     const gl = renderer.gl;
-    gl.clearColor(0, 0, 0, 1.0);
+    gl.clearColor(0, 0, 0, 0);
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
     const canvas = gl.canvas;
     canvas.style.width = "100%";
     canvas.style.height = "100%";
