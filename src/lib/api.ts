@@ -164,7 +164,23 @@ export async function login(payload: LoginRequest): Promise<AuthResponse> {
 export async function register(
   payload: RegisterRequest,
 ): Promise<{ id: string }> {
-  return request("/register", { method: "POST", json: payload });
+  const body = new URLSearchParams({
+    email: payload.email,
+    password: payload.password,
+    full_name: payload.full_name,
+  });
+
+  const res = await fetch(`${API_BASE}/register`, {
+    method: "POST",
+    body,
+  });
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => res.statusText);
+    throw new ApiError(res.status, text);
+  }
+
+  return res.json() as Promise<{ id: string }>;
 }
 
 export async function logout(): Promise<void> {
