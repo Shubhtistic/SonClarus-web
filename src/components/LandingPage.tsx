@@ -1,12 +1,12 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Link from "next/link";
 import Terminal from "@/components/Terminal";
 import { FadeIn, StaggerChildren, TiltCard } from "@/components/interactions";
-import { HeroBackground } from "@/components/3d/hero-bg-lazy";
+import Scanner from "@/components/Scanner";
 
 const FEATURES = [
   {
@@ -53,17 +53,12 @@ const FEATURES = [
 export default function LandingPage() {
   const heroRef = useRef<HTMLDivElement>(null);
   const featuresRef = useRef<HTMLElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
 
   function scrollToFeatures() {
     featuresRef.current?.scrollIntoView({ behavior: "smooth" });
   }
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
   }, []);
 
   useGSAP(
@@ -111,7 +106,7 @@ export default function LandingPage() {
         style={{ background: "linear-gradient(to bottom, transparent, var(--color-background))" }}
         aria-hidden="true"
       />
-      <HeroBackground isMobile={isMobile} />
+      <Scanner className="absolute inset-0" />
 
       {/* ── Hero ── */}
       <div className="relative z-10 min-h-[90vh] flex items-center justify-center">

@@ -104,7 +104,7 @@ export default function Terminal({ startDelay = 500 }: TerminalProps) {
           );
         })}
         {done && (
-          <div className="mt-4 text-center text-[7px] sm:text-[9px] text-foreground-faint font-mono">
+          <div className="mt-4 text-center text-[12px] sm:text-[14px] text-foreground-faint font-mono">
             <span className="text-[#ff6161]">$</span> sonclarus init — audio pipeline ready
           </div>
         )}
