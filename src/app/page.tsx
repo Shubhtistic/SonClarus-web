@@ -100,9 +100,16 @@ export default function HomePage() {
       />
       <Scanner className="absolute inset-0 pointer-events-none" />
 
+      {/* Bottom fade to blend hero into features section */}
+      <div
+        className="pointer-events-none absolute bottom-0 left-0 right-0 h-64 z-10"
+        style={{ background: "linear-gradient(to bottom, transparent, var(--color-background))" }}
+        aria-hidden="true"
+      />
+
       {/* ── Hero ── */}
       <div className="relative z-10 min-h-[90vh] flex items-center justify-center">
-        <div className="w-full max-w-[1240px] px-6">
+        <div className="w-full max-w-[1480px] px-14">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             {/* Left: copy */}
             <div>
