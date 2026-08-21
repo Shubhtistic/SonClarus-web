@@ -85,8 +85,7 @@ export default function Terminal({ startDelay = 500 }: TerminalProps) {
         className="relative p-6 font-mono text-[9px] sm:text-[11px] leading-[1.4] text-[#ff6161] overflow-auto"
         style={{ minHeight: 280 }}
       >
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-full">
+        <div className="flex flex-col items-center">
         {lines.map((line, i) => {
           const completed = i < lineIdx ? SONCLARUS[i] : "";
           const typing = i === lineIdx ? line : "";
@@ -108,7 +107,6 @@ export default function Terminal({ startDelay = 500 }: TerminalProps) {
             <span className="text-[#ff6161]">$</span> sonclarus init — audio pipeline ready
           </div>
         )}
-        </div>
         </div>
       </div>
     </div>
