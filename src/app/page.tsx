@@ -91,18 +91,11 @@ export default function HomePage() {
 
   return (
     <>
-    <div ref={heroRef} className="relative min-h-[90vh] overflow-hidden bg-background">
+    <div ref={heroRef} className="relative min-h-[90vh] overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-background" aria-hidden="true" />
       <div
         className="pointer-events-none absolute inset-0"
         style={{ background: "linear-gradient(160deg, rgba(255,97,97,0.10) 0%, rgba(161,19,26,0.05) 40%, transparent 70%)" }}
-        aria-hidden="true"
-      />
-      {/* Fade at bottom to blend into next section */}
-      <div
-        className="pointer-events-none absolute bottom-0 left-0 right-0 h-32"
-        style={{ background: "linear-gradient(to bottom, transparent, var(--color-background))" }}
         aria-hidden="true"
       />
       <Scanner className="absolute inset-0 pointer-events-none" />
