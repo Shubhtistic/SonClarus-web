@@ -71,13 +71,12 @@ export default function Terminal({ startDelay = 500 }: TerminalProps) {
       className="rounded-xl border border-border bg-muted shadow-[0_24px_64px_rgba(0,0,0,0.5)] overflow-hidden w-full max-w-[900px]"
     >
       {/* Title bar */}
-      <div className="flex items-center gap-2 px-5 py-4 border-b border-border-subtle bg-card">
+      <div className="flex items-center justify-end gap-2 px-5 py-4 border-b border-border-subtle bg-card">
         <div className="flex gap-1.5">
           <div className="w-3 h-3 rounded-full bg-[#ff5701]" />
           <div className="w-3 h-3 rounded-full bg-[#ffc940]" />
           <div className="w-3 h-3 rounded-full bg-[#67d243]" />
         </div>
-        <span className="ml-2 text-[13px] text-foreground-faint font-mono">sonclarus — zsh</span>
       </div>
 
       {/* Terminal content */}
