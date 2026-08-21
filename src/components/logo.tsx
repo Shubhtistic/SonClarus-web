@@ -12,7 +12,7 @@ export function Logo() {
           <path d="M20 12V12.01" stroke="#0c0a09" strokeWidth="2.5" strokeLinecap="round" />
         </svg>
       </div>
-      <span className="text-[20px] font-bold tracking-[-0.03em] text-[#fafaf9]">
+      <span className="text-[20px] font-bold tracking-[-0.03em] text-primary">
         sonclarus
       </span>
     </Link>
