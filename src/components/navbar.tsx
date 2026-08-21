@@ -20,9 +20,13 @@ export function Navbar() {
   return (
     <header
       ref={headerRef}
-      className="fixed top-3 left-0 right-0 z-50 mx-auto w-[calc(100%-24px)] max-w-[1480px] rounded-full border border-border bg-card/60 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] transition-all duration-300"
+      className={`fixed left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "top-3 mx-auto w-[calc(100%-24px)] max-w-[1480px] rounded-full border border-border bg-card/60 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+          : "top-0 w-full border-b border-border-subtle bg-[#0c0a09]/80 backdrop-blur-xl"
+      }`}
     >
-      <nav className="px-5 py-3 flex items-center gap-6">
+      <div className="mx-auto max-w-[1480px] px-6 py-3 flex items-center gap-6">
         {/* Logo */}
         <Logo />
 
@@ -66,7 +70,7 @@ export function Navbar() {
         {/* Mobile menu button */}
         <button
           type="button"
-          className="rounded-lg p-2 text-[#e7e5e4] md:hidden ml-auto"
+          className="rounded-lg p-2 text-foreground md:hidden ml-auto"
           aria-label="Open menu"
         >
           <svg
@@ -84,7 +88,7 @@ export function Navbar() {
             <line x1="3" y1="18" x2="21" y2="18" />
           </svg>
         </button>
-      </nav>
+      </div>
     </header>
   );
 }
