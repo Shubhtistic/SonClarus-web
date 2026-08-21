@@ -26,7 +26,7 @@ export function Navbar() {
           : "top-0 w-full border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="mx-auto max-w-[1480px] px-10 py-3 flex items-center gap-6">
+      <div className="mx-auto max-w-[1480px] px-14 py-3 flex items-center gap-6">
         {/* Logo */}
         <Logo />
 
