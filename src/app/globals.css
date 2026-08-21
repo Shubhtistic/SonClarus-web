@@ -151,13 +151,6 @@ body {
 }
 
 /* ── Utility classes ── */
-.grid-bg {
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
-
 .fade-bottom {
   background: linear-gradient(to bottom, transparent, var(--color-background));
 }

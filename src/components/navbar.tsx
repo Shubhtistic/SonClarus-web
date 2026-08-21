@@ -36,13 +36,13 @@ export function Navbar() {
             <>
               <Link
                 href="/dashboard"
-                className="text-[14px] text-[#a8a29e] transition-colors hover:text-[#e7e5e4]"
+                className="text-[17px] font-medium text-[#e7e5e4] transition-colors hover:text-[#fafaf9]"
               >
                 Dashboard
               </Link>
               <button
                 onClick={logout}
-                className="text-[14px] text-[#a8a29e] transition-colors hover:text-[#e7e5e4]"
+                className="text-[17px] font-medium text-[#e7e5e4] transition-colors hover:text-[#fafaf9]"
               >
                 Log out
               </button>
@@ -51,7 +51,7 @@ export function Navbar() {
             <>
               <Link
                 href="/login"
-                className="text-[14px] text-[#a8a29e] transition-colors hover:text-[#e7e5e4]"
+                className="text-[17px] font-medium text-[#e7e5e4] transition-colors hover:text-[#fafaf9]"
               >
                 Log in
               </Link>
@@ -62,7 +62,7 @@ export function Navbar() {
         {/* CTA */}
         <Link
           href="/register"
-          className="shrink-0 rounded-full border border-[#3c3835] bg-[#383431] px-5 py-2 text-[14px] font-medium text-[#f5f5f4] transition-all hover:bg-[#4a4541] hidden md:block"
+          className="shrink-0 rounded-full border border-[#3c3835] bg-[#383431] px-6 py-2.5 text-[17px] font-medium text-[#fafaf9] transition-all hover:bg-[#4a4541] hidden md:block"
         >
           Get started
         </Link>

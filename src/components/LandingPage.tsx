@@ -100,7 +100,6 @@ export default function LandingPage() {
     <div ref={heroRef} className="relative min-h-[90vh] overflow-hidden bg-[#0c0a09]">
       {/* Background */}
       <div className="absolute inset-0 bg-[#0c0a09]" aria-hidden="true" />
-      <div className="absolute inset-0 grid-bg" aria-hidden="true" />
       <div
         className="pointer-events-none absolute inset-0"
         style={{ background: "linear-gradient(160deg, rgba(255,97,97,0.10) 0%, rgba(161,19,26,0.05) 40%, transparent 70%)" }}
