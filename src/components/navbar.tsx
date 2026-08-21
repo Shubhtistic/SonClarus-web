@@ -20,11 +20,7 @@ export function Navbar() {
   return (
     <header
       ref={headerRef}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "top-3 mx-auto w-[calc(100%-24px)] max-w-[1480px] rounded-full border border-border bg-card/60 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
-          : "border-transparent bg-transparent"
-      }`}
+      className="fixed top-3 left-0 right-0 z-50 mx-auto w-[calc(100%-24px)] max-w-[1480px] rounded-full border border-border bg-card/60 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] transition-all duration-300"
     >
       <nav className="px-5 py-3 flex items-center gap-6">
         {/* Logo */}
