@@ -84,7 +84,7 @@ export default function Terminal({ startDelay = 500 }: TerminalProps) {
       <div
         ref={scrollRef}
         className="p-6 font-mono text-[8px] sm:text-[9px] leading-[1.4] text-[#ff6161] overflow-auto"
-        style={{ minHeight: 200 }}
+        style={{ minHeight: 280 }}
       >
         {lines.map((line, i) => {
           const completed = i < lineIdx ? SONCLARUS[i] : "";

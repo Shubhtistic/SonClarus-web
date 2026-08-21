@@ -124,16 +124,6 @@ export default function HomePage() {
               <p className="hero-sub mt-5 max-w-[480px] text-[17px] leading-[1.65] text-muted-foreground opacity-0">
                 Sonclarus uses AI to cleanly separate speakers and generate accurate transcripts — all in one seamless pipeline.
               </p>
-
-              <div className="hero-cta mt-7 flex flex-wrap items-center gap-3 opacity-0">
-                <Link href="/register" className="rounded-full bg-[#fafaf9] px-6 py-3 text-[14px] font-medium text-[#1c1917] transition-all hover:bg-[#e7e5e4]">Get started free</Link>
-                <button
-                  onClick={scrollToFeatures}
-                  className="rounded-full border border-border px-6 py-3 text-[14px] font-medium text-foreground transition-all hover:border-border-control hover:bg-muted"
-                >
-                  Learn more
-                </button>
-              </div>
             </div>
             {/* Right: terminal */}
             <div className="hero-terminal opacity-0">
