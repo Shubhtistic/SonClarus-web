@@ -1,4 +1,4 @@
-const API_BASE = "https://api.shubhampawar.in";
+const API_BASE = "http://localhost:8000";
 
 // ---------------------------------------------------------------------------
 // Types
