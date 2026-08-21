@@ -22,11 +22,11 @@ export function Navbar() {
       ref={headerRef}
       className={`fixed top-3 left-0 right-0 z-50 mx-auto w-[calc(100%-24px)] max-w-[1480px] rounded-full transition-all duration-300 ${
         scrolled
-          ? "border border-[#3c3835] bg-[#242120]/80 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+          ? "border border-[#3c3835] bg-[#242120]/60 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
           : "border border-transparent bg-transparent"
       }`}
     >
-      <nav className="px-5 py-2.5 flex items-center gap-6">
+      <nav className="px-5 py-2 flex items-center gap-6">
         {/* Logo */}
         <Logo />
 
