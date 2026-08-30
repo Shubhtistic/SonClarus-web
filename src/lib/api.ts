@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:8000";
+const API_BASE = "/api";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -17,6 +17,7 @@ export interface RegisterRequest {
 
 export interface AuthResponse {
   access_token: string;
+  refresh_token?: string;
   token_type?: string;
 }
 
@@ -77,6 +78,16 @@ export function setToken(token: string): void {
 
 export function clearToken(): void {
   localStorage.removeItem("sonclarus_token");
+  localStorage.removeItem("sonclarus_refresh_token");
+}
+
+export function getRefreshToken(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem("sonclarus_refresh_token");
+}
+
+export function setRefreshToken(token: string): void {
+  localStorage.setItem("sonclarus_refresh_token", token);
 }
 
 // ---------------------------------------------------------------------------
@@ -164,27 +175,25 @@ export async function login(payload: LoginRequest): Promise<AuthResponse> {
 export async function register(
   payload: RegisterRequest,
 ): Promise<{ id: string }> {
-  const body = new URLSearchParams({
-    email: payload.email,
-    password: payload.password,
-    full_name: payload.full_name,
-  });
+  return request("/register", { method: "POST", json: payload });
+}
 
-  const res = await fetch(`${API_BASE}/register`, {
+export async function refresh(
+  refreshToken: string,
+): Promise<AuthResponse> {
+  return request("/refresh", {
     method: "POST",
-    body,
+    json: { refresh_token: refreshToken },
   });
-
-  if (!res.ok) {
-    const text = await res.text().catch(() => res.statusText);
-    throw new ApiError(res.status, text);
-  }
-
-  return res.json() as Promise<{ id: string }>;
 }
 
 export async function logout(): Promise<void> {
-  await request("/logout", { method: "POST" });
+  const refreshToken = getRefreshToken();
+  const accessToken = getToken();
+  await request("/logout", {
+    method: "POST",
+    json: { refresh_token: refreshToken, access_token: accessToken },
+  });
 }
 
 // ---------------------------------------------------------------------------

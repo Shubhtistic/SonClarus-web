@@ -15,6 +15,7 @@ import {
   login as apiLogin,
   logout as apiLogout,
   register as apiRegister,
+  setRefreshToken,
   setToken,
   type LoginRequest,
   type RegisterRequest,
@@ -49,6 +50,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const res = await apiLogin(payload);
     setToken(res.access_token);
     setTokenState(res.access_token);
+    if (res.refresh_token) {
+      setRefreshToken(res.refresh_token);
+    }
   }, []);
 
   const register = useCallback(async (payload: RegisterRequest) => {
