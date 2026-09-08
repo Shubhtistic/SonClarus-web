@@ -8,11 +8,6 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
 
-  // Do not show the navbar on auth pages to prevent overlapping and distractions
-  if (pathname === "/login" || pathname === "/register" || pathname === "/signup") {
-    return null
-  }
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
@@ -24,6 +19,11 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  // Do not show the navbar on auth pages to prevent overlapping and distractions
+  if (pathname === "/login" || pathname === "/register" || pathname === "/signup") {
+    return null
+  }
 
   const pillClass = `mx-auto transition-all duration-300 max-w-[1480px] px-8 ${
     isScrolled ? "bg-white/5 backdrop-blur-[24px] rounded-full mt-6" : "bg-transparent mt-2"

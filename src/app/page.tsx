@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Terminal from "@/components/Terminal";
@@ -52,13 +52,6 @@ const FEATURES = [
 
 export default function HomePage() {
   const heroRef = useRef<HTMLDivElement>(null);
-  const featuresRef = useRef<HTMLElement>(null);
-
-  function scrollToFeatures() {
-    featuresRef.current?.scrollIntoView({ behavior: "smooth" });
-  }
-
-  useEffect(() => {}, []);
 
   useGSAP(
     () => {
@@ -130,7 +123,7 @@ export default function HomePage() {
     </div>
 
     {/* ── Features ── */}
-    <section ref={featuresRef} id="features" className="px-14 py-[var(--spacing-section)]">
+    <section id="features" className="px-14 py-[var(--spacing-section)]">
       <div className="mx-auto max-w-[1480px]">
         <FadeIn>
           <div className="mb-10 text-center">
