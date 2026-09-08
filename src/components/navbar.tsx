@@ -1,94 +1,46 @@
-"use client";
+"use client"
 
-import { useRef, useEffect, useState } from "react";
-import Link from "next/link";
-import { useAuth } from "@/lib/auth-context";
-import { Logo } from "./logo";
+import Link from "next/link"
+import { useEffect, useState } from "react"
 
-export function Navbar() {
-  const { isAuthenticated, logout } = useAuth();
-  const [scrolled, setScrolled] = useState(false);
-  const headerRef = useRef<HTMLElement>(null);
+export default function Navbar() {
+  const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const pillClass = `mx-auto transition-all duration-300 max-w-[1480px] px-8 ${
+    isScrolled ? "bg-white/5 backdrop-blur-[24px] rounded-full mt-6" : "bg-transparent mt-2"
+  }`
 
   return (
-    <header
-      ref={headerRef}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "top-2 mx-auto w-[calc(100%-16px)] max-w-[1480px] rounded-full border border-border/60 bg-card/40 backdrop-blur-xl shadow-[0_4px_24px_rgba(0,0,0,0.3)]"
-          : "top-0 w-full border-b border-transparent bg-transparent"
-      }`}
-    >
-      <div className="mx-auto max-w-[1480px] px-14 py-2 flex items-center gap-6">
-        {/* Logo */}
-        <Logo />
-
-        {/* Desktop nav */}
-        <div className="hidden items-center gap-7 ml-auto md:flex">
-          {isAuthenticated ? (
-            <>
-              <Link
-                href="/dashboard"
-                className="text-[17px] font-medium text-foreground transition-colors hover:text-primary"
-              >
-                Dashboard
-              </Link>
-              <button
-                onClick={logout}
-                className="text-[17px] font-medium text-foreground transition-colors hover:text-primary"
-              >
-                Log out
-              </button>
-            </>
-          ) : (
-            <>
-              <Link
-                href="/login"
-                className="text-[17px] font-medium text-foreground transition-colors hover:text-primary"
-              >
-                Log in
-              </Link>
-            </>
-          )}
+    <nav className="nav-fade fixed top-0 left-0 right-0 z-50">
+      <div className={pillClass}>
+        <div className="flex justify-between items-center py-4">
+          <Link href="/" className="text-white text-xl font-bold font-syne tracking-tight">
+            Sonclarus
+          </Link>
+          <div className="flex items-center space-x-4">
+            <Link
+              href="/login"
+              className="text-white/80 hover:text-white transition-colors duration-200"
+            >
+              Login
+            </Link>
+            <Link
+              href="/signup"
+              className="text-white/80 hover:text-white transition-colors duration-200"
+            >
+              Sign Up
+            </Link>
+          </div>
         </div>
-
-        {/* CTA */}
-        <Link
-          href="/register"
-          className="shrink-0 rounded-full border border-border bg-accent px-6 py-2.5 text-[17px] font-medium text-accent-foreground transition-all hover:bg-secondary-hover hidden md:block"
-        >
-          Get started
-        </Link>
-
-        {/* Mobile menu button */}
-        <button
-          type="button"
-          className="rounded-lg p-2 text-foreground md:hidden ml-auto"
-          aria-label="Open menu"
-        >
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <line x1="3" y1="12" x2="21" y2="12" />
-            <line x1="3" y1="18" x2="21" y2="18" />
-          </svg>
-        </button>
       </div>
-    </header>
-  );
+    </nav>
+  )
 }

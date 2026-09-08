@@ -23,7 +23,6 @@ export default function Terminal({ startDelay = 500 }: TerminalProps) {
   const [started, setStarted] = useState(false);
   const done = lineIdx >= SONCLARUS.length;
   const terminalRef = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const t = setTimeout(() => setStarted(true), startDelay);
@@ -42,12 +41,6 @@ export default function Terminal({ startDelay = 500 }: TerminalProps) {
     }
   }, [lineIdx, charIdx, started]);
 
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [lineIdx, charIdx]);
-
   useGSAP(
     () => {
       if (done && terminalRef.current) {
@@ -59,10 +52,6 @@ export default function Terminal({ startDelay = 500 }: TerminalProps) {
       }
     },
     { dependencies: [done], scope: terminalRef }
-  );
-
-  const lines = SONCLARUS.map((line, i) =>
-    i < lineIdx ? line : i === lineIdx ? line.slice(0, charIdx) : ""
   );
 
   return (
@@ -81,32 +70,28 @@ export default function Terminal({ startDelay = 500 }: TerminalProps) {
 
       {/* Terminal content */}
       <div
-        ref={scrollRef}
-        className="relative p-6 font-mono text-[9px] sm:text-[11px] leading-[1.4] text-[#ff6161] overflow-auto"
-        style={{ minHeight: 280 }}
+        className="relative p-6 font-mono text-[9px] sm:text-[11px] leading-[1.4] text-[#ff6161] overflow-hidden"
+        style={{ height: 280 }}
       >
-        <div className="flex flex-col items-center">
-        {lines.map((line, i) => {
-          const completed = i < lineIdx ? SONCLARUS[i] : "";
-          const typing = i === lineIdx ? line : "";
+        <div className="flex flex-col items-center justify-center h-full">
+        {SONCLARUS.map((line, i) => {
+          const isCompleted = i < lineIdx;
+          const isTyping = i === lineIdx;
           return (
             <div
               key={i}
               className="whitespace-pre text-center"
               style={{ color: "#ff6161" }}
             >
-              {completed}
-              {i === lineIdx && (
-                <span className="text-[#ff8585]">{typing}</span>
-              )}
+              {isCompleted ? line : isTyping ? <span className="text-[#ff8585]">{line.slice(0, charIdx)}</span> : "\u00A0"}
             </div>
           );
         })}
-        {done && (
-          <div className="mt-4 text-center text-[8px] sm:text-[10px] text-foreground-faint font-mono">
-            <span className="text-[#ff6161]">$</span> sonclarus init — audio pipeline ready
-          </div>
-        )}
+        <div
+          className={`mt-4 text-center text-[8px] sm:text-[10px] text-foreground-faint font-mono ${done ? "opacity-100" : "opacity-0"}`}
+        >
+          <span className="text-[#ff6161]">$</span> sonclarus init — audio pipeline ready
+        </div>
         </div>
       </div>
     </div>
