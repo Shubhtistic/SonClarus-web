@@ -1,14 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import { AuthProvider } from "@/lib/auth-context";
 import Navbar from "@/components/navbar";
 import "./globals.css";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: {
@@ -25,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} h-full`}>
+    <html lang="en" className="h-full">
       <body className="min-h-full flex flex-col antialiased bg-[#0c0a09] text-[#e7e5e4]">
         <AuthProvider>
           <Navbar />

@@ -127,10 +127,10 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
         </svg>
 
         <div>
-          <p className="body-md font-medium text-on-dark">
+          <p className="body-md font-heading-utility font-medium text-on-dark">
             {dragging ? "Drop your file here" : "Drag & drop a .wav file"}
           </p>
-          <p className="body-sm mt-1 text-body">
+          <p className="body-sm mt-1 font-body text-body">
             or{" "}
             <span
               onClick={onBrowseClick}
@@ -152,8 +152,8 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
               <circle cx="18" cy="16" r="3" />
             </svg>
             <div>
-              <p className="body-sm font-medium text-on-dark">{selectedFile.name}</p>
-              <p className="caption-md text-mute">
+              <p className="body-sm font-heading-utility font-medium text-on-dark">{selectedFile.name}</p>
+              <p className="caption-md font-mono text-mute">
                 {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB
               </p>
             </div>
@@ -161,7 +161,7 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
           <button
             onClick={handleUpload}
             disabled={isUploading}
-            className="btn-md rounded-md bg-primary px-3 py-1.5 text-on-primary transition-colors hover:bg-primary-pressed disabled:cursor-not-allowed disabled:bg-surface-elevated disabled:text-ash"
+            className="btn-md font-body rounded-md bg-primary px-3 py-1.5 text-on-primary transition-colors hover:bg-primary-pressed disabled:cursor-not-allowed disabled:bg-surface-elevated disabled:text-ash"
           >
             {isUploading ? "Uploading…" : "Start processing"}
           </button>
@@ -170,19 +170,19 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
 
       {upload.progress && upload.phase !== "idle" && upload.phase !== "done" && (
         <div className="mt-3 rounded-md border border-hairline bg-surface-elevated px-3 py-2.5">
-          <p className="body-sm text-on-dark">{upload.progress}</p>
+          <p className="body-sm font-body text-on-dark">{upload.progress}</p>
         </div>
       )}
 
       {upload.phase === "done" && (
         <div className="mt-3 rounded-md border border-hairline bg-accent-green-soft px-3 py-2.5">
-          <p className="body-sm text-accent-green">{upload.progress}</p>
+          <p className="body-sm font-body text-accent-green">{upload.progress}</p>
         </div>
       )}
 
       {upload.error && (
         <div className="mt-3 rounded-md border border-hairline bg-accent-red-soft px-3 py-2.5">
-          <p className="body-sm text-accent-red">{upload.error}</p>
+          <p className="body-sm font-body text-accent-red">{upload.error}</p>
         </div>
       )}
     </div>

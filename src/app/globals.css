@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Space+Mono:wght@400;700&display=swap");
 @import "tailwindcss";
 
 @theme inline {
@@ -65,10 +65,18 @@
   /* ── Checked / active state ── */
   --color-checked: #f97316;
 
-  /* ── Typography ── */
-  --font-display: "Inter", system-ui, sans-serif;
+  /* ── Typography ──
+   * This project uses a curated multi-font system.
+   * ⚠️ Read FONT_GUIDE.md before changing fonts.
+   * Syne (display) / Space Grotesk (secondary display)
+   * Inter (body) / Fraunces (highlight serif) / Space Mono (terminal data)
+   */
+  --font-display: "Syne", system-ui, sans-serif;
+  --font-secondary: "Space Grotesk", system-ui, sans-serif;
+  --font-heading: "Inter", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-fraunces: "Fraunces", ui-serif, Georgia, serif;
+  --font-mono: "Space Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
   /* ── Radius ── */
   --radius-xs: 0.125rem;
@@ -99,51 +107,58 @@ body {
 
 /* ── Typography utilities ── */
 .hero-display {
+  font-family: var(--font-display);
   font-size: clamp(36px, 4.5vw, 64px);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.08;
   letter-spacing: -0.02em;
   color: var(--color-foreground);
 }
 
 .display-lg {
+  font-family: var(--font-display);
   font-size: clamp(32px, 4vw, 56px);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.15;
   letter-spacing: -0.01em;
   color: var(--color-foreground);
 }
 
 .heading-xl {
+  font-family: var(--font-secondary);
   font-size: 24px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.3;
   letter-spacing: -0.01em;
   color: var(--color-foreground);
 }
 
 .heading-lg {
+  font-family: var(--font-secondary);
   font-size: 22px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.3;
   color: var(--color-foreground);
 }
 
 .heading-md {
+  font-family: var(--font-secondary);
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.4;
   color: var(--color-foreground);
 }
 
 .heading-sm {
+  font-family: var(--font-secondary);
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.4;
   color: var(--color-foreground);
 }
 
 .body-lg {
+  font-family: var(--font-body);
   font-size: 17px;
   font-weight: 400;
   line-height: 1.65;
@@ -151,6 +166,7 @@ body {
 }
 
 .body-md {
+  font-family: var(--font-body);
   font-size: 16px;
   font-weight: 400;
   line-height: 1.6;
@@ -158,6 +174,7 @@ body {
 }
 
 .body-sm {
+  font-family: var(--font-body);
   font-size: 14px;
   font-weight: 400;
   line-height: 1.6;
@@ -165,6 +182,7 @@ body {
 }
 
 .body-sm-strong {
+  font-family: var(--font-body);
   font-size: 14px;
   font-weight: 500;
   line-height: 1.6;
@@ -172,19 +190,70 @@ body {
 }
 
 .caption-sm {
+  font-family: var(--font-body);
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.5;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--color-muted-foreground);
 }
 
+.caption-md {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-muted-foreground);
+}
+
 .btn-md {
+  font-family: var(--font-body);
   font-size: 14px;
   font-weight: 500;
   line-height: 1.5;
   color: var(--color-foreground);
+}
+
+.label-sm {
+  font-family: var(--font-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: var(--color-muted-foreground);
+}
+
+.font-data {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-muted-foreground);
+}
+
+.font-highlight {
+  font-family: var(--font-fraunces);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--color-foreground);
+}
+
+.font-display-utility {
+  font-family: var(--font-display);
+}
+
+.font-heading-utility {
+  font-family: var(--font-secondary);
+}
+
+.font-fraunces-utility {
+  font-family: var(--font-fraunces);
+}
+
+.font-mono-utility {
+  font-family: var(--font-mono);
 }
 
 /* ── Utility classes ── */

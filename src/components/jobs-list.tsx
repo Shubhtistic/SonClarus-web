@@ -61,8 +61,8 @@ export function JobsList({ refreshKey }: { refreshKey: number }) {
         </div>
       ) : jobs.length === 0 ? (
         <div className="rounded-lg border border-dashed border-hairline bg-surface py-10 text-center">
-          <p className="body-md text-body">No jobs yet.</p>
-          <p className="body-sm mt-1 text-mute">
+          <p className="body-md font-body text-body">No jobs yet.</p>
+          <p className="body-sm mt-1 font-body text-mute">
             Upload a .wav file above to get started.
           </p>
         </div>
@@ -75,21 +75,21 @@ export function JobsList({ refreshKey }: { refreshKey: number }) {
           </div>
 
           <div className="mt-4 flex items-center justify-between">
-            <p className="caption-sm text-mute">
+            <p className="caption-sm font-mono text-mute">
               {from}–{to} of {total}
             </p>
             <div className="flex gap-2">
               <button
                 onClick={prev}
                 disabled={!hasPrev}
-                className="btn-md rounded-md border border-hairline bg-transparent px-3 py-1.5 text-on-dark transition-colors hover:bg-surface disabled:cursor-not-allowed disabled:opacity-40"
+                className="btn-md font-body rounded-md border border-hairline bg-transparent px-3 py-1.5 text-on-dark transition-colors hover:bg-surface disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Previous
               </button>
               <button
                 onClick={next}
                 disabled={!hasNext}
-                className="btn-md rounded-md border border-hairline bg-transparent px-3 py-1.5 text-on-dark transition-colors hover:bg-surface disabled:cursor-not-allowed disabled:opacity-40"
+                className="btn-md font-body rounded-md border border-hairline bg-transparent px-3 py-1.5 text-on-dark transition-colors hover:bg-surface disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Next
               </button>

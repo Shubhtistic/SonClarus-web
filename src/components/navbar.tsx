@@ -22,19 +22,19 @@ export default function Navbar() {
     <nav className="nav-fade fixed top-0 left-0 right-0 z-50">
       <div className={pillClass}>
         <div className="flex justify-between items-center py-4">
-          <Link href="/" className="text-white text-xl font-bold font-syne tracking-tight">
+          <Link href="/" className="text-white text-xl font-bold font-display tracking-tight">
             Sonclarus
           </Link>
           <div className="flex items-center space-x-4">
             <Link
               href="/login"
-              className="text-white/80 hover:text-white transition-colors duration-200"
+              className="font-body text-white/80 hover:text-white transition-colors duration-200"
             >
               Login
             </Link>
             <Link
               href="/signup"
-              className="text-white/80 hover:text-white transition-colors duration-200"
+              className="font-body text-white/80 hover:text-white transition-colors duration-200"
             >
               Sign Up
             </Link>

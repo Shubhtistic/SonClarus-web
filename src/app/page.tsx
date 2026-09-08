@@ -118,10 +118,10 @@ export default function HomePage() {
                 <br />
                 <span className="hero-word inline-block opacity-0 translate-y-2">Separate.</span>
                 <br />
-                <span className="hero-word inline-block opacity-0 translate-y-2 text-[#ff6161]">Transcribe.</span>
+                <span className="hero-word inline-block opacity-0 translate-y-2 text-[#ff6161] font-fraunces-utility italic">Transcribe.</span>
               </h1>
 
-              <p className="hero-sub mt-5 max-w-[480px] text-[17px] leading-[1.65] text-muted-foreground opacity-0">
+              <p className="hero-sub mt-5 max-w-[480px] font-body text-[17px] leading-[1.65] text-muted-foreground opacity-0">
                 Sonclarus uses AI to cleanly separate speakers and generate accurate transcripts — all in one seamless pipeline.
               </p>
             </div>
@@ -140,7 +140,7 @@ export default function HomePage() {
         <FadeIn>
           <div className="mb-10 text-center">
             <h2 className="hero-display mt-2 text-primary">Built for clarity</h2>
-            <p className="mt-3 max-w-[520px] mx-auto text-[17px] text-muted-foreground">
+            <p className="mt-3 max-w-[520px] mx-auto font-body text-[17px] text-muted-foreground">
               Three capabilities that make audio processing effortless.
             </p>
           </div>
@@ -159,11 +159,11 @@ export default function HomePage() {
                 >
                   {f.icon}
                 </div>
-                <h3 className="text-[17px] font-medium text-foreground">{f.title}</h3>
-                <p className="mt-2 flex-1 text-[15px] text-muted-foreground">{f.description}</p>
+                <h3 className="font-heading-utility text-[17px] font-semibold text-foreground">{f.title}</h3>
+                <p className="mt-2 flex-1 font-body text-[15px] text-muted-foreground">{f.description}</p>
                 <div className="mt-5 flex items-center gap-2">
                   <span className="h-1 w-6 rounded-full" style={{ background: f.color, opacity: 0.7 }} />
-                  <span className="text-[12px] text-foreground-faint">Core feature</span>
+                  <span className="caption-sm text-foreground-faint">Core feature</span>
                 </div>
               </div>
             </TiltCard>
@@ -172,43 +172,23 @@ export default function HomePage() {
       </div>
     </section>
 
-    {/* ── CTA band ── */}
-    <section className="px-14 py-[var(--spacing-section)]">
-      <FadeIn>
-        <div className="mx-auto max-w-[720px] text-center">
-          <h2 className="hero-display text-primary">
-            Ready to separate your audio?
-          </h2>
-          <p className="mt-4 text-[17px] text-muted-foreground">
-            Create a free account and process your first file in minutes.
-          </p>
-          <Link
-            href="/register"
-            className="mx-auto mt-8 inline-block rounded-full bg-[#fafaf9] px-6 py-3 text-[14px] font-medium text-[#1c1917] transition-all hover:bg-[#e7e5e4]"
-          >
-            Start processing
-          </Link>
-        </div>
-      </FadeIn>
-    </section>
-
     {/* ── Shubham&apos;s Intro ── */}
     <section className="px-14 py-[var(--spacing-section)]">
       <div className="mx-auto max-w-[1480px]">
         <FadeIn>
           <div className="grid items-start gap-10 lg:grid-cols-2">
             <div>
-              <p className="mb-2 text-[12px] text-foreground-faint">About the creator</p>
+              <p className="mb-2 caption-sm text-foreground-faint">About the creator</p>
               <h2 className="hero-display text-primary">
                 Hi there, I&apos;m{" "}
-                <span className="text-primary-blue">Shubham</span>
+                <span className="text-primary-blue font-fraunces-utility italic">Shubham</span>
               </h2>
-              <p className="mt-4 text-[17px] leading-[1.65] text-muted-foreground">
+              <p className="mt-4 font-body text-[17px] leading-[1.65] text-muted-foreground">
                 Backend Engineer building scalable systems with Python, FastAPI, Docker, and AWS.
                 I architect APIs from the ground up — designing efficient data models, implementing
                 async processing, and deploying containerized services that handle real-world load.
               </p>
-              <p className="mt-4 text-[15px] text-foreground-faint">
+              <p className="mt-4 font-body text-[15px] text-foreground-faint">
                 Sonclarus is my passion project — a cloud-native audio intelligence platform that
                 combines DeepFilterNet, SepFormer, and Faster-Whisper into a single seamless pipeline.
               </p>
@@ -216,7 +196,7 @@ export default function HomePage() {
 
             <TiltCard intensity={10} className="h-full">
               <div className="rounded-2xl border border-border bg-muted p-6 shadow-[0_0_0_1px_rgba(255,255,255,0.03),0_4px_24px_rgba(0,0,0,0.3)]">
-                <p className="mb-4 text-[15px] font-medium text-foreground">Connect with me</p>
+                <p className="mb-4 font-heading-utility text-[15px] font-semibold text-foreground">Connect with me</p>
                 <div className="flex flex-col gap-2.5">
                   <a
                     href="https://github.com/Shubhtistic"
@@ -227,7 +207,7 @@ export default function HomePage() {
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
                     </svg>
-                    <span className="text-[15px]">GitHub</span>
+                    <span className="font-body text-[15px]">GitHub</span>
                   </a>
                   <a
                     href="https://www.linkedin.com/in/shubhtistic/"
@@ -238,7 +218,7 @@ export default function HomePage() {
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                     </svg>
-                    <span className="text-[15px]">LinkedIn</span>
+                    <span className="font-body text-[15px]">LinkedIn</span>
                   </a>
                   <a
                     href="https://www.instagram.com/shubhtistic/"
@@ -249,7 +229,7 @@ export default function HomePage() {
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
                     </svg>
-                    <span className="text-[15px]">Instagram</span>
+                    <span className="font-body text-[15px]">Instagram</span>
                   </a>
                 </div>
               </div>

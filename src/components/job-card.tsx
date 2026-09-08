@@ -59,13 +59,13 @@ export function JobCard({ job }: { job: Job }) {
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-3">
-            <h3 className="heading-sm truncate text-on-dark">{job.filename}</h3>
+            <h3 className="heading-sm font-heading-utility truncate text-on-dark">{job.filename}</h3>
             <span className={style.chip}>{style.label}</span>
           </div>
           {job.summary && (
-            <p className="body-sm mt-1 line-clamp-2 text-body">{job.summary}</p>
+            <p className="body-sm mt-1 font-body line-clamp-2 text-body">{job.summary}</p>
           )}
-          <p className="caption-md mt-2 text-mute">
+          <p className="caption-md mt-2 font-mono text-mute">
             {new Date(job.created_at).toLocaleDateString("en-US", {
               year: "numeric",
               month: "short",
@@ -118,7 +118,7 @@ function DownloadButton({
     <button
       onClick={handleClick}
       disabled={loading}
-      className="btn-md rounded-md border border-hairline bg-surface-elevated px-3 py-1.5 text-on-dark transition-colors hover:bg-surface hover:border-hairline-strong disabled:opacity-50"
+      className="btn-md font-body rounded-md border border-hairline bg-surface-elevated px-3 py-1.5 text-on-dark transition-colors hover:bg-surface hover:border-hairline-strong disabled:opacity-50"
     >
       {loading ? (
         <span className="flex items-center gap-2">

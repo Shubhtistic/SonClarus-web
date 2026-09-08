@@ -26,10 +26,10 @@ export default function DashboardPage() {
     <div className="bg-background px-6 py-10">
       <div className="mx-auto max-w-[960px]">
         <div className="mb-1">
-          <p className="text-[12px] text-foreground-faint uppercase tracking-wider">Dashboard</p>
+          <p className="caption-sm text-foreground-faint">Dashboard</p>
         </div>
-        <h1 className="heading-xl text-primary mt-1">Your workspace</h1>
-        <p className="body-lg mt-1 text-muted-foreground">
+        <h1 className="heading-xl font-heading-utility text-primary mt-1">Your workspace</h1>
+        <p className="body-lg mt-1 font-body text-muted-foreground">
           Upload audio files and track your processing jobs.
         </p>
       </div>

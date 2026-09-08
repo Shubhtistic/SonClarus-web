@@ -38,7 +38,7 @@ export default function LoginPage() {
       <div className="w-full max-w-[400px]">
         <div className="mb-8">
           <p className="caption-sm text-foreground-faint">Welcome back</p>
-          <h1 className="heading-xl mt-2 text-primary">Sign in to your account</h1>
+          <h1 className="heading-xl mt-2 font-heading-utility text-primary">Sign in to your account</h1>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -50,7 +50,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="h-9 rounded-md border border-border bg-input px-3 text-body-md text-foreground outline-none transition-colors focus:border-border-control"
+              className="h-9 rounded-md border border-border bg-input px-3 font-body text-body-md text-foreground outline-none transition-colors focus:border-border-control"
             />
           </label>
 
@@ -62,7 +62,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="h-9 rounded-md border border-border bg-input px-3 text-body-md text-foreground outline-none transition-colors focus:border-border-control"
+              className="h-9 rounded-md border border-border bg-input px-3 font-body text-body-md text-foreground outline-none transition-colors focus:border-border-control"
             />
           </label>
 
@@ -75,13 +75,13 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="btn-md mt-1 rounded-md bg-primary px-4 py-2 text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground"
+            className="btn-md mt-1 font-body rounded-md bg-primary px-4 py-2 text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground"
           >
             {loading ? "Signing in…" : "Sign in"}
           </button>
         </form>
 
-        <p className="body-md mt-6 text-center text-muted-foreground">
+        <p className="body-md mt-6 text-center font-body text-muted-foreground">
           Don&apos;t have an account?{" "}
           <Link
             href="/register"
