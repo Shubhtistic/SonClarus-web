@@ -80,7 +80,7 @@ export function JobCard({
 
   const style = STATUS_STYLES[status] ?? STATUS_STYLES.QUEUED;
 
-  const displayName = job.filename || (files && files[0]?.filename) || `job id ${job.job_id.slice(0, -6)}...`;
+  const displayName = job.filename || (files && files[0]?.filename) || `${job.job_id.slice(0, -6)}...`;
   const subtitle = job.selected_options && job.selected_options.length > 0
     ? job.selected_options.join(" • ")
     : null;
