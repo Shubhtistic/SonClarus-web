@@ -1,29 +1,30 @@
-const API_BASE = "/api";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
 export interface LoginRequest {
-  username: string;
+  email: string;
   password: string;
 }
 
 export interface RegisterRequest {
   email: string;
   password: string;
-  full_name: string;
+  first_name: string;
+  last_name: string;
 }
 
 export interface AuthResponse {
   access_token: string;
-  refresh_token?: string;
-  token_type?: string;
 }
 
 export interface UploadRequest {
   filename: string;
   file_size_bytes: number;
+  selected_options: string[];
+  content_type: string;
 }
 
 export interface PresignedPost {
@@ -36,31 +37,10 @@ export interface UploadResponse {
   presigned_post: PresignedPost;
 }
 
-export type JobStatusValue = "PENDING" | "PROCESSING" | "DONE" | "FAILED";
-
 export interface JobStatus {
+  message: string;
   job_id: string;
-  status: JobStatusValue;
-  summary?: string;
-}
-
-export interface Job {
-  job_id: string;
-  filename: string;
-  summary: string;
-  created_at: string;
-  status?: JobStatusValue;
-}
-
-export interface JobsResponse {
-  data: Job[];
-  total: number;
-}
-
-export type DownloadStage = "separated1" | "separated2" | "transcribe";
-
-export interface DownloadResponse {
-  download_url: string;
+  status: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -79,11 +59,6 @@ export function setToken(token: string): void {
 export function clearToken(): void {
   localStorage.removeItem("sonclarus_token");
   localStorage.removeItem("sonclarus_refresh_token");
-}
-
-export function getRefreshToken(): string | null {
-  if (typeof window === "undefined") return null;
-  return localStorage.getItem("sonclarus_refresh_token");
 }
 
 export function setRefreshToken(token: string): void {
@@ -128,6 +103,9 @@ async function request<T>(
     throw new ApiError(res.status, text);
   }
 
+  // Handle No Content (204)
+  if (res.status === 204) return {} as T;
+
   return res.json() as Promise<T>;
 }
 
@@ -148,52 +126,49 @@ export class ApiError extends Error {
 // Auth endpoints
 // ---------------------------------------------------------------------------
 
+export async function signup(payload: RegisterRequest): Promise<AuthResponse> {
+  return request("/auth/signup", {
+    method: "POST",
+    json: payload,
+    credentials: "include",
+  });
+}
+
 export async function login(payload: LoginRequest): Promise<AuthResponse> {
-  const body = new URLSearchParams({
-    username: payload.username,
-    password: payload.password,
-  });
-
-  const token = getToken();
-  const headers: Record<string, string> = {};
-  if (token) headers["Authorization"] = `Bearer ${token}`;
-
-  const res = await fetch(`${API_BASE}/login`, {
+  return request("/auth/login", {
     method: "POST",
-    headers,
-    body,
+    json: payload,
+    credentials: "include",
   });
-
-  if (!res.ok) {
-    const text = await res.text().catch(() => res.statusText);
-    throw new ApiError(res.status, text);
-  }
-
-  return res.json() as Promise<AuthResponse>;
 }
 
-export async function register(
-  payload: RegisterRequest,
-): Promise<{ id: string }> {
-  return request("/register", { method: "POST", json: payload });
-}
-
-export async function refresh(
-  refreshToken: string,
-): Promise<AuthResponse> {
-  return request("/refresh", {
+export async function refresh(): Promise<AuthResponse> {
+  return request("/auth/refresh", {
     method: "POST",
-    json: { refresh_token: refreshToken },
+    credentials: "include",
   });
 }
 
 export async function logout(): Promise<void> {
-  const refreshToken = getRefreshToken();
-  const accessToken = getToken();
-  await request("/logout", {
+  await request("/auth/logout", {
     method: "POST",
-    json: { refresh_token: refreshToken, access_token: accessToken },
+    credentials: "include",
   });
+}
+
+export interface UserProfile {
+  id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  is_active: boolean;
+  is_verified: boolean;
+  storage_limit: number;
+  storage_used: number;
+}
+
+export async function getUserProfile(): Promise<UserProfile> {
+  return request("/users/me");
 }
 
 // ---------------------------------------------------------------------------
@@ -203,7 +178,7 @@ export async function logout(): Promise<void> {
 export async function requestUpload(
   payload: UploadRequest,
 ): Promise<UploadResponse> {
-  return request("/uploads/request", { method: "POST", json: payload });
+  return request("/jobs/request-upload", { method: "POST", json: payload });
 }
 
 export async function uploadToS3(
@@ -227,13 +202,27 @@ export async function uploadToS3(
   }
 }
 
-export async function confirmUpload(jobId: string): Promise<void> {
-  await request(`/uploads/confirm/${jobId}`, { method: "POST" });
+export async function confirmUpload(jobId: string): Promise<JobStatus> {
+  return request(`/jobs/${jobId}/confirm-upload`, { method: "POST" });
 }
 
 // ---------------------------------------------------------------------------
 // Jobs
 // ---------------------------------------------------------------------------
+
+export interface Job {
+  job_id: string;
+  filename: string;
+  summary: string;
+  created_at: string;
+  status: string;
+  completed: boolean;
+}
+
+export interface JobsResponse {
+  data: Job[];
+  total: number;
+}
 
 export async function getJobs(params: {
   skip?: number;
@@ -248,13 +237,25 @@ export async function getJobs(params: {
   return request(`/jobs?${query.toString()}`);
 }
 
-export async function getJobStatus(jobId: string): Promise<JobStatus> {
-  return request(`/status/${jobId}`);
+export interface DownloadFile {
+  stage: string;
+  filename: string;
+  s3_bucket: string;
+  s3_key: string;
+  download_url: string;
+  size_bytes: number | null;
+  content_type: string | null;
 }
 
-export async function getDownloadUrl(
-  jobId: string,
-  stage: DownloadStage,
-): Promise<DownloadResponse> {
-  return request(`/download/${jobId}?stage=${stage}`);
+export interface DownloadLinksResponse {
+  job: {
+    job_id: string;
+    status: string;
+    completed: boolean;
+  };
+  files: DownloadFile[];
+}
+
+export async function getDownloadLinks(jobId: string): Promise<DownloadLinksResponse> {
+  return request(`/jobs/${jobId}/download-links`);
 }

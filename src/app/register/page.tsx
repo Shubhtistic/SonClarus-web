@@ -9,7 +9,8 @@ import { ApiError } from "@/lib/api";
 export default function RegisterPage() {
   const router = useRouter();
   const { register } = useAuth();
-  const [fullName, setFullName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -21,7 +22,7 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      await register({ email, password, full_name: fullName });
+      await register({ email, password, first_name: firstName, last_name: lastName });
       router.push("/login");
     } catch (err) {
       if (err instanceof ApiError) {
@@ -46,17 +47,30 @@ export default function RegisterPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <label className="flex flex-col gap-1.5">
-            <span className="body-sm-strong text-foreground">Full name</span>
-            <input
-              type="text"
-              required
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder="Jane Doe"
-              className="h-9 rounded-md border border-border bg-input px-3 font-body text-body-md text-foreground outline-none transition-colors focus:border-border-control"
-            />
-          </label>
+          <div className="grid grid-cols-2 gap-4">
+            <label className="flex flex-col gap-1.5">
+              <span className="body-sm-strong text-foreground">First name</span>
+              <input
+                type="text"
+                required
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="Jane"
+                className="h-9 rounded-md border border-border bg-input px-3 font-body text-body-md text-foreground outline-none transition-colors focus:border-border-control"
+              />
+            </label>
+            <label className="flex flex-col gap-1.5">
+              <span className="body-sm-strong text-foreground">Last name</span>
+              <input
+                type="text"
+                required
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Doe"
+                className="h-9 rounded-md border border-border bg-input px-3 font-body text-body-md text-foreground outline-none transition-colors focus:border-border-control"
+              />
+            </label>
+          </div>
 
           <label className="flex flex-col gap-1.5">
             <span className="body-sm-strong text-foreground">Email</span>

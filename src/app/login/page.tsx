@@ -20,7 +20,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      await login({ username: email, password });
+      await login({ email, password });
       router.push("/dashboard");
     } catch (err) {
       if (err instanceof ApiError) {
