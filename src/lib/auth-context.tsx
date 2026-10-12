@@ -33,15 +33,14 @@ interface AuthState {
 const AuthContext = createContext<AuthState | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [token, setTokenState] = useState<string | null>(() => {
-    if (typeof window !== "undefined") {
-      return getToken();
-    }
-    return null;
-  });
-  const [isLoading, setIsLoading] = useState(false);
+  const [token, setTokenState] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const storedToken = getToken();
+    if (storedToken) {
+      setTokenState(storedToken);
+    }
     setIsLoading(false);
   }, []);
 
