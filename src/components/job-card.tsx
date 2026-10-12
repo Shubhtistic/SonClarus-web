@@ -81,17 +81,17 @@ export function JobCard({
   const style = STATUS_STYLES[status] ?? STATUS_STYLES.QUEUED;
 
   return (
-    <div className="rounded-lg border border-hairline bg-surface p-5">
-      <div className="flex items-start justify-between gap-4">
+    <div className="rounded-lg border border-border bg-input p-5 min-w-0">
+      <div className="flex items-start justify-between gap-4 min-w-0">
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-3">
-            <h3 className="heading-sm font-heading-utility truncate text-on-dark">{job.filename}</h3>
-            <span className={style.chip}>{style.label}</span>
+          <div className="flex items-center gap-3 min-w-0">
+            <h3 className="heading-sm font-heading-utility truncate text-foreground flex-1 min-w-0">{job.filename}</h3>
+            <span className={`${style.chip} shrink-0`}>{style.label}</span>
           </div>
           {job.summary && (
-            <p className="body-sm mt-1 font-body line-clamp-2 text-body">{job.summary}</p>
+            <p className="body-sm mt-1 font-body line-clamp-2 text-muted-foreground break-words">{job.summary}</p>
           )}
-          <p className="caption-md mt-2 font-mono text-mute">
+          <p className="caption-md mt-2 font-mono text-muted-foreground">
             {new Date(job.created_at).toLocaleDateString("en-US", {
               year: "numeric",
               month: "short",
@@ -102,7 +102,7 @@ export function JobCard({
       </div>
 
       {completed && files && files.length > 0 && (
-        <div className="mt-4 flex flex-wrap gap-2 border-t border-hairline-soft pt-4">
+        <div className="mt-4 flex flex-wrap gap-2 border-t border-border pt-4">
           {files.map((f) => (
             <DownloadButton key={f.stage} file={f} />
           ))}

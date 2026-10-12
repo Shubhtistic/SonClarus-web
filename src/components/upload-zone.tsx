@@ -96,7 +96,7 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
   const isUploading = upload.phase !== "idle" && upload.phase !== "done" && upload.phase !== "error";
 
   return (
-    <div className="rounded-lg border border-hairline bg-surface p-5">
+    <div className="rounded-lg border border-border bg-card p-5 min-w-0 w-full flex-1 flex flex-col justify-between">
       <input
         ref={inputRef}
         type="file"
@@ -116,85 +116,85 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
         }}
         onDragLeave={() => setDragging(false)}
         onDrop={onDrop}
-        className={`flex flex-col items-center justify-center gap-3 rounded-md border border-dashed py-10 text-center transition-colors ${
+        className={`flex flex-col items-center justify-center gap-3 rounded-md border border-dashed py-10 px-4 text-center transition-colors min-w-0 w-full flex-1 cursor-pointer ${
           dragging
-            ? "border-accent-blue bg-accent-blue-soft"
-            : "border-hairline bg-surface-elevated"
+            ? "border-primary-blue bg-primary-blue/10"
+            : "border-border bg-input"
         }`}
       >
         <svg
-          width="24"
-          height="24"
+          width="28"
+          height="28"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={dragging ? "text-accent-blue" : "text-mute"}
+          className={dragging ? "text-primary-blue" : "text-muted-foreground"}
         >
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
           <polyline points="17 8 12 3 7 8" />
           <line x1="12" x2="12" y1="3" y2="15" />
         </svg>
 
-        <div>
-          <p className="body-md font-heading-utility font-medium text-on-dark">
-            {dragging ? "Drop your file here" : "Drag & drop a .wav file"}
-          </p>
-          <p className="body-sm mt-1 font-body text-body">
-            or{" "}
-            <span
-              onClick={onBrowseClick}
-              className="cursor-pointer font-medium text-accent-blue"
-            >
-              browse
-            </span>{" "}
-            to choose
-          </p>
+        <div className="w-full px-2 min-w-0">
+          {selectedFile ? (
+            <div className="space-y-1 min-w-0">
+              <p className="body-md font-heading-utility font-medium text-foreground break-words text-center line-clamp-3">
+                {selectedFile.name}
+              </p>
+              <p className="caption-md font-mono text-muted-foreground">
+                {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB • Ready
+              </p>
+              <p className="caption-sm text-primary-blue underline mt-2">
+                Click or drop another file to replace
+              </p>
+            </div>
+          ) : (
+            <>
+              <p className="body-md font-heading-utility font-medium text-foreground">
+                {dragging ? "Drop your file here" : "Drag & drop a .wav file"}
+              </p>
+              <p className="body-sm mt-1 font-body text-muted-foreground">
+                or{" "}
+                <span className="cursor-pointer font-medium text-primary-blue">
+                  browse
+                </span>{" "}
+                to choose
+              </p>
+            </>
+          )}
         </div>
       </div>
 
       {selectedFile && upload.phase === "idle" && (
-        <div className="mt-3 flex items-center justify-between rounded-md border border-hairline bg-surface-elevated px-3 py-2.5">
-          <div className="flex items-center gap-2">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent-green">
-              <path d="M9 18V5l12-2v13" />
-              <circle cx="6" cy="18" r="3" />
-              <circle cx="18" cy="16" r="3" />
-            </svg>
-            <div>
-              <p className="body-sm font-heading-utility font-medium text-on-dark">{selectedFile.name}</p>
-              <p className="caption-md font-mono text-mute">
-                {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB
-              </p>
-            </div>
-          </div>
+        <div className="mt-4 flex flex-col items-center justify-center w-full">
           <button
             onClick={handleUpload}
             disabled={isUploading}
-            className="btn-md font-body rounded-md bg-primary px-3 py-1.5 text-primary-foreground transition-colors hover:bg-primary-pressed disabled:cursor-not-allowed disabled:bg-surface-elevated disabled:text-ash"
+            className="btn-md font-body rounded-md bg-primary px-6 py-2.5 text-primary-foreground font-semibold transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50 w-full text-center"
           >
-            {isUploading ? "Uploading…" : "Start processing"}
+            Start processing
           </button>
         </div>
       )}
 
       {upload.progress && upload.phase !== "idle" && upload.phase !== "done" && (
-        <div className="mt-3 rounded-md border border-hairline bg-surface-elevated px-3 py-2.5">
-          <p className="body-sm font-body text-on-dark">{upload.progress}</p>
+        <div className="mt-4 rounded-md border border-border bg-input px-3 py-2.5 text-center">
+          <p className="body-sm font-body text-foreground">{upload.progress}</p>
         </div>
       )}
 
       {upload.phase === "done" && (
-        <div className="mt-3 rounded-md border border-hairline bg-accent-green-soft px-3 py-2.5">
-          <p className="body-sm font-body text-accent-green">{upload.progress}</p>
+        <div className="mt-4 rounded-md border border-primary-green/30 bg-primary-green/10 px-3 py-2.5 text-center">
+          <p className="body-sm font-body text-primary-green">{upload.progress}</p>
         </div>
       )}
 
       {upload.error && (
-        <div className="mt-3 rounded-md border border-hairline bg-accent-red-soft px-3 py-2.5">
-          <p className="body-sm font-body text-accent-red">{upload.error}</p>
+        <div className="mt-4 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2.5 text-center">
+          <p className="body-sm font-body text-destructive break-words">{upload.error}</p>
         </div>
       )}
     </div>
