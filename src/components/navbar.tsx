@@ -2,17 +2,18 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useSyncExternalStore } from "react"
 import { useAuth } from "@/lib/auth-context"
+
+const subscribe = () => () => {}
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
-  const [mounted, setMounted] = useState(false)
+  const mounted = useSyncExternalStore(subscribe, () => true, () => false)
   const pathname = usePathname()
   const { isAuthenticated, logout } = useAuth()
 
   useEffect(() => {
-    setMounted(true)
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
     }
@@ -40,12 +41,22 @@ export default function Navbar() {
           </Link>
           <div className="flex items-center space-x-4">
             {!mounted ? null : isAuthenticated ? (
-              <button
-                onClick={() => logout()}
-                className="font-body text-white/80 hover:text-white transition-colors duration-200"
-              >
-                Logout
-              </button>
+              <>
+                {pathname !== "/dashboard" && (
+                  <Link
+                    href="/dashboard"
+                    className="font-body text-white/80 hover:text-white transition-colors duration-200"
+                  >
+                    Dashboard
+                  </Link>
+                )}
+                <button
+                  onClick={() => logout()}
+                  className="font-body text-white/80 hover:text-white transition-colors duration-200"
+                >
+                  Logout
+                </button>
+              </>
             ) : (
               <>
                 <Link href="/login" className="font-body text-white/80 hover:text-white transition-colors duration-200">
