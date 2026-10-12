@@ -95,8 +95,10 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
 
   const isUploading = upload.phase !== "idle" && upload.phase !== "done" && upload.phase !== "error";
 
+  const hasBottomAction = !!selectedFile || upload.phase !== "idle";
+
   return (
-    <div className="rounded-lg border border-border bg-card p-4 min-w-0 w-full flex flex-col justify-between h-[280px]">
+    <div className={`rounded-lg border border-border bg-card p-4 min-w-0 w-full flex flex-col h-[280px] ${hasBottomAction ? "justify-between" : "justify-center"}`}>
       <input
         ref={inputRef}
         type="file"
@@ -116,7 +118,9 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
         }}
         onDragLeave={() => setDragging(false)}
         onDrop={onDrop}
-        className={`flex flex-col items-center justify-center gap-2 rounded-md border border-dashed p-3 text-center transition-colors min-w-0 w-full flex-1 cursor-pointer overflow-hidden ${
+        className={`flex flex-col items-center justify-center gap-2 rounded-md border border-dashed p-3 text-center transition-colors min-w-0 w-full cursor-pointer overflow-hidden ${
+          hasBottomAction ? "flex-1" : "h-[248px]"
+        } ${
           dragging
             ? "border-primary-blue bg-primary-blue/10"
             : "border-border bg-input"
@@ -168,35 +172,37 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
         </div>
       </div>
 
-      <div className="h-10 mt-3 flex items-center justify-center w-full">
-        {selectedFile && upload.phase === "idle" && (
-          <button
-            onClick={handleUpload}
-            disabled={isUploading}
-            className="btn-md font-body rounded-md bg-primary h-10 px-4 text-primary-foreground font-semibold transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50 w-full text-center"
-          >
-            Start processing
-          </button>
-        )}
+      {hasBottomAction && (
+        <div className="h-10 mt-3 flex items-center justify-center w-full">
+          {selectedFile && upload.phase === "idle" && (
+            <button
+              onClick={handleUpload}
+              disabled={isUploading}
+              className="btn-md font-body rounded-md bg-primary h-10 px-4 text-primary-foreground font-semibold transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50 w-full text-center"
+            >
+              Start processing
+            </button>
+          )}
 
-        {upload.progress && upload.phase !== "idle" && upload.phase !== "done" && (
-          <div className="h-10 flex items-center justify-center w-full rounded-md border border-border bg-input px-3">
-            <p className="caption-sm font-body text-foreground truncate">{upload.progress}</p>
-          </div>
-        )}
+          {upload.progress && upload.phase !== "idle" && upload.phase !== "done" && (
+            <div className="h-10 flex items-center justify-center w-full rounded-md border border-border bg-input px-3">
+              <p className="caption-sm font-body text-foreground truncate">{upload.progress}</p>
+            </div>
+          )}
 
-        {upload.phase === "done" && (
-          <div className="h-10 flex items-center justify-center w-full rounded-md border border-primary-green/30 bg-primary-green/10 px-3">
-            <p className="caption-sm font-body text-primary-green truncate">{upload.progress}</p>
-          </div>
-        )}
+          {upload.phase === "done" && (
+            <div className="h-10 flex items-center justify-center w-full rounded-md border border-primary-green/30 bg-primary-green/10 px-3">
+              <p className="caption-sm font-body text-primary-green truncate">{upload.progress}</p>
+            </div>
+          )}
 
-        {upload.error && (
-          <div className="h-10 flex items-center justify-center w-full rounded-md border border-destructive/30 bg-destructive/10 px-3">
-            <p className="caption-sm font-body text-destructive truncate">{upload.error}</p>
-          </div>
-        )}
-      </div>
+          {upload.error && (
+            <div className="h-10 flex items-center justify-center w-full rounded-md border border-destructive/30 bg-destructive/10 px-3">
+              <p className="caption-sm font-body text-destructive truncate">{upload.error}</p>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
