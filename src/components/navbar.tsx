@@ -40,17 +40,12 @@ export default function Navbar() {
           </Link>
           <div className="flex items-center space-x-4">
             {!mounted ? null : isAuthenticated ? (
-              <>
-                <Link href="/dashboard" className="font-body text-white/80 hover:text-white transition-colors duration-200">
-                  Dashboard
-                </Link>
-                <button
-                  onClick={() => logout()}
-                  className="font-body text-white/80 hover:text-white transition-colors duration-200"
-                >
-                  Logout
-                </button>
-              </>
+              <button
+                onClick={() => logout()}
+                className="font-body text-white/80 hover:text-white transition-colors duration-200"
+              >
+                Logout
+              </button>
             ) : (
               <>
                 <Link href="/login" className="font-body text-white/80 hover:text-white transition-colors duration-200">
