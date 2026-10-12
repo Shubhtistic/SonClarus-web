@@ -47,7 +47,7 @@ export function JobCard({
   job,
   onStatusChange,
 }: {
-  job: { job_id: string; filename: string; summary?: string; created_at: string; status: string; completed: boolean };
+  job: { job_id: string; filename?: string; summary?: string; created_at: string; status: string; completed: boolean; selected_options?: string[] };
   onStatusChange?: (status: string, completed: boolean) => void;
 }) {
   const [status, setStatus] = useState<string>(job.status ?? "QUEUED");
@@ -80,29 +80,42 @@ export function JobCard({
 
   const style = STATUS_STYLES[status] ?? STATUS_STYLES.QUEUED;
 
+  const displayName = job.filename || (files && files[0]?.filename) || `Job ${job.job_id.slice(0, 8)}`;
+  const subtitle = job.selected_options && job.selected_options.length > 0
+    ? job.selected_options.join(" • ")
+    : null;
+
   return (
-    <div className="rounded-lg border border-border bg-input p-5 min-w-0">
-      <div className="flex items-start justify-between gap-4 min-w-0">
+    <div className="rounded-lg border border-border bg-input p-4 min-w-0">
+      <div className="flex items-start justify-between gap-3 min-w-0">
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-3 min-w-0">
-            <h3 className="heading-sm font-heading-utility truncate text-foreground flex-1 min-w-0">{job.filename}</h3>
+          <div className="flex items-center gap-2 min-w-0">
+            <h3 className="body-sm font-heading-utility font-semibold truncate text-foreground flex-1 min-w-0">
+              {displayName}
+            </h3>
             <span className={`${style.chip} shrink-0`}>{style.label}</span>
           </div>
+          {subtitle && (
+            <p className="caption-sm mt-1 font-body text-muted-foreground truncate uppercase tracking-wider">
+              {subtitle}
+            </p>
+          )}
           {job.summary && (
             <p className="body-sm mt-1 font-body line-clamp-2 text-muted-foreground break-words">{job.summary}</p>
           )}
-          <p className="caption-md mt-2 font-mono text-muted-foreground">
+          <p className="caption-sm mt-1.5 font-mono text-muted-foreground">
             {new Date(job.created_at).toLocaleDateString("en-US", {
-              year: "numeric",
               month: "short",
               day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
             })}
           </p>
         </div>
       </div>
 
       {completed && files && files.length > 0 && (
-        <div className="mt-4 flex flex-wrap gap-2 border-t border-border pt-4">
+        <div className="mt-3 flex flex-wrap gap-2 border-t border-border pt-3">
           {files.map((f) => (
             <DownloadButton key={f.stage} file={f} />
           ))}
