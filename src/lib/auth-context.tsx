@@ -16,6 +16,7 @@ import {
   logout as apiLogout,
   signup as apiRegister,
   setToken,
+  type AuthResponse,
   type LoginRequest,
   type RegisterRequest,
 } from "./api";
@@ -25,7 +26,7 @@ interface AuthState {
   isLoading: boolean;
   isAuthenticated: boolean;
   login: (payload: LoginRequest) => Promise<void>;
-  register: (payload: RegisterRequest) => Promise<{ id: string }>;
+  register: (payload: RegisterRequest) => Promise<AuthResponse>;
   logout: () => Promise<void>;
 }
 
