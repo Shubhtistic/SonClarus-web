@@ -58,7 +58,7 @@ export function DashboardOverview({ refreshKey = 0 }: { refreshKey?: number }) {
         <div className="rounded-lg border border-border bg-card p-6">
           <h3 className="heading-sm font-heading-utility mb-3 text-primary-blue">Quick Tip</h3>
           <p className="body-sm text-muted-foreground font-body">
-            For best results, upload clean WAV files. Our denoising stage can handle background noise, but high-quality inputs yield better transcripts.
+            Use clean audio files for best results. If your files have background noise, you can use our denoise stage to improve quality.
           </p>
         </div>
 
