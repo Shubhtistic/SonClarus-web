@@ -7,10 +7,12 @@ import { useAuth } from "@/lib/auth-context"
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
   const { isAuthenticated, logout } = useAuth()
 
   useEffect(() => {
+    setMounted(true)
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
     }
@@ -37,7 +39,7 @@ export default function Navbar() {
             Sonclarus
           </Link>
           <div className="flex items-center space-x-4">
-            {isAuthenticated ? (
+            {!mounted ? null : isAuthenticated ? (
               <>
                 <Link href="/dashboard" className="font-body text-white/80 hover:text-white transition-colors duration-200">
                   Dashboard
