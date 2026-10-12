@@ -49,9 +49,9 @@ export function JobsList({ refreshKey }: { refreshKey: number }) {
 
   if (jobs.length === 0) {
     return (
-      <div className="rounded-lg border border-dashed border-hairline bg-surface py-10 text-center">
-        <p className="body-md font-body text-body">No jobs yet.</p>
-        <p className="body-sm mt-1 font-body text-mute">
+      <div className="rounded-md border border-dashed border-border bg-input py-12 px-4 text-center flex-1 flex flex-col items-center justify-center">
+        <p className="body-md font-body text-foreground">No jobs yet.</p>
+        <p className="body-sm mt-1 font-body text-muted-foreground">
           Upload a .wav file to get started.
         </p>
       </div>
