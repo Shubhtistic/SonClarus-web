@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { UploadZone } from "@/components/upload-zone";
@@ -12,6 +12,12 @@ export default function DashboardPage() {
   const router = useRouter();
   const [refreshKey, setRefreshKey] = useState(0);
 
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.replace("/login");
+    }
+  }, [isLoading, isAuthenticated, router]);
+
   if (isLoading) {
     return (
       <div className="flex flex-1 items-center justify-center py-24">
@@ -21,7 +27,6 @@ export default function DashboardPage() {
   }
 
   if (!isAuthenticated) {
-    router.replace("/login");
     return null;
   }
 

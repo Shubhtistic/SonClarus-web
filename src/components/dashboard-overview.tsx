@@ -11,7 +11,7 @@ export function DashboardOverview() {
         <StatsCard
           title="Storage Used"
           value="45.2 MB"
-          subtext="of 100 MB"
+          subtext="of 500 MB"
           percent={45}
           color="var(--color-primary-blue)"
         />

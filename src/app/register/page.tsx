@@ -42,7 +42,7 @@ export default function RegisterPage() {
           <p className="caption-sm text-foreground-faint">Get started</p>
           <h1 className="heading-xl mt-2 font-heading-utility text-primary">Create your account</h1>
           <p className="body-md mt-2 font-body text-muted-foreground">
-            100 MB free storage included. No credit card required.
+            500 MB free storage included. No credit card required.
           </p>
         </div>
 
