@@ -190,7 +190,7 @@ export default function HomePage() {
                   handle="shubham"
                   status="Online"
                   contactText="Contact Me"
-                  avatarUrl="/assets/profile.png"
+                  avatarUrl="https://raw.githubusercontent.com/Shubhtistic/SonClarus-web/main/assets/profile.png"
                   showUserInfo={false}
                   enableTilt={true}
                   enableMobileTilt={false}
