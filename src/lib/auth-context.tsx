@@ -39,11 +39,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     return null;
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 0);
-    return () => clearTimeout(timer);
+    setIsLoading(false);
   }, []);
 
   const login = useCallback(async (payload: LoginRequest) => {
