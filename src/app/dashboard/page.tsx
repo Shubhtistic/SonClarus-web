@@ -44,15 +44,17 @@ export default function DashboardPage() {
         {/* Overview (Stats + Logs) */}
         <DashboardOverview />
 
-        <div className="grid gap-12 lg:grid-cols-[1fr_400px] mt-16">
-          <div className="order-2 lg:order-1">
+        <div className="grid gap-12 lg:grid-cols-[1fr_400px] items-stretch mt-16">
+          <div className="flex flex-col">
             <h2 className="heading-lg font-heading-utility text-foreground mb-6">Recent Jobs</h2>
-            <JobsList refreshKey={refreshKey} />
+            <div className="flex-1 rounded-lg border border-border bg-card p-5">
+              <JobsList refreshKey={refreshKey} />
+            </div>
           </div>
 
-          <div className="order-1 lg:order-2">
-            <div className="sticky top-28">
-              <h2 className="heading-lg font-heading-utility text-foreground mb-6">Process new audio</h2>
+          <div className="flex flex-col">
+            <h2 className="heading-lg font-heading-utility text-foreground mb-6">Process new audio</h2>
+            <div className="flex-1">
               <UploadZone onUploadComplete={() => setRefreshKey(prev => prev + 1)} />
             </div>
           </div>

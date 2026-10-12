@@ -13,6 +13,7 @@ import {
   uploadToS3,
   ApiError,
 } from "@/lib/api";
+import { addJobToList } from "@/components/jobs-list";
 
 interface UploadState {
   phase: "idle" | "requesting" | "uploading" | "confirming" | "done" | "error";
@@ -68,6 +69,15 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
 
       setUpload({ phase: "confirming", progress: "Confirming upload…", error: "" });
       await confirmUpload(job_id);
+
+      addJobToList({
+        job_id,
+        filename: selectedFile.name,
+        summary: "",
+        created_at: new Date().toISOString(),
+        status: "QUEUED",
+        completed: false,
+      });
 
       setUpload({ phase: "done", progress: "Upload complete! File is now processing.", error: "" });
       setSelectedFile(null);

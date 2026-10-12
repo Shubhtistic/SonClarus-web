@@ -58,11 +58,19 @@ export function setToken(token: string): void {
 
 export function clearToken(): void {
   localStorage.removeItem("sonclarus_token");
-  localStorage.removeItem("sonclarus_refresh_token");
 }
 
-export function setRefreshToken(token: string): void {
-  localStorage.setItem("sonclarus_refresh_token", token);
+// ---------------------------------------------------------------------------
+// Error class
+// ---------------------------------------------------------------------------
+
+export class ApiError extends Error {
+  status: number;
+  constructor(status: number, message: string) {
+    super(message);
+    this.name = "ApiError";
+    this.status = status;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -71,11 +79,19 @@ export function setRefreshToken(token: string): void {
 
 interface RequestInit extends globalThis.RequestInit {
   json?: unknown;
+  _isRetry?: boolean;
+}
+
+interface ApiEnvelope<T> {
+  message: string;
+  status_code: number;
+  data: T;
+  meta: unknown;
 }
 
 async function request<T>(
   path: string,
-  { json, headers: extra, ...init }: RequestInit = {},
+  { json, headers: extra, _isRetry, ...init }: RequestInit = {},
 ): Promise<T> {
   const token = getToken();
   const mergedHeaders: Record<string, string> = {
@@ -98,28 +114,41 @@ async function request<T>(
     body,
   });
 
+  if (res.status === 401 && !_isRetry) {
+    try {
+      const refreshRes = await fetch(`${API_BASE}/auth/refresh`, {
+        method: "POST",
+        credentials: "include",
+      });
+      if (refreshRes.ok) {
+        const envelope = (await refreshRes.json()) as ApiEnvelope<AuthResponse>;
+        const newToken = envelope.data.access_token;
+        setToken(newToken);
+        return request<T>(path, { json, headers: extra, _isRetry: true, ...init });
+      }
+    } catch {
+      // refresh failed — fall through to throw
+    }
+    clearToken();
+    throw new ApiError(401, "Session expired. Please log in again.");
+  }
+
   if (!res.ok) {
     const text = await res.text().catch(() => res.statusText);
-    throw new ApiError(res.status, text);
+    let message = text;
+    try {
+      const parsed = JSON.parse(text) as { message?: string };
+      if (parsed.message) message = parsed.message;
+    } catch {
+      // use raw text
+    }
+    throw new ApiError(res.status, message);
   }
 
-  // Handle No Content (204)
   if (res.status === 204) return {} as T;
 
-  return res.json() as Promise<T>;
-}
-
-// ---------------------------------------------------------------------------
-// Error class
-// ---------------------------------------------------------------------------
-
-export class ApiError extends Error {
-  status: number;
-  constructor(status: number, message: string) {
-    super(message);
-    this.name = "ApiError";
-    this.status = status;
-  }
+  const envelope = (await res.json()) as ApiEnvelope<T>;
+  return envelope.data;
 }
 
 // ---------------------------------------------------------------------------
@@ -146,6 +175,7 @@ export async function refresh(): Promise<AuthResponse> {
   return request("/auth/refresh", {
     method: "POST",
     credentials: "include",
+    _isRetry: true,
   });
 }
 
@@ -219,40 +249,37 @@ export interface Job {
   completed: boolean;
 }
 
-export interface JobsResponse {
-  data: Job[];
-  total: number;
-}
+// ---------------------------------------------------------------------------
+// Health
+// ---------------------------------------------------------------------------
 
-export async function getJobs(params: {
-  skip?: number;
-  limit?: number;
-  sort?: "asc" | "desc";
-}): Promise<JobsResponse> {
-  const query = new URLSearchParams();
-  if (params.skip !== undefined) query.set("skip", String(params.skip));
-  if (params.limit !== undefined) query.set("limit", String(params.limit));
-  if (params.sort) query.set("sort", params.sort);
-
-  return request(`/jobs?${query.toString()}`);
+export async function getHealth(): Promise<void> {
+  await request("/health");
 }
 
 export interface DownloadFile {
   stage: string;
   filename: string;
-  s3_bucket: string;
-  s3_key: string;
-  download_url: string;
   size_bytes: number | null;
   content_type: string | null;
+  download_url: string;
+}
+
+export interface DownloadJobSummary {
+  job_id: string;
+  status: string;
+  completed: boolean;
+  current_stage: string | null;
+  selected_stages: string[];
+  failed_stage: string | null;
+  created_at: string;
+  uploaded_at: string | null;
+  updated_at: string | null;
+  completed_at: string | null;
 }
 
 export interface DownloadLinksResponse {
-  job: {
-    job_id: string;
-    status: string;
-    completed: boolean;
-  };
+  job: DownloadJobSummary;
   files: DownloadFile[];
 }
 

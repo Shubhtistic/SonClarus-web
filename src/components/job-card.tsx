@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import {
-  getDownloadLinks,
-  type DownloadLinksResponse,
-  type DownloadFile,
-} from "@/lib/api";
+import { useEffect, useCallback } from "react";
+import { useState } from "react";
+import { getDownloadLinks, ApiError, type DownloadFile } from "@/lib/api";
 
 const STATUS_STYLES: Record<string, { chip: string; label: string }> = {
-  PENDING: {
+  PENDING_UPLOAD: {
     chip: "rounded-xs bg-surface-elevated px-2 py-0.5 caption-sm text-on-dark-mute",
     label: "Pending",
+  },
+  QUEUED: {
+    chip: "rounded-xs bg-surface-elevated px-2 py-0.5 caption-sm text-on-dark-mute",
+    label: "Queued",
   },
   PROCESSING: {
     chip: "rounded-xs bg-accent-blue-soft px-2 py-0.5 caption-sm text-accent-blue",
@@ -24,34 +25,60 @@ const STATUS_STYLES: Record<string, { chip: string; label: string }> = {
     chip: "rounded-xs bg-accent-red-soft px-2 py-0.5 caption-sm text-accent-red",
     label: "Failed",
   },
+  EXPIRED: {
+    chip: "rounded-xs bg-surface-elevated px-2 py-0.5 caption-sm text-on-dark-mute",
+    label: "Expired",
+  },
+  CANCELLED: {
+    chip: "rounded-xs bg-surface-elevated px-2 py-0.5 caption-sm text-on-dark-mute",
+    label: "Cancelled",
+  },
 };
 
-const DOWNLOADS = [
-  { stage: "denoise", label: "Denoise" },
-  { stage: "separate", label: "Separate" },
-  { stage: "transcribe", label: "Transcript" },
-  { stage: "summarize", label: "Summary" },
-];
+const STAGE_LABELS: Record<string, string> = {
+  original: "Original",
+  denoise: "Denoise",
+  separate: "Separate",
+  transcribe: "Transcript",
+  summarize: "Summary",
+};
 
-export function JobCard({ job }: { job: any }) {
-  const [status, setStatus] = useState<string>(job.status ?? "PENDING");
+export function JobCard({
+  job,
+  onStatusChange,
+}: {
+  job: { job_id: string; filename: string; summary?: string; created_at: string; status: string; completed: boolean };
+  onStatusChange?: (status: string, completed: boolean) => void;
+}) {
+  const [status, setStatus] = useState<string>(job.status ?? "QUEUED");
+  const [completed, setCompleted] = useState(job.completed ?? false);
+  const [files, setFiles] = useState<DownloadFile[] | null>(null);
 
   const poll = useCallback(async () => {
     try {
       const data = await getDownloadLinks(job.job_id);
       setStatus(data.job.status);
-    } catch {
-      // keep polling on transient errors
+      setCompleted(data.job.completed);
+      setFiles(data.files);
+      onStatusChange?.(data.job.status, data.job.completed);
+    } catch (err) {
+      if (err instanceof ApiError && err.status === 409) {
+        // still processing — keep polling
+      }
     }
-  }, [job.job_id]);
+  }, [job.job_id, onStatusChange]);
 
   useEffect(() => {
-    if (status === "COMPLETED" || status === "FAILED") return;
-    const id = setInterval(poll, 4000);
+    if (completed) {
+      poll();
+      return;
+    }
+    const id = setInterval(poll, 5000);
+    poll();
     return () => clearInterval(id);
-  }, [status, poll]);
+  }, [completed, poll]);
 
-  const style = STATUS_STYLES[status] || STATUS_STYLES.PENDING;
+  const style = STATUS_STYLES[status] ?? STATUS_STYLES.QUEUED;
 
   return (
     <div className="rounded-lg border border-hairline bg-surface p-5">
@@ -74,15 +101,10 @@ export function JobCard({ job }: { job: any }) {
         </div>
       </div>
 
-      {status === "COMPLETED" && (
+      {completed && files && files.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-2 border-t border-hairline-soft pt-4">
-          {DOWNLOADS.map((d) => (
-            <DownloadButton
-              key={d.stage}
-              jobId={job.job_id}
-              stage={d.stage}
-              label={d.label}
-            />
+          {files.map((f) => (
+            <DownloadButton key={f.stage} file={f} />
           ))}
         </div>
       )}
@@ -90,57 +112,22 @@ export function JobCard({ job }: { job: any }) {
   );
 }
 
-function DownloadButton({
-  jobId,
-  stage,
-  label,
-}: {
-  jobId: string;
-  stage: string;
-  label: string;
-}) {
-  const [loading, setLoading] = useState(false);
-
-  async function handleClick() {
-    setLoading(true);
-    try {
-      const data = await getDownloadLinks(jobId);
-      // Logic to find download URL for the specific stage
-      const file = data.files.find(f => f.stage === stage);
-      if (file) {
-        window.open(file.download_url, "_blank");
-      }
-    } catch {
-      // silently fail — user can retry
-    } finally {
-      setLoading(false);
-    }
-  }
+function DownloadButton({ file }: { file: DownloadFile }) {
+  const label = STAGE_LABELS[file.stage] ?? file.stage;
 
   return (
-    <button
-      onClick={handleClick}
-      disabled={loading}
-      className="btn-md font-body rounded-md border border-hairline bg-surface-elevated px-3 py-1.5 text-on-dark transition-colors hover:bg-surface hover:border-hairline-strong disabled:opacity-50"
+    <a
+      href={file.download_url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="btn-md font-body inline-flex items-center gap-2 rounded-md border border-hairline bg-surface-elevated px-3 py-1.5 text-on-dark transition-colors hover:bg-surface hover:border-hairline-strong"
     >
-      {loading ? (
-        <span className="flex items-center gap-2">
-          <svg className="h-3 w-3 animate-spin" viewBox="0 0 24 24" fill="none">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
-          </svg>
-          Loading…
-        </span>
-      ) : (
-        <span className="flex items-center gap-2">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            <polyline points="7 10 12 15 17 10" />
-            <line x1="12" x2="12" y1="15" y2="3" />
-          </svg>
-          {label}
-        </span>
-      )}
-    </button>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" x2="12" y1="15" y2="3" />
+      </svg>
+      {label}
+    </a>
   );
 }
