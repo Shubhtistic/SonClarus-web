@@ -96,7 +96,7 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
   const isUploading = upload.phase !== "idle" && upload.phase !== "done" && upload.phase !== "error";
 
   return (
-    <div className="rounded-lg border border-border bg-card p-5 min-w-0 w-full flex-1 flex flex-col justify-between">
+    <div className="rounded-lg border border-border bg-card p-4 min-w-0 w-full flex flex-col justify-between h-[280px]">
       <input
         ref={inputRef}
         type="file"
@@ -116,22 +116,22 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
         }}
         onDragLeave={() => setDragging(false)}
         onDrop={onDrop}
-        className={`flex flex-col items-center justify-center gap-3 rounded-md border border-dashed py-10 px-4 text-center transition-colors min-w-0 w-full flex-1 cursor-pointer ${
+        className={`flex flex-col items-center justify-center gap-2 rounded-md border border-dashed p-3 text-center transition-colors min-w-0 w-full flex-1 cursor-pointer overflow-hidden ${
           dragging
             ? "border-primary-blue bg-primary-blue/10"
             : "border-border bg-input"
         }`}
       >
         <svg
-          width="28"
-          height="28"
+          width="24"
+          height="24"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={dragging ? "text-primary-blue" : "text-muted-foreground"}
+          className={`shrink-0 ${dragging ? "text-primary-blue" : "text-muted-foreground"}`}
         >
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
           <polyline points="17 8 12 3 7 8" />
@@ -140,23 +140,23 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
 
         <div className="w-full px-2 min-w-0">
           {selectedFile ? (
-            <div className="space-y-1 min-w-0">
-              <p className="body-md font-heading-utility font-medium text-foreground break-words text-center line-clamp-3">
+            <div className="space-y-0.5 min-w-0">
+              <p className="body-sm font-heading-utility font-medium text-foreground break-words text-center line-clamp-2">
                 {selectedFile.name}
               </p>
-              <p className="caption-md font-mono text-muted-foreground">
+              <p className="caption-sm font-mono text-muted-foreground">
                 {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB • Ready
               </p>
-              <p className="caption-sm text-primary-blue underline mt-2">
-                Click or drop another file to replace
+              <p className="caption-sm text-primary-blue underline">
+                Replace file
               </p>
             </div>
           ) : (
             <>
-              <p className="body-md font-heading-utility font-medium text-foreground">
+              <p className="body-sm font-heading-utility font-medium text-foreground">
                 {dragging ? "Drop your file here" : "Drag & drop a .wav file"}
               </p>
-              <p className="body-sm mt-1 font-body text-muted-foreground">
+              <p className="caption-sm mt-0.5 font-body text-muted-foreground">
                 or{" "}
                 <span className="cursor-pointer font-medium text-primary-blue">
                   browse
@@ -168,35 +168,35 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
         </div>
       </div>
 
-      {selectedFile && upload.phase === "idle" && (
-        <div className="mt-4 flex flex-col items-center justify-center w-full">
+      <div className="h-10 mt-3 flex items-center justify-center w-full">
+        {selectedFile && upload.phase === "idle" && (
           <button
             onClick={handleUpload}
             disabled={isUploading}
-            className="btn-md font-body rounded-md bg-primary px-6 py-2.5 text-primary-foreground font-semibold transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50 w-full text-center"
+            className="btn-md font-body rounded-md bg-primary h-10 px-4 text-primary-foreground font-semibold transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50 w-full text-center"
           >
             Start processing
           </button>
-        </div>
-      )}
+        )}
 
-      {upload.progress && upload.phase !== "idle" && upload.phase !== "done" && (
-        <div className="mt-4 rounded-md border border-border bg-input px-3 py-2.5 text-center">
-          <p className="body-sm font-body text-foreground">{upload.progress}</p>
-        </div>
-      )}
+        {upload.progress && upload.phase !== "idle" && upload.phase !== "done" && (
+          <div className="h-10 flex items-center justify-center w-full rounded-md border border-border bg-input px-3">
+            <p className="caption-sm font-body text-foreground truncate">{upload.progress}</p>
+          </div>
+        )}
 
-      {upload.phase === "done" && (
-        <div className="mt-4 rounded-md border border-primary-green/30 bg-primary-green/10 px-3 py-2.5 text-center">
-          <p className="body-sm font-body text-primary-green">{upload.progress}</p>
-        </div>
-      )}
+        {upload.phase === "done" && (
+          <div className="h-10 flex items-center justify-center w-full rounded-md border border-primary-green/30 bg-primary-green/10 px-3">
+            <p className="caption-sm font-body text-primary-green truncate">{upload.progress}</p>
+          </div>
+        )}
 
-      {upload.error && (
-        <div className="mt-4 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2.5 text-center">
-          <p className="body-sm font-body text-destructive break-words">{upload.error}</p>
-        </div>
-      )}
+        {upload.error && (
+          <div className="h-10 flex items-center justify-center w-full rounded-md border border-destructive/30 bg-destructive/10 px-3">
+            <p className="caption-sm font-body text-destructive truncate">{upload.error}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
