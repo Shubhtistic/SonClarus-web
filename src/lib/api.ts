@@ -201,6 +201,17 @@ export async function getUserProfile(): Promise<UserProfile> {
   return request("/users/me");
 }
 
+export interface UserStats {
+  jobs_completed: number;
+  jobs_processing: number;
+  storage_limit: number;
+  storage_used: number;
+}
+
+export async function getUserStats(): Promise<UserStats> {
+  return request("/users/stats");
+}
+
 // ---------------------------------------------------------------------------
 // Upload flow
 // ---------------------------------------------------------------------------
@@ -247,6 +258,19 @@ export interface Job {
   created_at: string;
   status: string;
   completed: boolean;
+}
+
+export interface RecentJobItem {
+  id: string;
+  completed: boolean;
+  status: string;
+  selected_options: string[];
+  created_at: string;
+}
+
+export async function getRecentJobs(limit = 10): Promise<RecentJobItem[]> {
+  const queryLimit = Math.min(Math.max(limit, 1), 40);
+  return request(`/jobs/recent-jobs?limit=${queryLimit}`);
 }
 
 // ---------------------------------------------------------------------------

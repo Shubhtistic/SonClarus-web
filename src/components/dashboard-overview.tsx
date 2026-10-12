@@ -1,27 +1,54 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { StatsCard } from "./stats-card";
+import { getUserStats, type UserStats } from "@/lib/api";
 
-export function DashboardOverview() {
+export function DashboardOverview({ refreshKey = 0 }: { refreshKey?: number }) {
+  const [stats, setStats] = useState<UserStats | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    getUserStats()
+      .then((data) => {
+        if (isMounted) setStats(data);
+      })
+      .catch(() => {
+        // Fallback or maintain previous stats if network fails
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, [refreshKey]);
+
+  const usedBytes = stats ? stats.storage_used : 0;
+  const limitBytes = stats ? stats.storage_limit : 524288000;
+  const usedMb = (usedBytes / (1024 * 1024)).toFixed(1);
+  const limitMb = Math.round(limitBytes / (1024 * 1024));
+  const percent = limitBytes > 0 ? Math.min(100, Math.round((usedBytes / limitBytes) * 100)) : 0;
+
+  const activeJobs = stats ? String(stats.jobs_processing) : "0";
+  const completedJobs = stats ? String(stats.jobs_completed) : "0";
+
   return (
     <div className="space-y-10">
       <div className="grid gap-6 md:grid-cols-3">
         <StatsCard
           title="Storage Used"
-          value="45.2 MB"
-          subtext="of 500 MB"
-          percent={45}
+          value={`${usedMb} MB`}
+          subtext={`of ${limitMb} MB`}
+          percent={percent}
           color="var(--color-primary-blue)"
         />
         <StatsCard
           title="Active Jobs"
-          value="3"
+          value={activeJobs}
           subtext="Processing now"
           color="var(--color-primary-orange)"
         />
         <StatsCard
           title="Completed"
-          value="12"
+          value={completedJobs}
           subtext="Total processed"
           color="var(--color-primary-green)"
         />

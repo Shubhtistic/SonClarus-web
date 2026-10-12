@@ -42,7 +42,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Overview (Stats + Logs) */}
-        <DashboardOverview />
+        <DashboardOverview refreshKey={refreshKey} />
 
         <div className="grid gap-8 lg:grid-cols-[1fr_420px] items-start mt-16 min-w-0">
           <div className="flex flex-col min-w-0">
