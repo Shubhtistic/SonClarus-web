@@ -59,6 +59,8 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
       const { job_id, presigned_post } = await requestUpload({
         filename: selectedFile.name,
         file_size_bytes: selectedFile.size,
+        selected_options: ["denoise", "separate", "transcribe", "summarize"],
+        content_type: "audio/wav",
       });
 
       setUpload({ phase: "uploading", progress: "Uploading to S3…", error: "" });

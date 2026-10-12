@@ -3,24 +3,24 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
+import { useAuth } from "@/lib/auth-context"
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
+  const { isAuthenticated, logout } = useAuth()
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
     }
     
-    // Check initial scroll position on mount (in case of page refresh)
     handleScroll()
     
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Do not show the navbar on auth pages to prevent overlapping and distractions
   if (pathname === "/login" || pathname === "/register" || pathname === "/signup") {
     return null
   }
@@ -37,18 +37,28 @@ export default function Navbar() {
             Sonclarus
           </Link>
           <div className="flex items-center space-x-4">
-            <Link
-              href="/login"
-              className="font-body text-white/80 hover:text-white transition-colors duration-200"
-            >
-              Login
-            </Link>
-            <Link
-              href="/register"
-              className="font-body text-white/80 hover:text-white transition-colors duration-200"
-            >
-              Sign Up
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link href="/dashboard" className="font-body text-white/80 hover:text-white transition-colors duration-200">
+                  Dashboard
+                </Link>
+                <button
+                  onClick={() => logout()}
+                  className="font-body text-white/80 hover:text-white transition-colors duration-200"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="font-body text-white/80 hover:text-white transition-colors duration-200">
+                  Login
+                </Link>
+                <Link href="/register" className="font-body text-white/80 hover:text-white transition-colors duration-200">
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

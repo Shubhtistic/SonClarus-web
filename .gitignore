@@ -23,6 +23,8 @@
 # misc
 .DS_Store
 *.pem
+backend_readme.md
+API_SCHEMA.md
 
 # debug
 npm-debug.log*
@@ -43,6 +45,13 @@ next-env.d.ts
 # Reference images
 *.png
 !node_modules/
-
+node_modules
 # Font guide - do not commit
 FONT_GUIDE.md
+
+# Project documentation - do not commit
+guide.md
+context.md
+missing_apis.md
+
+
