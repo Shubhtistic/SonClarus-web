@@ -173,7 +173,7 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
           <button
             onClick={handleUpload}
             disabled={isUploading}
-            className="btn-md font-body rounded-md bg-primary px-3 py-1.5 text-on-primary transition-colors hover:bg-primary-pressed disabled:cursor-not-allowed disabled:bg-surface-elevated disabled:text-ash"
+            className="btn-md font-body rounded-md bg-primary px-3 py-1.5 text-primary-foreground transition-colors hover:bg-primary-pressed disabled:cursor-not-allowed disabled:bg-surface-elevated disabled:text-ash"
           >
             {isUploading ? "Uploading…" : "Start processing"}
           </button>
