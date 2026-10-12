@@ -1,37 +1,57 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
+import { UploadZone } from "@/components/upload-zone";
+import { JobsList } from "@/components/jobs-list";
+import { DashboardOverview } from "@/components/dashboard-overview";
 
 export default function DashboardPage() {
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
+  const [refreshKey, setRefreshKey] = useState(0);
 
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      router.replace("/login");
-    }
-  }, [isLoading, isAuthenticated, router]);
-
-  if (isLoading || !isAuthenticated) {
+  if (isLoading) {
     return (
       <div className="flex flex-1 items-center justify-center py-24">
-        <p className="text-[15px] text-muted-foreground">Loading…</p>
+        <p className="body-md text-muted-foreground">Loading…</p>
       </div>
     );
   }
 
+  if (!isAuthenticated) {
+    router.replace("/login");
+    return null;
+  }
+
   return (
-    <div className="bg-background px-6 py-10">
-      <div className="mx-auto max-w-[960px]">
-        <div className="mb-1">
+    <div className="min-h-screen bg-background pt-24 pb-20 px-6">
+      <div className="mx-auto max-w-[1480px] px-8">
+        <div className="mb-10">
           <p className="caption-sm text-foreground-faint">Dashboard</p>
+          <h1 className="hero-display mt-2 text-primary">Your workspace</h1>
+          <p className="body-lg mt-1 text-muted-foreground">
+            Monitor activity, manage storage, and upload new audio files.
+          </p>
         </div>
-        <h1 className="heading-xl font-heading-utility text-primary mt-1">Your workspace</h1>
-        <p className="body-lg mt-1 font-body text-muted-foreground">
-          Upload audio files and track your processing jobs.
-        </p>
+
+        {/* Overview (Stats + Logs) */}
+        <DashboardOverview />
+
+        <div className="grid gap-12 lg:grid-cols-[1fr_400px] mt-16">
+          <div className="order-2 lg:order-1">
+            <h2 className="heading-lg font-heading-utility text-foreground mb-6">Recent Jobs</h2>
+            <JobsList refreshKey={refreshKey} />
+          </div>
+
+          <div className="order-1 lg:order-2">
+            <div className="sticky top-28">
+              <h2 className="heading-lg font-heading-utility text-foreground mb-6">Process new audio</h2>
+              <UploadZone onUploadComplete={() => setRefreshKey(prev => prev + 1)} />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

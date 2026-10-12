@@ -2,14 +2,12 @@
 
 import { useEffect, useState, useCallback } from "react";
 import {
-  getDownloadUrl,
-  getJobStatus,
-  type Job,
-  type JobStatusValue,
-  type DownloadStage,
+  getDownloadLinks,
+  type DownloadLinksResponse,
+  type DownloadFile,
 } from "@/lib/api";
 
-const STATUS_STYLES: Record<JobStatusValue, { chip: string; label: string }> = {
+const STATUS_STYLES: Record<string, { chip: string; label: string }> = {
   PENDING: {
     chip: "rounded-xs bg-surface-elevated px-2 py-0.5 caption-sm text-on-dark-mute",
     label: "Pending",
@@ -18,7 +16,7 @@ const STATUS_STYLES: Record<JobStatusValue, { chip: string; label: string }> = {
     chip: "rounded-xs bg-accent-blue-soft px-2 py-0.5 caption-sm text-accent-blue",
     label: "Processing",
   },
-  DONE: {
+  COMPLETED: {
     chip: "rounded-xs bg-accent-green-soft px-2 py-0.5 caption-sm text-accent-green",
     label: "Done",
   },
@@ -28,31 +26,32 @@ const STATUS_STYLES: Record<JobStatusValue, { chip: string; label: string }> = {
   },
 };
 
-const DOWNLOADS: { stage: DownloadStage; label: string }[] = [
-  { stage: "separated1", label: "Speaker 1" },
-  { stage: "separated2", label: "Speaker 2" },
+const DOWNLOADS = [
+  { stage: "denoise", label: "Denoise" },
+  { stage: "separate", label: "Separate" },
   { stage: "transcribe", label: "Transcript" },
+  { stage: "summarize", label: "Summary" },
 ];
 
-export function JobCard({ job }: { job: Job }) {
-  const [status, setStatus] = useState<JobStatusValue>(job.status ?? "PENDING");
+export function JobCard({ job }: { job: any }) {
+  const [status, setStatus] = useState<string>(job.status ?? "PENDING");
 
   const poll = useCallback(async () => {
     try {
-      const s = await getJobStatus(job.job_id);
-      setStatus(s.status);
+      const data = await getDownloadLinks(job.job_id);
+      setStatus(data.job.status);
     } catch {
       // keep polling on transient errors
     }
   }, [job.job_id]);
 
   useEffect(() => {
-    if (status === "DONE" || status === "FAILED") return;
+    if (status === "COMPLETED" || status === "FAILED") return;
     const id = setInterval(poll, 4000);
     return () => clearInterval(id);
   }, [status, poll]);
 
-  const style = STATUS_STYLES[status];
+  const style = STATUS_STYLES[status] || STATUS_STYLES.PENDING;
 
   return (
     <div className="rounded-lg border border-hairline bg-surface p-5">
@@ -75,7 +74,7 @@ export function JobCard({ job }: { job: Job }) {
         </div>
       </div>
 
-      {status === "DONE" && (
+      {status === "COMPLETED" && (
         <div className="mt-4 flex flex-wrap gap-2 border-t border-hairline-soft pt-4">
           {DOWNLOADS.map((d) => (
             <DownloadButton
@@ -97,7 +96,7 @@ function DownloadButton({
   label,
 }: {
   jobId: string;
-  stage: DownloadStage;
+  stage: string;
   label: string;
 }) {
   const [loading, setLoading] = useState(false);
@@ -105,8 +104,12 @@ function DownloadButton({
   async function handleClick() {
     setLoading(true);
     try {
-      const { download_url } = await getDownloadUrl(jobId, stage);
-      window.open(download_url, "_blank");
+      const data = await getDownloadLinks(jobId);
+      // Logic to find download URL for the specific stage
+      const file = data.files.find(f => f.stage === stage);
+      if (file) {
+        window.open(file.download_url, "_blank");
+      }
     } catch {
       // silently fail — user can retry
     } finally {
