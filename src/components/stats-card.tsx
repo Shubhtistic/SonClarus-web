@@ -8,10 +8,17 @@ export function StatsCard({ title, value, subtext, percent, color }: {
   return (
     <div className="rounded-lg border border-border bg-card p-6">
       <p className="caption-sm text-muted-foreground mb-2">{title}</p>
-      <div className="flex items-center gap-2">
-        <h3 className="heading-xl text-primary font-heading-utility leading-none">{value}</h3>
-        <p className="caption-md text-muted-foreground leading-none">{subtext}</p>
-      </div>
+      {percent !== undefined ? (
+        <div className="flex items-baseline gap-2">
+          <h3 className="heading-xl text-primary font-heading-utility">{value}</h3>
+          <p className="caption-md text-muted-foreground">{subtext}</p>
+        </div>
+      ) : (
+        <div className="flex items-baseline gap-2">
+          <span className="heading-xl text-primary font-heading-utility leading-none">{value}</span>
+          <span className="caption-md text-muted-foreground leading-none">{subtext}</span>
+        </div>
+      )}
       {percent !== undefined && (
         <div className="mt-4 h-1.5 w-full rounded-full bg-input overflow-hidden">
           <div className="h-full rounded-full" style={{ width: `${percent}%`, backgroundColor: color }} />
