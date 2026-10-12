@@ -44,8 +44,6 @@ next-env.d.ts
 
 # Reference images
 *.png
-!node_modules/
-node_modules
 # Font guide - do not commit
 FONT_GUIDE.md
 
