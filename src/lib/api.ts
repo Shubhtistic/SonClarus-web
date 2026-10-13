@@ -111,6 +111,7 @@ async function request<T>(
   }
 
   const res = await fetch(`${API_BASE}${path}`, {
+    credentials: "include",
     ...init,
     headers: mergedHeaders,
     body,
