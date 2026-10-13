@@ -97,6 +97,7 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
       return;
     }
     setSelectedFile(file);
+    setSelectedOptions(["denoise", "separate", "transcribe", "summarize"]);
     setUpload({ phase: "idle", progress: "", error: "" });
     setIsModalOpen(false);
   }, []);
@@ -273,12 +274,16 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
             </div>
             <button
               onClick={() => {
+                if (selectedOptions.length === 0) {
+                  return;
+                }
                 setIsModalOpen(false);
                 handleUpload();
               }}
-              className="w-full rounded-lg bg-primary h-12 text-primary-foreground font-semibold transition-colors hover:bg-primary/90"
+              disabled={selectedOptions.length === 0}
+              className="w-full rounded-lg bg-primary h-12 text-primary-foreground font-semibold transition-colors hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Start Upload & Processing
+              {selectedOptions.length === 0 ? "Select at least 1 stage" : "Start Upload & Processing"}
             </button>
           </div>
         </div>
