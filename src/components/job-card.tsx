@@ -39,9 +39,39 @@ const STAGE_LABELS: Record<string, string> = {
   original: "Original",
   denoise: "Denoise",
   separate: "Separate",
+  separate_spk1: "Separate 1",
+  separate_spk2: "Separate 2",
+  spk1: "Separate 1",
+  spk2: "Separate 2",
+  speaker_1: "Separate 1",
+  speaker_2: "Separate 2",
   transcribe: "Transcript",
   summarize: "Summary",
 };
+
+function getFileLabel(file: DownloadFile, allFiles: DownloadFile[]): string {
+  if (STAGE_LABELS[file.stage]) {
+    return STAGE_LABELS[file.stage];
+  }
+
+  const separateFiles = allFiles.filter((f) => f.stage.startsWith("separate"));
+  if (separateFiles.length > 1 && file.stage.startsWith("separate")) {
+    const idx = separateFiles.indexOf(file) + 1;
+    return `Separate ${idx}`;
+  }
+
+  // Handle stage or filename containing speaker/spk indicators
+  const lowerName = (file.filename || "").toLowerCase();
+  const lowerStage = (file.stage || "").toLowerCase();
+  if (lowerName.includes("spk1") || lowerName.includes("speaker1") || lowerName.includes("speaker_1") || lowerStage.includes("1")) {
+    return "Separate 1";
+  }
+  if (lowerName.includes("spk2") || lowerName.includes("speaker2") || lowerName.includes("speaker_2") || lowerStage.includes("2")) {
+    return "Separate 2";
+  }
+
+  return file.stage.charAt(0).toUpperCase() + file.stage.slice(1);
+}
 
 export function JobCard({
   job,
@@ -63,19 +93,35 @@ export function JobCard({
       onStatusChange?.(data.job.status, data.job.completed);
     } catch (err) {
       if (err instanceof ApiError && err.status === 409) {
-        // still processing — keep polling
+        // still processing
       }
     }
   }, [job.job_id, onStatusChange]);
 
   useEffect(() => {
-    if (completed) {
+    let timeoutId: ReturnType<typeof setTimeout>;
+
+    // Poll every 5 seconds until completed
+    const intervalId = setInterval(() => {
       poll();
-      return;
+    }, 5000);
+
+    // Initial fetch deferred to prevent synchronous render cascading
+    if (!completed) {
+      timeoutId = setTimeout(() => {
+        poll();
+      }, 0);
+    } else {
+      timeoutId = setTimeout(() => {
+        poll();
+      }, 0);
+      clearInterval(intervalId);
     }
-    const id = setInterval(poll, 5000);
-    poll();
-    return () => clearInterval(id);
+
+    return () => {
+      clearInterval(intervalId);
+      clearTimeout(timeoutId);
+    };
   }, [completed, poll]);
 
   const style = STATUS_STYLES[status] ?? STATUS_STYLES.QUEUED;
@@ -116,8 +162,8 @@ export function JobCard({
 
       {completed && files && files.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-2 border-t border-border pt-3">
-          {files.map((f) => (
-            <DownloadButton key={f.stage} file={f} />
+          {files.map((f, i) => (
+            <DownloadButton key={`${f.stage}-${f.filename || i}`} file={f} allFiles={files} />
           ))}
         </div>
       )}
@@ -125,8 +171,8 @@ export function JobCard({
   );
 }
 
-function DownloadButton({ file }: { file: DownloadFile }) {
-  const label = STAGE_LABELS[file.stage] ?? file.stage;
+function DownloadButton({ file, allFiles }: { file: DownloadFile; allFiles: DownloadFile[] }) {
+  const label = getFileLabel(file, allFiles);
 
   return (
     <a

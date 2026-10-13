@@ -46,7 +46,6 @@ export function JobsList({ refreshKey }: { refreshKey: number }) {
 
   useEffect(() => {
     let isMounted = true;
-    setLoading(true);
 
     getRecentJobs(10)
       .then((backendJobs: RecentJobItem[]) => {
