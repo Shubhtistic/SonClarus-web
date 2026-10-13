@@ -33,6 +33,26 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
   const [showOptions, setShowOptions] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<string[]>(["denoise", "separate", "transcribe", "summarize"]);
 
+  const toggleOption = (option: string) => {
+    setSelectedOptions((prev) => {
+      let next: string[];
+      if (prev.includes(option)) {
+        next = prev.filter((o) => o !== option);
+        // If removing transcribe, must remove summarize
+        if (option === "transcribe") {
+          next = next.filter((o) => o !== "summarize");
+        }
+      } else {
+        next = [...prev, option];
+        // If adding summarize, must add transcribe
+        if (option === "summarize" && !next.includes("transcribe")) {
+          next.push("transcribe");
+        }
+      }
+      return next;
+    });
+  };
+
   const acceptWav = useCallback((file: File) => {
     if (!file.name.endsWith(".wav") && file.type !== "audio/wav") {
       setUpload({ phase: "error", progress: "", error: "Only .wav files are accepted." });
@@ -187,17 +207,15 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
             ].map(({ id, label, icon }) => (
               <button
                 key={id}
-                onClick={() =>
-                  setSelectedOptions((prev) =>
-                    prev.includes(id)
-                      ? prev.filter((o) => o !== id)
-                      : [...prev, id]
-                  )
-                }
+                onClick={() => toggleOption(id)}
                 className={`flex items-center gap-2 rounded-md border p-2 text-sm ${
                   selectedOptions.includes(id)
                     ? "border-primary bg-primary/10 text-primary"
                     : "border-border"
+                } ${
+                  id === "summarize" && !selectedOptions.includes("transcribe")
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
                 }`}
               >
                 <span>{icon}</span>
