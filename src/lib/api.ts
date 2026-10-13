@@ -97,6 +97,7 @@ async function request<T>(
 ): Promise<T> {
   const token = getToken();
   const mergedHeaders: Record<string, string> = {
+    "ngrok-skip-browser-warning": "true",
     ...(extra as Record<string, string> | undefined),
   };
 
@@ -122,6 +123,9 @@ async function request<T>(
       const refreshRes = await fetch(`${API_BASE}/auth/refresh`, {
         method: "POST",
         credentials: "include",
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+        },
       });
       if (refreshRes.ok) {
         const envelope = (await refreshRes.json()) as ApiEnvelope<AuthResponse>;
