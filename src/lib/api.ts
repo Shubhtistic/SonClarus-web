@@ -66,10 +66,12 @@ export function clearToken(): void {
 
 export class ApiError extends Error {
   status: number;
-  constructor(status: number, message: string) {
+  meta?: unknown;
+  constructor(status: number, message: string, meta?: unknown) {
     super(message);
     this.name = "ApiError";
     this.status = status;
+    this.meta = meta;
   }
 }
 
@@ -136,13 +138,26 @@ async function request<T>(
   if (!res.ok) {
     const text = await res.text().catch(() => res.statusText);
     let message = text;
+    let meta: unknown;
     try {
-      const parsed = JSON.parse(text) as { message?: string };
-      if (parsed.message) message = parsed.message;
+      const parsed = JSON.parse(text) as {
+        message?: string;
+        meta?: { errors?: Array<{ msg?: string; loc?: string[] }> };
+      };
+      if (parsed.meta?.errors && parsed.meta.errors.length > 0) {
+        const detailMsgs = parsed.meta.errors
+          .map((e) => e.msg)
+          .filter(Boolean)
+          .join(", ");
+        message = detailMsgs || parsed.message || text;
+      } else if (parsed.message) {
+        message = parsed.message;
+      }
+      meta = parsed.meta;
     } catch {
       // use raw text
     }
-    throw new ApiError(res.status, message);
+    throw new ApiError(res.status, message, meta);
   }
 
   if (res.status === 204) return {} as T;

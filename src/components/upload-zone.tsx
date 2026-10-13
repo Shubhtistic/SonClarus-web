@@ -87,6 +87,15 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
       setUpload({ phase: "error", progress: "", error: "Only .wav files are accepted." });
       return;
     }
+    // Backend regex: [A-Za-z0-9][A-Za-z0-9._-]*\.wav
+    if (!/^[A-Za-z0-9][A-Za-z0-9._-]*\.wav$/.test(file.name)) {
+      setUpload({
+        phase: "error",
+        progress: "",
+        error: "Filename must contain only letters, numbers, dots, dashes, or underscores and start with an alphanumeric character (no spaces).",
+      });
+      return;
+    }
     setSelectedFile(file);
     setUpload({ phase: "idle", progress: "", error: "" });
     setIsModalOpen(false);

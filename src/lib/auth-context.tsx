@@ -14,6 +14,7 @@ import {
   getToken,
   login as apiLogin,
   logout as apiLogout,
+  refresh as apiLoginRefresh,
   signup as apiRegister,
   setToken,
   type AuthResponse,
@@ -37,11 +38,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storedToken = getToken();
-    if (storedToken) {
-      setTokenState(storedToken);
+    let isMounted = true;
+    async function restoreSession() {
+      const storedToken = getToken();
+      if (storedToken) {
+        if (isMounted) {
+          setTokenState(storedToken);
+          setIsLoading(false);
+        }
+        return;
+      }
+
+      try {
+        const res = await apiLoginRefresh();
+        if (res.access_token && isMounted) {
+          setToken(res.access_token);
+          setTokenState(res.access_token);
+        }
+      } catch {
+        // No valid session cookie or refresh failed
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
     }
-    setIsLoading(false);
+
+    restoreSession();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const login = useCallback(async (payload: LoginRequest) => {
