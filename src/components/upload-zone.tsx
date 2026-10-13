@@ -30,7 +30,7 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
     error: "",
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [showOptions, setShowOptions] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<string[]>(["denoise", "separate", "transcribe", "summarize"]);
 
   const toggleOption = (option: string) => {
@@ -38,19 +38,48 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
       let next: string[];
       if (prev.includes(option)) {
         next = prev.filter((o) => o !== option);
-        // If removing transcribe, must remove summarize
         if (option === "transcribe") {
           next = next.filter((o) => o !== "summarize");
         }
       } else {
         next = [...prev, option];
-        // If adding summarize, must add transcribe
         if (option === "summarize" && !next.includes("transcribe")) {
           next.push("transcribe");
         }
       }
       return next;
     });
+  };
+
+  const Icons = {
+    denoise: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+        <path d="M12 3v2M12 19v2M5 12H3M21 12h-2M18.36 5.64l-1.42 1.42M7.06 16.94l-1.42 1.42M18.36 18.36l-1.42-1.42M7.06 7.06l-1.42-1.42" />
+        <circle cx="12" cy="12" r="4" />
+      </svg>
+    ),
+    separate: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+        <circle cx="6" cy="6" r="3" />
+        <circle cx="6" cy="18" r="3" />
+        <path d="M20 6L9 11" />
+        <path d="M20 18L9 13" />
+      </svg>
+    ),
+    transcribe: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="16" y1="13" x2="8" y2="13" />
+        <line x1="16" y1="17" x2="8" y2="17" />
+      </svg>
+    ),
+    summarize: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+        <path d="M12 8h6M12 12h6M12 16h6" />
+        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H17a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6.5a2.5 2.5 0 0 1 0-5H20" />
+      </svg>
+    ),
   };
 
   const acceptWav = useCallback((file: File) => {
@@ -195,55 +224,66 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
         </div>
       </div>
 
-      {showOptions && (
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-lg border border-border bg-card p-4">
-          <h3 className="heading-sm mb-4">Select Processing Options</h3>
-          <div className="grid grid-cols-2 gap-2 w-full">
-            {[
-              { id: "denoise", label: "Denoise", icon: "✨" },
-              { id: "separate", label: "Separate", icon: "✂️" },
-              { id: "transcribe", label: "Transcribe", icon: "📝" },
-              { id: "summarize", label: "Summarize", icon: "📄" },
-            ].map(({ id, label, icon }) => (
-              <button
-                key={id}
-                onClick={() => toggleOption(id)}
-                className={`flex items-center gap-2 rounded-md border p-2 text-sm ${
-                  selectedOptions.includes(id)
-                    ? "border-primary bg-primary/10 text-primary"
-                    : "border-border"
-                } ${
-                  id === "summarize" && !selectedOptions.includes("transcribe")
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
-                }`}
-              >
-                <span>{icon}</span>
-                {label}
-              </button>
-            ))}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-4">
+          <div className="w-full max-w-md rounded-xl border border-border bg-card p-6 shadow-xl relative">
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="absolute right-4 top-4 text-muted-foreground hover:text-foreground"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <h3 className="heading-sm mb-2">Configure Processing</h3>
+            <p className="caption-sm text-muted-foreground mb-6">
+              Select the processing stages for your audio file. Note: <span className="text-primary-blue font-medium">Summarization</span> requires <span className="text-primary-blue font-medium">Transcription</span>.
+            </p>
+            <div className="grid grid-cols-2 gap-3 mb-6">
+              {[
+                { id: "denoise", label: "Denoise" },
+                { id: "separate", label: "Separate" },
+                { id: "transcribe", label: "Transcribe" },
+                { id: "summarize", label: "Summarize" },
+              ].map(({ id, label }) => (
+                <button
+                  key={id}
+                  onClick={() => toggleOption(id)}
+                  className={`flex items-center gap-3 rounded-lg border p-3 text-sm transition-all ${
+                    selectedOptions.includes(id)
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-border hover:border-border-hover"
+                  } ${
+                    id === "summarize" && !selectedOptions.includes("transcribe")
+                      ? "opacity-50 cursor-not-allowed"
+                      : ""
+                  }`}
+                >
+                  {Icons[id as keyof typeof Icons]}
+                  {label}
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={() => {
+                setIsModalOpen(false);
+                handleUpload();
+              }}
+              className="w-full rounded-lg bg-primary h-12 text-primary-foreground font-semibold transition-colors hover:bg-primary/90"
+            >
+              Start Upload & Processing
+            </button>
           </div>
-          <button
-            onClick={() => {
-              setShowOptions(false);
-              handleUpload();
-            }}
-            className="mt-4 w-full rounded-md bg-primary px-4 py-2 font-semibold text-primary-foreground"
-          >
-            Start Processing
-          </button>
         </div>
       )}
 
       {hasBottomAction && (
         <div className="h-10 mt-3 flex items-center justify-center w-full">
-          {selectedFile && upload.phase === "idle" && !showOptions && (
+          {selectedFile && upload.phase === "idle" && !isModalOpen && (
             <button
-              onClick={() => setShowOptions(true)}
+              onClick={() => setIsModalOpen(true)}
               disabled={isUploading}
               className="btn-md font-body rounded-md bg-primary h-10 px-4 text-primary-foreground font-semibold transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50 w-full text-center"
             >
-              Choose Options
+              Configure & Upload
             </button>
           )}
 
