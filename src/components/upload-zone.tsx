@@ -30,6 +30,8 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
     error: "",
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [showOptions, setShowOptions] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState<string[]>(["denoise", "separate", "transcribe", "summarize"]);
 
   const acceptWav = useCallback((file: File) => {
     if (!file.name.endsWith(".wav") && file.type !== "audio/wav") {
@@ -38,6 +40,7 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
     }
     setSelectedFile(file);
     setUpload({ phase: "idle", progress: "", error: "" });
+    setShowOptions(false);
   }, []);
 
   function onDrop(e: DragEvent) {
@@ -60,7 +63,7 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
       const { job_id, presigned_post } = await requestUpload({
         filename: selectedFile.name,
         file_size_bytes: selectedFile.size,
-        selected_options: ["denoise", "separate", "transcribe", "summarize"],
+        selected_options: selectedOptions,
         content_type: "audio/wav",
       });
 
@@ -98,7 +101,7 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
   const hasBottomAction = !!selectedFile || upload.phase !== "idle";
 
   return (
-    <div className={`rounded-lg border border-border bg-card p-4 min-w-0 w-full flex flex-col h-[280px] ${hasBottomAction ? "justify-between" : "justify-center"}`}>
+    <div className={`relative rounded-lg border border-border bg-card p-4 min-w-0 w-full flex flex-col h-[280px] ${hasBottomAction ? "justify-between" : "justify-center"}`}>
       <input
         ref={inputRef}
         type="file"
@@ -172,15 +175,57 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
         </div>
       </div>
 
+      {showOptions && (
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-lg border border-border bg-card p-4">
+          <h3 className="heading-sm mb-4">Select Processing Options</h3>
+          <div className="grid grid-cols-2 gap-2 w-full">
+            {[
+              { id: "denoise", label: "Denoise", icon: "✨" },
+              { id: "separate", label: "Separate", icon: "✂️" },
+              { id: "transcribe", label: "Transcribe", icon: "📝" },
+              { id: "summarize", label: "Summarize", icon: "📄" },
+            ].map(({ id, label, icon }) => (
+              <button
+                key={id}
+                onClick={() =>
+                  setSelectedOptions((prev) =>
+                    prev.includes(id)
+                      ? prev.filter((o) => o !== id)
+                      : [...prev, id]
+                  )
+                }
+                className={`flex items-center gap-2 rounded-md border p-2 text-sm ${
+                  selectedOptions.includes(id)
+                    ? "border-primary bg-primary/10 text-primary"
+                    : "border-border"
+                }`}
+              >
+                <span>{icon}</span>
+                {label}
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={() => {
+              setShowOptions(false);
+              handleUpload();
+            }}
+            className="mt-4 w-full rounded-md bg-primary px-4 py-2 font-semibold text-primary-foreground"
+          >
+            Start Processing
+          </button>
+        </div>
+      )}
+
       {hasBottomAction && (
         <div className="h-10 mt-3 flex items-center justify-center w-full">
-          {selectedFile && upload.phase === "idle" && (
+          {selectedFile && upload.phase === "idle" && !showOptions && (
             <button
-              onClick={handleUpload}
+              onClick={() => setShowOptions(true)}
               disabled={isUploading}
               className="btn-md font-body rounded-md bg-primary h-10 px-4 text-primary-foreground font-semibold transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50 w-full text-center"
             >
-              Start processing
+              Choose Options
             </button>
           )}
 
