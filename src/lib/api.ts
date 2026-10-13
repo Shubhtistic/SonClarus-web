@@ -58,6 +58,7 @@ export function setToken(token: string): void {
 
 export function clearToken(): void {
   localStorage.removeItem("sonclarus_token");
+  localStorage.removeItem("sonclarus_jobs");
 }
 
 // ---------------------------------------------------------------------------

@@ -7,7 +7,9 @@ import { JobCard } from "./job-card";
 function getStoredJobs(): Job[] {
   if (typeof window === "undefined") return [];
   try {
-    const raw = localStorage.getItem("sonclarus_jobs");
+    const token = localStorage.getItem("sonclarus_token");
+    const key = token ? `sonclarus_jobs_${token.slice(-16)}` : "sonclarus_jobs";
+    const raw = localStorage.getItem(key);
     return raw ? (JSON.parse(raw) as Job[]) : [];
   } catch {
     return [];
@@ -16,7 +18,9 @@ function getStoredJobs(): Job[] {
 
 function saveJobs(jobs: Job[]): void {
   try {
-    localStorage.setItem("sonclarus_jobs", JSON.stringify(jobs));
+    const token = typeof window !== "undefined" ? localStorage.getItem("sonclarus_token") : null;
+    const key = token ? `sonclarus_jobs_${token.slice(-16)}` : "sonclarus_jobs";
+    localStorage.setItem(key, JSON.stringify(jobs));
   } catch {
     // ignore
   }
