@@ -89,7 +89,7 @@ export function UploadZone({ onUploadComplete }: { onUploadComplete: () => void 
     }
     setSelectedFile(file);
     setUpload({ phase: "idle", progress: "", error: "" });
-    setShowOptions(false);
+    setIsModalOpen(false);
   }, []);
 
   function onDrop(e: DragEvent) {
